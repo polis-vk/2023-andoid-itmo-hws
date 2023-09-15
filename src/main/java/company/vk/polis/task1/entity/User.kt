@@ -1,10 +1,5 @@
-package company.vk.polis.task1;
+package company.vk.polis.task1.entity
 
-import org.jetbrains.annotations.Nullable;
-
-record User(Integer id, String name, @Nullable String avatarUrl) implements Entity {
-    @Override
-    public Integer getId() {
-        return id;
-    }
+data class User(override val id: Int, val name: String, val avatarUrl: String?) : Entity {
+    var lastMessage: Message? = null
 }

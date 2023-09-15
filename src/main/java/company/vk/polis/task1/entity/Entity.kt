@@ -1,5 +1,5 @@
-package company.vk.polis.task1;
+package company.vk.polis.task1.entity
 
-public interface Entity {
-    Integer getId();
+interface Entity {
+    val id: Int?
 }
