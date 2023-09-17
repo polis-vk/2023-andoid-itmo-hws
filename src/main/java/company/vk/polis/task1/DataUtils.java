@@ -1,5 +1,7 @@
 package company.vk.polis.task1;
 
+import company.vk.polis.task1.models.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Random;
 
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 25;
+    private static final int COUNT_STATE = 3;
     private static final String[] names = new String[]{"Vasya", "Alina", "Petr", "Ira", "Ivan", "Tanya", "Anton"};
     private static final String[] texts = new String[]{"Hello!", "How are you?", "Bye", "Where are you?", "I'm fine", "Let's go somewhere", "I'm here"};
 
@@ -32,7 +35,7 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                Message message = new Message(k, text, i, System.currentTimeMillis(), generateState());
                 messages.add(message);
             }
             map.put(i, messages);
@@ -94,10 +97,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, null));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, null));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, null));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, null));
             }
         }
         garbage = random.nextInt(50);
@@ -110,5 +113,15 @@ public class DataUtils {
         }
         Collections.shuffle(combined);
         return combined;
+    }
+
+    public static State generateState() {
+        Random random = new Random();
+        return switch (random.nextInt(COUNT_STATE)) {
+            case 0 -> new ReadState();
+            case 1 -> new UnreadState();
+            case 2 -> new DeleteState(random.nextInt(123));
+            default -> throw new IllegalStateException("Unexpected value: " + random.nextInt(COUNT_STATE - 1));
+        };
     }
 }
