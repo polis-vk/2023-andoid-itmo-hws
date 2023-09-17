@@ -1,3 +1,5 @@
 package company.vk.polis.task1.models
 
-sealed class State()
+sealed interface State {
+    val state: StateType
+}

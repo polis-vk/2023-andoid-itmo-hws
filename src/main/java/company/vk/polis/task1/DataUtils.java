@@ -120,7 +120,7 @@ public class DataUtils {
         return switch (random.nextInt(COUNT_STATE)) {
             case 0 -> new ReadState();
             case 1 -> new UnreadState();
-            case 2 -> new DeleteState(random.nextInt(123));
+            case 2 -> new DeleteState(random.nextInt(10));
             default -> throw new IllegalStateException("Unexpected value: " + random.nextInt(COUNT_STATE - 1));
         };
     }

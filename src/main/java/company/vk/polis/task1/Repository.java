@@ -1,5 +1,7 @@
 package company.vk.polis.task1;
 
+import company.vk.polis.task1.models.Entity;
+
 import java.util.List;
 
 public interface Repository {
