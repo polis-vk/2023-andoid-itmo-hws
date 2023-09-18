@@ -22,7 +22,7 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
 
     @NotNull
     @Override
-    public List<Integer> getMessageIds() {
+    public List<Integer> messageIds() {
         return messageIds;
     }
 }

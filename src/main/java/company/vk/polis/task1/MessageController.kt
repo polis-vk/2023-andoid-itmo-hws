@@ -19,7 +19,7 @@ class MessageController {
         if (state.equals(StateType.DEFAULT)) {
             for (chat in chatsForUser) {
                 if (chat.checkUser(userId)) {
-                    val messagesForChat = messages.stream().filter{m -> chat.getMessageIds().contains(m.id)}.toList()
+                    val messagesForChat = messages.stream().filter{m -> chat.messageIds().contains(m.id)}.toList()
                     when (chat) {
                         is Chat -> result.addAll(messagesForChat.stream().map { m ->
                             val user = getUserForId(entities, userId)
@@ -32,7 +32,7 @@ class MessageController {
         } else {
             for (chat in chatsForUser) {
                 if (chat.checkUser(userId)) {
-                    val message = messages.stream().filter{m -> chat.getMessageIds().contains(m.id)}.sorted().findFirst().get()
+                    val message = messages.stream().filter{m -> chat.messageIds().contains(m.id)}.sorted().findFirst().get()
                     when (chat) {
                         is Chat -> result.add(
                             ChatItem(message, message.state, getUserForId(entities, chat.userIds.receiverId).avatarUrl))
@@ -52,7 +52,7 @@ class MessageController {
             .filter { e -> e is ChatEntity && e.checkUser(userId)}.toList() as List<ChatEntity>
 
         return chatsForUser.stream().map { ch -> messages.stream().filter {
-                m -> ch.getMessageIds().contains(m.id()) && (!StateType.DELETED.equals(m.state)) }.count()
+                m -> ch.messageIds().contains(m.id()) && (!StateType.DELETED.equals(m.state)) }.count()
         }.count().toInt()
     }
 

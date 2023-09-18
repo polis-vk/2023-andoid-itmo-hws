@@ -3,7 +3,7 @@ package company.vk.polis.task1.models
 import org.jetbrains.annotations.Nullable
 
 data class GroupChat(val id: Int, val userIds: List<Int>, val messageIds: List<Int>, @Nullable val uri: String?)
-    : ChatEntity
+    : Entity, ChatEntity
 {
     override fun getId(): Int {
         return id
@@ -17,7 +17,7 @@ data class GroupChat(val id: Int, val userIds: List<Int>, val messageIds: List<I
         return userIds.contains(userId)
     }
 
-    override fun getMessageIds(): List<Int> {
+    override fun messageIds(): List<Int> {
         return messageIds
     }
 }
