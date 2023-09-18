@@ -9,6 +9,8 @@ import java.util.Random;
 
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 25;
+    private static final int MAX_GROUP_CHATS_COUNT = 5;
+    private static final int STATES_COUNT = 3;
     private static final String[] names = new String[]{"Vasya", "Alina", "Petr", "Ira", "Ivan", "Tanya", "Anton"};
     private static final String[] texts = new String[]{"Hello!", "How are you?", "Bye", "Where are you?", "I'm fine", "Let's go somewhere", "I'm here"};
 
@@ -32,7 +34,13 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                State state = switch (random.nextInt(STATES_COUNT)) {
+                    case 0 -> new State.UNREAD();
+                    case 1 -> new State.READ();
+                    case 2 -> new State.DELETED(random.nextInt(maxUserId));
+                    default -> throw new IllegalStateException("Unexpected state");
+                };
+                Message message = new Message(k, text, i, System.currentTimeMillis(), state);
                 messages.add(message);
             }
             map.put(i, messages);
@@ -68,20 +76,36 @@ public class DataUtils {
         return list;
     }
 
+    public static GroupChat generateGroupChat(Map<Integer, List<Message>> senders) {
+        List<Integer> userIds = senders.keySet().stream().toList();
+        List<Integer> messageIds = senders.entrySet().stream().flatMap(e -> e.getValue().stream()).map(Message::getId).toList();
+        return new GroupChat(0, "good-pic", userIds, messageIds);
+    }
+
 
     public static List<Entity> generateEntity() {
         int maxUserId = 10;
         List<User> users = generateUsers(maxUserId);
         Map<Integer, List<Message>> message = generateMessages(maxUserId);
         List<Chat> chats = generateChats(maxUserId, message);
-        List<Message> messages = message.entrySet().stream().flatMap(e -> e.getValue().stream()).toList();
+        List<Message> messages = new ArrayList<>(message.entrySet().stream().flatMap(e -> e.getValue().stream()).toList());
+
+        Random random = new Random();
+        List<GroupChat> groupChats = new ArrayList<>();
+        int groupChatsCount = random.nextInt(MAX_GROUP_CHATS_COUNT);
+        for (int i = 0; i < groupChatsCount; i++) {
+            message = generateMessages(maxUserId);
+            groupChats.add(generateGroupChat(message));
+            messages.addAll(message.entrySet().stream().flatMap(e -> e.getValue().stream()).toList());
+        }
+
 
         List<Entity> combined = new ArrayList<>();
         combined.addAll(users);
         combined.addAll(chats);
         combined.addAll(messages);
+        combined.addAll(groupChats);
 
-        Random random = new Random();
 
         int garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
@@ -94,10 +118,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, null));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, null));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, null));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, null));
             }
         }
         garbage = random.nextInt(50);
