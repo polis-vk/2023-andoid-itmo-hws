@@ -32,7 +32,13 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis(), new State.UNREAD());
+                State state = new State.UNREAD();
+                switch (random.nextInt(3)) {
+                    case 0 -> state = new State.READ();
+                    case 1 -> state = new State.UNREAD();
+                    case 2 -> state = new State.DELETED(random.nextInt(maxUserId));
+                }
+                Message message = new Message(k, text, i, System.currentTimeMillis(), state);
                 messages.add(message);
             }
             map.put(i, messages);

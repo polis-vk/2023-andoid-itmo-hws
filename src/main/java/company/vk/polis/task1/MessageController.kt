@@ -28,7 +28,7 @@ internal class MessageController(entities: List<Entity>) {
             addAllChatItems(groupChat.messageIds, items)
         }
         return if (state != null)
-            items.filter { it.state === state }
+            items.filter { state == it.state }
         else
             items
     }
