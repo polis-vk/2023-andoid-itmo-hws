@@ -10,7 +10,7 @@ class MessageController {
     fun getChartItemFotUser(userId: Int, state: StateType = StateType.DEFAULT): List<ChatItem> {
         // prepare data
         val entities = getFilterEntity()
-        val messages: List<Message> = entities.stream().filter { e -> e is Message }.toList() as List<Message>
+        val messages = entities.filterIsInstance<Message>()
         val chatsForUser : List<ChatEntity> = entities.stream().filter { e ->
             (e is Chat && (e.userIds.receiverId == userId)) || e is GroupChat && e.userIds.contains(userId)
         }.toList() as List<ChatEntity>
@@ -47,7 +47,7 @@ class MessageController {
     fun getCountMessageForUser(userId: Int): Int {
         //prepare data
         val entities = getFilterEntity()
-        val messages: List<Message> = entities.stream().filter { e -> e is Message }.toList() as List<Message>
+        val messages: List<Message> = entities.filterIsInstance<Message>()
         val chatsForUser: List<ChatEntity> = entities.stream()
             .filter { e -> e is ChatEntity && e.checkUser(userId)}.toList() as List<ChatEntity>
 
