@@ -32,7 +32,12 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                State_Msg state = switch (random.nextInt() % 3) {
+                    case 0 -> new State_Msg(State_Msg_Enum.UNREAD, null);
+                    case 1 -> new State_Msg(State_Msg_Enum.READ, null);
+                    default -> new State_Msg(State_Msg_Enum.DELETED, random.nextInt() + 239);
+                };
+                Message message = new Message(k, text, i, System.currentTimeMillis(), state);
                 messages.add(message);
             }
             map.put(i, messages);
@@ -94,10 +99,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State_Msg(State_Msg_Enum.READ, null)));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State_Msg(State_Msg_Enum.READ, null)));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new State_Msg(State_Msg_Enum.READ, null)));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State_Msg(State_Msg_Enum.READ, null)));
             }
         }
         garbage = random.nextInt(50);
