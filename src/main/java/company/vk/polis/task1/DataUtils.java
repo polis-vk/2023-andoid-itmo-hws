@@ -30,9 +30,10 @@ public class DataUtils {
         for (int i = 0; i < maxUserId; i++, k++) {
             List<Message> messages = new ArrayList<>();
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
+            List<State> states = generateStates(maxUserId, numMessages);
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                Message message = new Message(k, text, i, System.currentTimeMillis(), states.get(i));
                 messages.add(message);
             }
             map.put(i, messages);
@@ -94,10 +95,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State.READ()));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State.READ()));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, null));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State.READ()));
             }
         }
         garbage = random.nextInt(50);
@@ -110,5 +111,19 @@ public class DataUtils {
         }
         Collections.shuffle(combined);
         return combined;
+    }
+
+    private static List<State> generateStates(Integer maxUserId, Integer messageCount) {
+        List<State> states = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < messageCount; i++) {
+            State state = switch (random.nextInt(100) % 3) {
+                case 0 -> new State.READ();
+                case 1 -> new State.UNREAD();
+                default -> new State.DELETE(random.nextInt(maxUserId));
+            };
+            states.add(state);
+        }
+        return states;
     }
 }
