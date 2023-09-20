@@ -3,14 +3,17 @@ package company.vk.polis.task1;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements Entity, ChatInterface {
+public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements ChatInterface {
     @Override
     public Integer getId() {
         return id;
     }
 
     @Override
-    public List<Integer> getUserIds() {
+    public List<Integer> getChatUserIds() {
+        if (userIds == null || userIds.senderId() == null || userIds.receiverId() == null) {
+            return null;
+        }
         List<Integer> list = new ArrayList<>();
         list.add(userIds.receiverId());
         list.add(userIds.senderId());
@@ -19,7 +22,7 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
 
 
     @Override
-    public List<Integer> getMessageIds() {
+    public List<Integer> getChatMessageIds() {
         return messageIds;
     }
 }

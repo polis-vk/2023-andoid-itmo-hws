@@ -1,16 +1,15 @@
 package company.vk.polis.task1
 
-data class GroupChat(val id: Int?, val userIds: List<Int?>?, val messageIds: List<Int?>?, val avatarUrl: String?) :
-    Entity, ChatInterface {
+data class GroupChat(val groupChatId: Int?, val userIds: List<Int?>?, val messageIds: List<Int?>?, val avatarUrl: String?) : ChatInterface {
     override fun getId(): Int? {
-        return id
+        return groupChatId
     }
 
-    override fun getMessageIds(): List<Int?>? {
+    override fun getChatMessageIds(): List<Int?>? {
         return messageIds
     }
 
-    override fun getUserIds(): List<Int?>? {
+    override fun getChatUserIds(): List<Int?>? {
         return userIds
     }
 }

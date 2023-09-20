@@ -7,7 +7,7 @@ object MessageController {
         for (entity in info) {
             when (entity) {
                 is ChatInterface -> {
-                    if (entity.getMessageIds() != null && entity.getUserIds() != null && entity.getId() != null) {
+                    if (entity.getChatMessageIds() != null && entity.getChatUserIds() != null && entity.getId() != null) {
                         answer.add(entity)
                     }
                 }
@@ -35,7 +35,7 @@ object MessageController {
     fun getChatItemForId(chatId: Int): ChatItem {
         val info = Repository.getInfo()
         val chat = info.filterIsInstance<ChatInterface>().first { it.getId() == chatId }
-        val messagesIds = chat.getMessageIds() ?: throw AssertionError("Message ids of chat $chatId is null!")
+        val messagesIds = chat.getChatMessageIds() ?: throw AssertionError("Message ids of chat $chatId is null!")
         val messages = info.filterIsInstance<Message>().filter { it.id in messagesIds }
         val message = messages.sortedBy { it.timestamp }.last()
         val avatarUrl: String? = when (chat) {
@@ -48,8 +48,8 @@ object MessageController {
 
     fun countMessagesFromChatAndUser(chatId: Int, userId: Int?): Int {
         val info = Repository.getInfo()
-        val chat = info.filterIsInstance<ChatInterface>().first { it.getId() == chatId }
-        val messageIds = (chat.getMessageIds() ?: throw AssertionError("Message ids of chat $chat are unknown"))
+        val chat = info.filterIsInstance<ChatInterface>().first { it.id == chatId }
+        val messageIds = (chat.getChatMessageIds() ?: throw AssertionError("Message ids of chat $chat are unknown"))
         if (userId == null) {
             return messageIds.size
         }
