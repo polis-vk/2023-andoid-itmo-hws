@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import kotlin.ranges.IntRange;
+
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 25;
     private static final String[] names = new String[]{"Vasya", "Alina", "Petr", "Ira", "Ivan", "Tanya", "Anton"};
@@ -27,12 +29,13 @@ public class DataUtils {
         Map<Integer, List<Message>> map = new HashMap<>();
         Random random = new Random();
         int k = 0;
+        IntRange userRange = new IntRange(0, maxUserId - 1);
         for (int i = 0; i < maxUserId; i++, k++) {
             List<Message> messages = new ArrayList<>();
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                Message message = new Message(k, text, i, System.currentTimeMillis(), MessageState.random(userRange));
                 messages.add(message);
             }
             map.put(i, messages);
@@ -82,6 +85,7 @@ public class DataUtils {
         combined.addAll(messages);
 
         Random random = new Random();
+        IntRange userRange = new IntRange(0, maxUserId - 1);
 
         int garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
@@ -94,10 +98,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, MessageState.random(userRange)));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, MessageState.random(userRange)));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, MessageState.random(userRange)));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, MessageState.random(userRange)));
             }
         }
         garbage = random.nextInt(50);
