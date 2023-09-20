@@ -1,9 +1,4 @@
-package company.vk.polis.task1.repository;
-
-import company.vk.polis.task1.entity.Message;
-import company.vk.polis.task1.entity.Chat;
-import company.vk.polis.task1.entity.Entity;
-import company.vk.polis.task1.entity.User;
+package company.vk.polis.task1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +8,6 @@ import java.util.Map;
 import java.util.Random;
 
 public class DataUtils {
-    private record UserPair(int senderId, int receiverId) {}
-
     private static final int MIN_MESSAGE_PER_USER = 25;
     private static final String[] names = new String[]{"Vasya", "Alina", "Petr", "Ira", "Ivan", "Tanya", "Anton"};
     private static final String[] texts = new String[]{"Hello!", "How are you?", "Bye", "Where are you?", "I'm fine", "Let's go somewhere", "I'm here"};
@@ -57,19 +50,19 @@ public class DataUtils {
                 if (i == recieverId) {
                     recieverId = (recieverId + 1) % maxUserId;
                 }
-                UserPair userPair = new UserPair(recieverId, message.getSenderId());
+                UserPair userPair = new UserPair(recieverId, message.senderId());
                 userPairListMap.putIfAbsent(userPair, new ArrayList<>());
-                userPairListMap.get(userPair).add(message.getId());
+                userPairListMap.get(userPair).add(message.id());
 
-                userPair = new UserPair(message.getSenderId(), recieverId);
+                userPair = new UserPair(message.senderId(), recieverId);
                 userPairListMap.putIfAbsent(userPair, new ArrayList<>());
-                userPairListMap.get(userPair).add(message.getId());
+                userPairListMap.get(userPair).add(message.id());
             }
         }
         int k = 0;
         ArrayList<Chat> list = new ArrayList<>();
         for (Map.Entry<UserPair, List<Integer>> entry : userPairListMap.entrySet()) {
-            list.add(new Chat(k, entry.getKey().senderId, entry.getKey().receiverId, entry.getValue()));
+            list.add(new Chat(k, entry.getKey(), entry.getValue()));
             k++;
         }
         return list;
@@ -93,7 +86,7 @@ public class DataUtils {
         int garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             if (random.nextBoolean()) {
-                combined.add(new User(1, names[random.nextInt(names.length - 1)], null));
+                combined.add(new User(null, names[random.nextInt(names.length - 1)], null));
             } else {
                 combined.add(new User(-1, null, null));
             }
@@ -101,7 +94,7 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(1, texts[random.nextInt(texts.length - 1)], -1, -1L));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
                 case 1 -> combined.add(new Message(-1, null, -1, -1L));
                 case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
                 default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
@@ -110,9 +103,9 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Chat(1, 1, 1));
-                case 1 -> combined.add(new Chat(-1, 1, 1, new ArrayList<>()));
-                default -> combined.add(new Chat(-1, 1, 1));
+                case 0 -> combined.add(new Chat(null, null, null));
+                case 1 -> combined.add(new Chat(-1, null, new ArrayList<>()));
+                default -> combined.add(new Chat(-1, null, null));
             }
         }
         Collections.shuffle(combined);
