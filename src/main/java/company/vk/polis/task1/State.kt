@@ -23,7 +23,7 @@ sealed class State {
     }
     class DELETE(val id: Int) : State() {
         override fun equals(other: Any?): Boolean {
-            return other is DELETE
+            return other is DELETE && other.id == this.id
         }
 
         override fun hashCode(): Int {
