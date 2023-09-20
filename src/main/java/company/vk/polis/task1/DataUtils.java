@@ -12,6 +12,11 @@ public class DataUtils {
     private static final String[] names = new String[]{"Vasya", "Alina", "Petr", "Ira", "Ivan", "Tanya", "Anton"};
     private static final String[] texts = new String[]{"Hello!", "How are you?", "Bye", "Where are you?", "I'm fine", "Let's go somewhere", "I'm here"};
 
+    private static State generateState() {
+        final Random r = new Random();
+        return new State[]{null, READ.INSTANCE, UNREAD.INSTANCE, new DELETED(r.nextInt())}[r.nextInt(4)];
+    }
+
     public static List<User> generateUsers(int maxId) {
         List<User> users = new ArrayList<>();
         Random random = new Random();
@@ -32,7 +37,7 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                Message message = new Message(k, text, i, System.currentTimeMillis(), generateState());
                 messages.add(message);
             }
             map.put(i, messages);
@@ -94,10 +99,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, generateState()));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, generateState()));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, generateState()));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, generateState()));
             }
         }
         garbage = random.nextInt(50);
