@@ -1,11 +1,8 @@
 package company.vk.polis.task1;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import company.vk.polis.task1.State.Unread;
+
+import java.util.*;
 
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 25;
@@ -32,7 +29,7 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                Message message = new Message(k, text, i, System.currentTimeMillis(), new StateContext(Unread.INSTANCE));
                 messages.add(message);
             }
             map.put(i, messages);
@@ -94,10 +91,13 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 ->
+                        combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new StateContext(Unread.INSTANCE)));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, new StateContext(Unread.INSTANCE)));
+                case 2 ->
+                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new StateContext(Unread.INSTANCE)));
+                default ->
+                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new StateContext(Unread.INSTANCE)));
             }
         }
         garbage = random.nextInt(50);
