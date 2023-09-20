@@ -7,4 +7,8 @@ record User(Integer id, String name, @Nullable String avatarUrl) implements Enti
     public Integer getId() {
         return id;
     }
+    @Override
+    public Boolean isValid() {
+        return id != null && name != null;
+    }
 }
