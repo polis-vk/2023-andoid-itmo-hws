@@ -10,7 +10,7 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
     }
 
     @Override
-    public List<Integer> getChatUserIds() {
+    public List<Integer> getUserIds() {
         if (userIds == null || userIds.senderId() == null || userIds.receiverId() == null) {
             return null;
         }
@@ -22,7 +22,7 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
 
 
     @Override
-    public List<Integer> getChatMessageIds() {
+    public List<Integer> getMessageIds() {
         return messageIds;
     }
 }
