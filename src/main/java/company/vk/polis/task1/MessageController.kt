@@ -18,8 +18,6 @@ object MessageController {
 
     fun valid() = filterNotNull(Repository.getInfo())
 
-    data class ChatItem(val avatarUrl: String?, val lastMessageId: Int, val state: State)
-
     private inline fun <reified E : Entity> find(id: Int) = valid().filterIsInstance<E>().find { it.id == id }
 
     fun findMessage(userId: Int, state: State?): List<ChatItem> = valid().mapNotNull {
@@ -41,5 +39,5 @@ object MessageController {
         }
     }
 
-    fun countMessages(userId: Int) = Repository.getInfo().filterIsInstance<Message>().count { it.senderId == userId }
+    fun countMessages(userId: Int) = valid().filterIsInstance<Message>().count { it.senderId == userId }
 }
