@@ -31,20 +31,40 @@ class MessageController(info: List<Entity>) {
 
     fun getPreviewChats(userId : Int, state: MessageState? = null) : List<ChatItem> {
         val chats = validInfo.filterIsInstance<Chat>()
+        val groupChats = validInfo.filterIsInstance<GroupChat>()
 
-        return chats
+        return (chats + groupChats)
             .filter { chat ->
-                chat.userIds.senderId == userId || chat.userIds.receiverId == userId
+                when (chat){
+                    is Chat -> chat.userIds.senderId == userId || chat.userIds.receiverId == userId
+                    is GroupChat -> chat.userIds.any { it.id == userId }
+                    else -> false
+                }
             }
             .filter { chat ->
-                val lastMessageId = chat.messageIds.lastOrNull()
+                val lastMessageId = when (chat) {
+                    is Chat -> chat.messageIds.lastOrNull()
+                    is GroupChat -> chat.messageIds.lastOrNull()
+                    else -> null
+                }
                 val lastMessage = if (lastMessageId != null) findMessage(lastMessageId) else null
                 state == null || lastMessage?.state == state
             }
             .map { chat ->
-                val lastMessageId = chat.messageIds.lastOrNull()
+                val lastMessageId = when (chat) {
+                    is Chat -> chat.messageIds.lastOrNull()
+                    is GroupChat -> chat.messageIds.lastOrNull()
+                    else -> null
+                }
+
                 val lastMessage = if (lastMessageId != null) findMessage(lastMessageId) else null
-                val avatarUrl = findUserById(if (chat.userIds.senderId != userId) chat.userIds.senderId else chat.userIds.receiverId )?.avatarUrl
+
+                val avatarUrl = when(chat){
+                    is Chat -> findUserById(if (chat.userIds.senderId != userId) chat.userIds.senderId else chat.userIds.receiverId )?.avatarUrl
+                    is GroupChat -> chat.avatarUrl
+                    else -> null
+                }
+
                 ChatItem(avatarUrl = avatarUrl, lastMessage = lastMessage, ::findUserNameById)
             }
     }
