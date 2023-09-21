@@ -1,6 +1,6 @@
 package company.vk.polis.task1;
 
-record Message(Integer id, String text, Integer senderId, Long timestamp, MessageState state) implements Entity {
+public record Message(Integer id, String text, Integer senderId, Long timestamp, MessageState state) implements Entity {
     @Deprecated
     Message(Integer id, String text, Integer senderId, Long timestamp)
     {
