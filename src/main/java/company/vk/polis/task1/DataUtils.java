@@ -32,7 +32,9 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                State state = generateRandomState();
+
+                Message message = new Message(k, text, i, System.currentTimeMillis(), state);
                 messages.add(message);
             }
             map.put(i, messages);
@@ -93,11 +95,16 @@ public class DataUtils {
         }
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
+            State state = generateRandomState();
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L,
+                        state));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L,
+                        state));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L,
+                        state));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null,
+                        state));
             }
         }
         garbage = random.nextInt(50);
@@ -110,5 +117,15 @@ public class DataUtils {
         }
         Collections.shuffle(combined);
         return combined;
+    }
+
+    private static State generateRandomState() {
+        Random random = new Random();
+        int randomStateInd = random.nextInt(State.class.getClasses().length);
+        return switch (randomStateInd) {
+            case 0 -> State.READ.INSTANCE;
+            case 1 -> State.UNREAD.INSTANCE;
+            default -> new State.DELETED(random.nextInt(names.length));
+        };
     }
 }
