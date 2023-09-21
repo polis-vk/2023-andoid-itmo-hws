@@ -11,4 +11,7 @@ public record Message(Integer id, String text, Integer senderId, Long timestamp,
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public Boolean isValid() { return id != null && text != null && senderId != null && timestamp != null && state != null; }
 }

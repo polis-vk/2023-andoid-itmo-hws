@@ -7,12 +7,7 @@ class MessageController(info: List<Entity>) {
 
     private fun filterValidEntities(entities: List<Entity>): List<Entity> {
         return entities.filter { entity ->
-            val fields = entity.javaClass.declaredFields
-            fields.all { field ->
-                val isNullable = field.getAnnotation(Nullable::class.java) != null
-                val value = field.get(entity)
-                value != null || isNullable
-            }
+            entity.isValid()
         }
     }
 

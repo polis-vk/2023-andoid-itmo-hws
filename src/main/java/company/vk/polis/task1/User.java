@@ -7,4 +7,7 @@ public record User(Integer id, String name, @Nullable String avatarUrl) implemen
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public Boolean isValid() { return id != null && name != null; }
 }
