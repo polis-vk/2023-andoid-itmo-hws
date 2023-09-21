@@ -26,7 +26,6 @@ object MessageController {
 
                 else -> throw AssertionError("Unknown class of Entity: ${entity.javaClass.toGenericString()}")
             }
-            // TODO : Написать общий код обработки для всех наследников Entity, используя Annotations
         }
         return answer
     }
