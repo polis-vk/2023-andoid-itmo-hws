@@ -1,10 +1,14 @@
 package company.vk.polis.task1
 
-data class ChatItem(val avatarUrl: String?, var lastMessage: Message) {
-    fun getLabel(getUserName: (Int) -> String): String {
-        return when (val messageState = lastMessage.state){
-            is Deleted -> "The message has been deleted ${getUserName(messageState.userId)}"
-            else -> lastMessage.text
+class ChatItem(var avatarUrl: String?, var lastMessage: Message?, getUserName: (Int) -> String?) {
+    var label: String
+
+    init {
+        val messageState = lastMessage?.state
+        label = when {
+            lastMessage == null -> "There's nothing here yet"
+            messageState is Deleted -> "The message has been deleted ${getUserName(messageState.userId)}"
+            else -> lastMessage!!.text
         }
     }
 }
