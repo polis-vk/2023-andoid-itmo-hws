@@ -48,4 +48,8 @@ class MessageController(info: List<Entity>) {
                 ChatItem(avatarUrl = avatarUrl, lastMessage = lastMessage, ::findUserNameById)
             }
     }
+
+    fun countMessagesByUserId(userId: Int): Int {
+        return validInfo.filterIsInstance<Message>().count { it.senderId == userId }
+    }
 }
