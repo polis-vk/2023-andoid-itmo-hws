@@ -1,4 +1,4 @@
-package company.vk.polis.task1
+package company.vk.polis.task1.models
 
 sealed interface MessageState {
     data object Read : MessageState

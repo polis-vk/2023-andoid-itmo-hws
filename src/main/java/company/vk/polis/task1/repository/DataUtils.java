@@ -1,4 +1,4 @@
-package company.vk.polis.task1;
+package company.vk.polis.task1.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import company.vk.polis.task1.models.Chat;
+import company.vk.polis.task1.models.Entity;
+import company.vk.polis.task1.models.Message;
+import company.vk.polis.task1.models.User;
+import company.vk.polis.task1.models.UserPair;
+import company.vk.polis.task1.models.MessageState;
 import kotlin.ranges.IntRange;
 
 public class DataUtils {

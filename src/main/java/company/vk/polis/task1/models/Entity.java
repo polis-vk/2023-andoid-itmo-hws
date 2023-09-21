@@ -1,4 +1,4 @@
-package company.vk.polis.task1;
+package company.vk.polis.task1.models;
 
 public interface Entity {
     Integer getId();
