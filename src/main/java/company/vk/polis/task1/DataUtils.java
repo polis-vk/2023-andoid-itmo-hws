@@ -35,8 +35,8 @@ public class DataUtils {
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
                 State state = switch (random.nextInt() % 3) {
-                    case 0 -> new State.UNREADED();
-                    case 1 -> new State.READED();
+                    case 0 -> State.UNREAD.INSTANCE;
+                    case 1 -> State.READ.INSTANCE;
                     default -> new State.DELETED(random.nextInt() % 10);
                 };
                 Message message = new Message(k, text, i, System.currentTimeMillis(), state);
@@ -101,10 +101,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State.UNREADED()));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State.UNREADED()));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new State.UNREADED()));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State.UNREADED()));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, State.UNREAD.INSTANCE));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, State.UNREAD.INSTANCE));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, State.UNREAD.INSTANCE));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, State.UNREAD.INSTANCE));
             }
         }
         garbage = random.nextInt(50);

@@ -1,7 +1,7 @@
 package company.vk.polis.task1
 
-interface State {
-    class UNREADED : State
-    class READED : State
-    class DELETED(var id: Int) : State
+sealed interface State {
+    data object UNREAD : State
+    data object READ : State
+    data class DELETED(val id: Int) : State
 }
