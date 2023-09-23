@@ -35,9 +35,9 @@ public class DataUtils {
                 MessageState ms;
                 switch (random.nextInt(3))
                 {
-                    case 0 -> ms = new Read();
-                    case 1 -> ms = new Unread();
-                    default -> ms = new Deleted(random.nextBoolean() ? k : i);
+                    case 0 -> ms = MessageState.Read.INSTANCE;
+                    case 1 -> ms = MessageState.Unread.INSTANCE;
+                    default -> ms = new MessageState.Deleted(random.nextBoolean() ? k : i);
                 }
                 Message message = new Message(k, text, i, System.currentTimeMillis(), ms);
                 messages.add(message);
@@ -101,10 +101,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(5)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new Unread()));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, new Unread()));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new Unread()));
-                case 3 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new Unread()));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, MessageState.Unread.INSTANCE));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, MessageState.Unread.INSTANCE));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, MessageState.Unread.INSTANCE));
+                case 3 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, MessageState.Unread.INSTANCE));
                 default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, -1L, null));
             }
         }
