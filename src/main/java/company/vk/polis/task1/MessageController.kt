@@ -49,6 +49,10 @@ class MessageController {
         return result
     }
 
+    fun messageCount(userId: Int): Int {
+        return messageIdToMessage.values.count { m -> m.senderId == userId }
+    }
+
     private fun stateToString(state: State): String {
         return when (state) {
             is State.READ -> "Read"
