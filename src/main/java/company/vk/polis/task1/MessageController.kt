@@ -60,7 +60,7 @@ class MessageController(info: List<Entity>) {
                     else -> null
                 }
 
-                ChatItem(avatarUrl = avatarUrl, lastMessage = lastMessage, ::findUserNameById)
+                ChatItem(id = chat.id, avatarUrl = avatarUrl, lastMessage = lastMessage, getUserName = ::findUserNameById)
             }
     }
 
