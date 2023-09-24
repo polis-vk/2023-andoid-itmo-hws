@@ -2,7 +2,7 @@ package company.vk.polis.task1;
 
 import java.util.List;
 
-record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements JavaEntity {
+public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements JavaEntity {
     @Override
     public Integer getId() {
         return id;
