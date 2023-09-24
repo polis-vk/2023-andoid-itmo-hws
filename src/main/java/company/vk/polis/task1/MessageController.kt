@@ -29,7 +29,9 @@ class MessageController(info: List<Entity>) {
     private fun getLastMessage(chat: ChatEntity) : Message?
     {
         val lastMessageId = chat.getMessageIds()?.lastOrNull()
-        return if (lastMessageId != null) findMessage(lastMessageId) else null
+        return if (lastMessageId != null) {
+            findMessage(lastMessageId)
+        } else { null }
     }
 
     fun getPreviewChats(userId : Int, state: MessageState? = null) : List<ChatItem> {
