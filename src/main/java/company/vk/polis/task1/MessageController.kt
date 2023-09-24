@@ -26,43 +26,33 @@ class MessageController(info: List<Entity>) {
         return user?.name
     }
 
+    private fun getLastMessage(chat: ChatEntity) : Message?
+    {
+        val lastMessageId = chat.getMessageIds()?.lastOrNull()
+        return if (lastMessageId != null) findMessage(lastMessageId) else null
+    }
+
     fun getPreviewChats(userId : Int, state: MessageState? = null) : List<ChatItem> {
-        val chats = validInfo.filterIsInstance<Chat>()
-        val groupChats = validInfo.filterIsInstance<GroupChat>()
+        val user = findUserById(userId) ?: throw NoSuchElementException("The user with the ID $userId was not found.")
+        val groupChatIdsSet = user.groupChatIds.toHashSet()
+
+        val chats = validInfo.filterIsInstance<Chat>().filter { chat -> chat.userIds.senderId == userId }
+        val groupChats = validInfo.filterIsInstance<GroupChat>().filter { groupChat -> groupChatIdsSet.contains(groupChat.id) }
 
         return (chats + groupChats)
             .filter { chat ->
-                when (chat){
-                    is Chat -> chat.userIds.senderId == userId || chat.userIds.receiverId == userId
-                    is GroupChat -> chat.userIds.any { it.id == userId }
-                    else -> false
-                }
-            }
-            .filter { chat ->
-                val lastMessageId = when (chat) {
-                    is Chat -> chat.messageIds.lastOrNull()
-                    is GroupChat -> chat.messageIds.lastOrNull()
-                    else -> null
-                }
-                val lastMessage = if (lastMessageId != null) findMessage(lastMessageId) else null
-                state == null || lastMessage?.state == state
+                state == null || getLastMessage(chat)?.state == state
             }
             .map { chat ->
-                val lastMessageId = when (chat) {
-                    is Chat -> chat.messageIds.lastOrNull()
-                    is GroupChat -> chat.messageIds.lastOrNull()
-                    else -> null
-                }
-
-                val lastMessage = if (lastMessageId != null) findMessage(lastMessageId) else null
+                val lastMessage = getLastMessage(chat)
 
                 val avatarUrl = when(chat){
-                    is Chat -> findUserById(if (chat.userIds.senderId != userId) chat.userIds.senderId else chat.userIds.receiverId )?.avatarUrl
+                    is Chat -> findUserById(chat.userIds.receiverId)?.avatarUrl
                     is GroupChat -> chat.avatarUrl
-                    else -> null
+                    else -> error("Unexpected type: ${chat.javaClass.simpleName}")
                 }
 
-                ChatItem(id = chat.id, avatarUrl = avatarUrl, lastMessage = lastMessage, getUserName = ::findUserNameById)
+                ChatItem(id = chat.id, avatarUrl = avatarUrl, lastMessage = lastMessage, lastMessageState = lastMessage?.state, getUserName = ::findUserNameById)
             }
     }
 

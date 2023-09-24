@@ -1,8 +1,10 @@
 package company.vk.polis.task1;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
-public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements JavaEntity {
+public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements JavaEntity, ChatEntity {
     @Override
     public Integer getId() {
         return id;
@@ -10,4 +12,9 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
 
     @Override
     public boolean isValid() { return id != null && userIds != null && messageIds != null; }
+
+    @Override
+    public List<Integer> getMessageIds() {
+        return messageIds;
+    }
 }

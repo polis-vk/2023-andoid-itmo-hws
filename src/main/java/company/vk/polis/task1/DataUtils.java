@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 25;
@@ -17,7 +18,7 @@ public class DataUtils {
         Random random = new Random();
         for (int i = 0; i < maxId; i++) {
             String name = names[random.nextInt(names.length)];
-            User user = new User(i, name + i, random.nextBoolean() ? Integer.toString(i) : null);
+            User user = new User(i, name + i, random.nextBoolean() ? Integer.toString(i) : null, new ArrayList<>());
             users.add(user);
         }
         return users;
@@ -75,27 +76,74 @@ public class DataUtils {
         return list;
     }
 
+    public static List<GroupChat> generateGroupChats(int maxUserId, Map<Integer, List<Message>> senders) {
+        Random random = new Random();
+        Map<List<Integer>, List<Integer>> userGroupUsersListMap = new HashMap<>();
+        for (int i = 0; i < maxUserId; i++) {
+            List<Message> messages = senders.get(i);
+            for (Message message : messages) {
+                int nGroupUsers = random.nextInt(maxUserId);
+                List<Integer> groupUsers = new ArrayList<Integer>();
+                for(int j = 0; j < nGroupUsers; j++)
+                {
+                    groupUsers.add(random.nextInt(maxUserId));
+                }
+                userGroupUsersListMap.putIfAbsent(groupUsers, new ArrayList<>());
+                userGroupUsersListMap.get(groupUsers).add(message.id());
+            }
+        }
+        int k = 0;
+        ArrayList<GroupChat> list = new ArrayList<>();
+        for (Map.Entry<List<Integer>, List<Integer>> entry : userGroupUsersListMap.entrySet()) {
+            list.add(new GroupChat(k, random.nextBoolean() ? Integer.toString(k) : null, entry.getKey(), entry.getValue()));
+            k++;
+        }
+        return list;
+    }
+
+    public static List<User> addUsersToGroups(List<User> users, List<GroupChat> groupChats)
+    {
+        Map<Integer, User> mapUsers = users.stream().collect(Collectors.toMap(User::getId, user -> user));
+
+        for (GroupChat groupChat : groupChats)
+        {
+            for (Integer groupUserId : groupChat.getUserIds())
+            {
+                mapUsers.get(groupUserId).addToGroupChat(groupChat.getId());
+            }
+        }
+
+        return new ArrayList<>(mapUsers.values());
+    }
 
     public static List<Entity> generateEntity() {
         int maxUserId = 10;
         List<User> users = generateUsers(maxUserId);
-        Map<Integer, List<Message>> message = generateMessages(maxUserId);
-        List<Chat> chats = generateChats(maxUserId, message);
-        List<Message> messages = message.entrySet().stream().flatMap(e -> e.getValue().stream()).toList();
+        Map<Integer, List<Message>> privateMessage = generateMessages(maxUserId);
+        List<Chat> chats = generateChats(maxUserId, privateMessage);
+        Map<Integer, List<Message>> groupMessage = generateMessages(maxUserId);
+        List<GroupChat> groupChats = generateGroupChats(maxUserId, groupMessage);
+
+        users = addUsersToGroups(users, groupChats);
+
+        List<Message> privateMessages = privateMessage.entrySet().stream().flatMap(e -> e.getValue().stream()).toList();
+        List<Message> groupMessages = groupMessage.entrySet().stream().flatMap(e -> e.getValue().stream()).toList();
 
         List<Entity> combined = new ArrayList<>();
         combined.addAll(users);
         combined.addAll(chats);
-        combined.addAll(messages);
+        combined.addAll(groupChats);
+        combined.addAll(privateMessages);
+        combined.addAll(groupMessages);
 
         Random random = new Random();
 
         int garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             if (random.nextBoolean()) {
-                combined.add(new User(null, names[random.nextInt(names.length - 1)], null));
+                combined.add(new User(null, names[random.nextInt(names.length - 1)], null, new ArrayList<>()));
             } else {
-                combined.add(new User(-1, null, null));
+                combined.add(new User(-1, null, null, new ArrayList<>()));
             }
         }
         garbage = random.nextInt(50);

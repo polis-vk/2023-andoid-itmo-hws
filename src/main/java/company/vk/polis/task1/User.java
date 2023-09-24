@@ -2,7 +2,9 @@ package company.vk.polis.task1;
 
 import org.jetbrains.annotations.Nullable;
 
-public record User(Integer id, String name, @Nullable String avatarUrl) implements JavaEntity {
+import java.util.List;
+
+public record User(Integer id, String name, @Nullable String avatarUrl, List<Integer> groupChatIds) implements JavaEntity {
     @Override
     public Integer getId() {
         return id;
@@ -10,4 +12,9 @@ public record User(Integer id, String name, @Nullable String avatarUrl) implemen
 
     @Override
     public boolean isValid() { return id != null && name != null; }
+
+    public void addToGroupChat(Integer chatId)
+    {
+        groupChatIds.add(chatId);
+    }
 }
