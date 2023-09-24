@@ -1,13 +1,15 @@
 package company.vk.polis.task1
 
-import org.jetbrains.annotations.Nullable
-
 class MessageController(info: List<Entity>) {
     private val validInfo = filterValidEntities(info)
 
     private fun filterValidEntities(entities: List<Entity>): List<Entity> {
         return entities.filter { entity ->
-            entity.isValid()
+            when (entity)
+            {
+                is JavaEntity -> entity.isValid()
+                else -> true
+            }
         }
     }
 
@@ -19,7 +21,7 @@ class MessageController(info: List<Entity>) {
         return validInfo.find { it is User && it.getId() == id } as? User
     }
 
-    fun findUserNameById(id: Int): String? {
+    private fun findUserNameById(id: Int): String? {
         val user = findUserById(id)
         return user?.name
     }
