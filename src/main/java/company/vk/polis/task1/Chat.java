@@ -1,7 +1,5 @@
 package company.vk.polis.task1;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 
 public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements JavaEntity, ChatEntity {

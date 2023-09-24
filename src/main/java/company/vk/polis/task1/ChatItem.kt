@@ -11,6 +11,7 @@ class ChatItem(private val id : Int, var avatarUrl: String?, private var lastMes
         label = getLabel(getUserName)
     }
 
+    @Suppress("UNUSED")
     fun setLastMessage(lastMessage: Message?, lastMessageState: MessageState, getUserName: (Int) -> String?)
     {
         this.lastMessage = lastMessage

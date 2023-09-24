@@ -83,7 +83,7 @@ public class DataUtils {
             List<Message> messages = senders.get(i);
             for (Message message : messages) {
                 int nGroupUsers = random.nextInt(maxUserId);
-                List<Integer> groupUsers = new ArrayList<Integer>();
+                List<Integer> groupUsers = new ArrayList<>();
                 for(int j = 0; j < nGroupUsers; j++)
                 {
                     groupUsers.add(random.nextInt(maxUserId));
