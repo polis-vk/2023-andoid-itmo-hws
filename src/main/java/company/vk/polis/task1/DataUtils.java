@@ -7,8 +7,8 @@ public class DataUtils {
     private static final String[] names = new String[]{"Vasya", "Alina", "Petr", "Ira", "Ivan", "Tanya", "Anton"};
     private static final String[] texts = new String[]{"Hello!", "How are you?", "Bye", "Where are you?", "I'm fine", "Let's go somewhere", "I'm here"};
 
-    private static State createState(Integer id){//Может прийти нул
-        List<String> states = List.of("READ","UNREAD","DELETED");
+    private static State createState(Integer id) {//Может прийти нул
+        List<String> states = List.of("READ", "UNREAD", "DELETED");
         Random random = new Random();
         String pickedOne = states.get(random.nextInt(states.size()));
         switch (pickedOne) {
@@ -109,10 +109,13 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, createState(-1)));
+                case 0 ->
+                        combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, createState(-1)));
                 case 1 -> combined.add(new Message(-1, null, -1, -1L, createState(-1)));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, createState(null)));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, createState(-1)));
+                case 2 ->
+                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, createState(null)));
+                default ->
+                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, createState(-1)));
             }
         }
         garbage = random.nextInt(50);

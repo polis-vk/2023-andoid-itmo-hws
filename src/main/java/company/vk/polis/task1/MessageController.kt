@@ -45,10 +45,8 @@ class MessageController {
                 }
 
                 is GroupChat -> {
-                    if(entity.id != null && entity.users != null){
-                        result.add(entity)
-                        groupChats.add(entity)
-                    }
+                    result.add(entity)
+                    groupChats.add(entity)
                 }
 
                 else -> throw IllegalArgumentException("Unknown Entity")
@@ -61,20 +59,51 @@ class MessageController {
         val result = mutableListOf<ChatItem>()
         chats.forEach { chat ->
             if (chat.userIds.senderId == userId || chat.userIds.receiverId == userId) {
-                val userMessagesInChat = mutableListOf<Message>()
-                messageByUserId[userId]?.forEach { msg ->
-                    if(chat.messageIds.contains(msg.id))
-                        userMessagesInChat.add(msg)
-                }
-                if(userMessagesInChat.isNotEmpty()){
-                    val resMsg = userMessagesInChat.maxBy { it.timestamp }
-                    if (state.isNotEmpty() && resMsg.state == state[0] || state.isEmpty())
-                        result.add(ChatItem(userByUserId[userId]?.avatarUrl, resMsg.text, resMsg.state))
+                createChatItem(userId, chat.messageIds, state, false)?.let { result.add(it) }
+            }
+        }
+
+        groupChats.forEach { chat ->
+            chat.userIds.forEach { user ->
+                if (user == userId) {
+                    createChatItem(userId, chat.messageIds, state, true)?.let { result.add(it) }
                 }
             }
         }
 
         return result
+    }
+
+    private fun createChatItem(
+        userId: Int,
+        messageIds: List<Int>,
+        state: Array<out State>,
+        groupChat: Boolean,
+    ): ChatItem? {
+        val userMessagesInChat = mutableListOf<Message>()
+
+        messageByUserId[userId]?.forEach { msg ->
+            if (messageIds.contains(msg.id))
+                userMessagesInChat.add(msg)
+        }
+        if (userMessagesInChat.isNotEmpty()) {
+            val resMsg = userMessagesInChat.maxBy { it.timestamp }
+            if (state.isNotEmpty() && resMsg.state.equals(state[0]) || state.isEmpty()) {
+                return if (resMsg.state is State.Deleted) {
+                    ChatItem(
+                        userByUserId[userId]?.avatarUrl,
+                        resMsg.text,
+                        resMsg.state,
+                        groupChat,
+                        userByUserId[(resMsg.state as State.Deleted).id]?.name
+                    )
+                } else {
+                    ChatItem(userByUserId[userId]?.avatarUrl, resMsg.text, resMsg.state, groupChat, null)
+                }
+            }
+
+        }
+        return null
     }
 
     fun getParsedInfo(): List<Entity> {
