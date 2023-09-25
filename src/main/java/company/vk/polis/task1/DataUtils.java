@@ -29,12 +29,22 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis(), new StateContext(Unread.INSTANCE));
+                Message message = new Message(k, text, i, System.currentTimeMillis(), getRandomState());
                 messages.add(message);
             }
             map.put(i, messages);
         }
         return map;
+    }
+
+    private static State getRandomState() {
+        Random random = new Random();
+        return switch (random.nextInt(3)) {
+            case 0 -> Unread.INSTANCE;
+            case 1 -> State.Read.INSTANCE;
+            case 2 -> new State.Deleted(random.nextInt(10));
+            default -> throw new IllegalStateException("Unexpected value");
+        };
     }
 
     public static List<Chat> generateChats(int maxUserId, Map<Integer, List<Message>> senders) {
@@ -92,12 +102,12 @@ public class DataUtils {
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
                 case 0 ->
-                        combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new StateContext(Unread.INSTANCE)));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, new StateContext(Unread.INSTANCE)));
+                        combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, getRandomState()));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, getRandomState()));
                 case 2 ->
-                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new StateContext(Unread.INSTANCE)));
+                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, getRandomState()));
                 default ->
-                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new StateContext(Unread.INSTANCE)));
+                        combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, getRandomState()));
             }
         }
         garbage = random.nextInt(50);

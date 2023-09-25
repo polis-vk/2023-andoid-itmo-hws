@@ -13,7 +13,7 @@ object MessageController {
                 }
 
                 is Message -> {
-                    if (entity.id != null && entity.senderId != null && entity.text != null && entity.stateContext != null && entity.timestamp != null) {
+                    if (entity.id != null && entity.senderId != null && entity.text != null && entity.state != null && entity.timestamp != null) {
                         answer.add(entity)
                     }
                 }
@@ -31,18 +31,29 @@ object MessageController {
     }
 
 
-    fun getChatItemForId(chatId: Int): ChatItem {
+    fun getChatItemForId(chatId: Int, state: State? = null): ChatItem {
         val info = Repository.getInfo()
         val chat = info.filterIsInstance<ChatInterface>().first { it.id == chatId }
         val messagesIds = chat.messageIds ?: throw AssertionError("Message ids of chat $chatId is null!")
         val messages = info.filterIsInstance<Message>().filter { it.id in messagesIds }
-        val message = messages.sortedBy { it.timestamp }.last()
+        var message = messages.sortedBy { it.timestamp }.last()
+        val curState = state ?: message.state
+        if (curState is State.Deleted) {
+            val user = info.filterIsInstance<User>().first { it.id == curState.userId }
+            message = Message(
+                message.id,
+                "Сообщение было удалено ${user.name}",
+                message.senderId,
+                message.timestamp,
+                message.state
+            )
+        }
         val avatarUrl: String? = when (chat) {
             is GroupChat -> chat.avatarUrl
             is Chat -> info.filterIsInstance<User>().first { it.id == chat.userIds!![1] }.avatarUrl
             else -> throw AssertionError("Unknown class inherited from ChatInterface ${chat.javaClass.toGenericString()}")
         }
-        return ChatItem(message, avatarUrl, message.stateContext.getState())
+        return ChatItem(message, avatarUrl, curState)
     }
 
     fun countMessagesFromChatAndUser(chatId: Int, userId: Int?): Int {
