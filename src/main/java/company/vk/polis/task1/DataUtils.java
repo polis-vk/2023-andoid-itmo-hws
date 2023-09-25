@@ -32,10 +32,10 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                State_Msg state = switch (random.nextInt() % 3) {
-                    case 0 -> new State_Msg(State_Msg_Enum.UNREAD, null);
-                    case 1 -> new State_Msg(State_Msg_Enum.READ, null);
-                    default -> new State_Msg(State_Msg_Enum.DELETED, random.nextInt() + 239);
+                StateMsg state = switch (random.nextInt() % 3) {
+                    case 0 ->
+                    case 1 ->
+                    default -> new StateMsg.DELETED(random.nextInt() + 239);
                 };
                 Message message = new Message(k, text, i, System.currentTimeMillis(), state);
                 messages.add(message);
@@ -99,10 +99,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State_Msg(State_Msg_Enum.READ, null)));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State_Msg(State_Msg_Enum.READ, null)));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new State_Msg(State_Msg_Enum.READ, null)));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State_Msg(State_Msg_Enum.READ, null)));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, StateMsg.READ.INSTANCE));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, StateMsg.READ.INSTANCE));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, StateMsg.READ.INSTANCE));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, StateMsg.READ.INSTANCE));
             }
         }
         garbage = random.nextInt(50);
