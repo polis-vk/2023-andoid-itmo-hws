@@ -9,8 +9,9 @@ import android.os.PersistableBundle
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import ru.ok.itmo.hw.R
 
-class RequestCameraPermissionActivity : AppCompatActivity() {
+class RequestCameraPermissionActivity : AppCompatActivity(R.layout.activity_request_camera_permission) {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)

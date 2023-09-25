@@ -3,6 +3,7 @@ package ru.ok.itmo.hw
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import ru.ok.itmo.hw.R
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
