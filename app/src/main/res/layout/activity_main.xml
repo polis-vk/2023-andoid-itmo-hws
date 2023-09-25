@@ -52,6 +52,13 @@
             app:layout_constraintGuide_begin="50dp" />
 
     <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="50dp" />
+
+    <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_top"
             android:layout_width="0dp"
             android:layout_height="0dp"

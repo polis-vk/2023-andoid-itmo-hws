@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.ok.itmo.hw"
+    namespace = "itmo.hw"
     compileSdk = 33
 
     defaultConfig {
