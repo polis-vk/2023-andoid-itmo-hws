@@ -1,5 +1,5 @@
 package company.vk.polis.task1
 
-interface ChatInterface {
+interface ChatInterface : Entity {
     val messageIds: List<Int?>?
 }

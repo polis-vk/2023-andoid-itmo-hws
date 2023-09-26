@@ -3,7 +3,7 @@ package company.vk.polis.task1;
 
 import java.util.List;
 
-record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements Entity, ChatInterface {
+record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements ChatInterface {
     @Override
     public Integer getId() {
         return id;

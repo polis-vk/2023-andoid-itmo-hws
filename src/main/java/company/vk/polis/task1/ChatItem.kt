@@ -11,6 +11,6 @@ data class ChatItem(
         lastMessage.state is State.DELETED -> "Сообщение было удалено${
             if (deleteUserName == null) "" else " $deleteUserName"
         }"
-        else -> lastMessage.text
+        else -> lastMessage.text ?: ""
     }
 }

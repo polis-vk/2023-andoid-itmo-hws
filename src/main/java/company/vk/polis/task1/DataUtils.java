@@ -1,7 +1,5 @@
 package company.vk.polis.task1;
 
-import kotlin.jvm.internal.Reflection;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

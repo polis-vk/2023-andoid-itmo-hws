@@ -5,6 +5,6 @@ data class GroupChat(
     val userIds: List<Int>,
     override val messageIds: List<Int?>?,
     val avatarUrl: String?
-) : Entity, ChatInterface {
+) : ChatInterface {
     override fun getId() = id
 }
