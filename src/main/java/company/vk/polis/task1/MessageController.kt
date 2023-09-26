@@ -2,15 +2,22 @@ package company.vk.polis.task1
 
 
 class MessageController {
+    private fun checkValidChat(it: Chat) = !(it.id == null || it.userIds == null ||
+            it.messageIds == null) && !it.messageIds!!.any { it == null }
+    private fun checkValidMessage(it: Message) = !(it.id == null || it.text == null ||
+            it.senderId == null || it.timestamp == null || it.state == null)
+    private fun checkValidUser(it: User) = !(it.id == null || it.name == null)
+    private fun checkValidGroupChat(it: GroupChat) = it.messageIds != null && !it.messageIds.any { it == null }
+
+
+
     fun getValidInfo(): List<Entity> {
         return Repository.getInfo()?.filter {
             when (it) {
-                is Chat -> !(it.id == null || it.userIds == null || it.messageIds == null) &&
-                        !it.messageIds!!.any { it == null }
-                is Message -> !(it.id == null || it.text == null || it.senderId == null ||
-                        it.timestamp == null || it.state == null)
-                is User -> !(it.id == null || it.name == null)
-                is GroupChat -> it.messageIds != null && !it.messageIds.any { it == null }
+                is Chat -> checkValidChat(it)
+                is Message -> checkValidMessage(it)
+                is User -> checkValidUser(it)
+                is GroupChat -> checkValidGroupChat(it)
                 else -> false
             }
         } ?: emptyList()
@@ -27,9 +34,11 @@ class MessageController {
                     userId != chat.userIds.receiverId) continue
                 is GroupChat -> if (!chat.userIds.contains(userId)) continue
             }
-            val lastMessage = info.find {
-                it is Message && it.id == (chat as ChatInterface).messageIds?.last()
-            } as Message?
+
+            val lastMessage = info.filter {
+                it is Message && it.id in ((chat as ChatInterface).messageIds ?: emptyList())
+            }.maxByOrNull { (it as Message).timestamp } as Message?
+
             if (state == null || lastMessage?.state?.javaClass == state.javaClass) {
                 val avatarUrl = if (lastMessage == null) {
                     null

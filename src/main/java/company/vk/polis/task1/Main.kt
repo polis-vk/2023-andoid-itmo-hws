@@ -5,12 +5,8 @@ fun main() {
     val info = messageController.getValidInfo()
     println(info)
     println("All chats:")
-    for (chatItem in messageController.getUserChatItems(1)) {
-        println(chatItem)
-    }
+    messageController.getUserChatItems(1).forEach(::println)
     println("Unread chats:")
-    for (chatItem in messageController.getUserChatItems(1, State.UNREAD)) {
-        println(chatItem)
-    }
+    messageController.getUserChatItems(1, State.UNREAD).forEach(::println)
     println("user 1 has ${messageController.getUserMessageCount(1)} messages")
 }
