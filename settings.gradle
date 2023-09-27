@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "itmo-example"
+rootProject.name = "2023-android-itmo-hws"
 include ':app'
