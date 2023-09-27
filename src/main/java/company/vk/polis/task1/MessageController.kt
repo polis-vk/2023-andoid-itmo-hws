@@ -1,19 +1,14 @@
 package company.vk.polis.task1
 
-import org.jetbrains.annotations.Nullable
-import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
-
 object MessageController {
-    fun filterNotNull(entities: List<Entity>) = entities.filterNot { e ->
-        e::class.memberProperties.all {
-            !it.hasAnnotation<Nullable>() &&
-            it.getter.run {
-                isAccessible = true
-                call(e) == null
-            }
-        }
+    private fun filterNotNull(entities: List<Entity>) = entities.filterNot { e ->
+        when (e) {
+            is User -> listOf(e.id, e.name)
+            is Message -> listOf(e.id, e.text, e.senderId, e.timestamp, e.state)
+            is Chat -> listOf(e.id, e.userIds, e.messageIds)
+            is GroupChat -> listOf()
+            else -> throw IllegalArgumentException("Unsupported entity type found: $e")
+        }.any { it == null }
     }
 
     fun valid() = filterNotNull(Repository.getInfo())
