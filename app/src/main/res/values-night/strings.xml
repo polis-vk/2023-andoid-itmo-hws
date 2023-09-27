@@ -5,5 +5,5 @@
     <string name="passru">Пароль</string>
     <string name="Enter">Вход</string>
     <string name="sign_inru">Вход\n</string>
-    <string name="mode">Day</string>
+    <string name="mode">Night</string>
 </resources>
