@@ -4,7 +4,6 @@ plugins {
 }
 
 android {
-    namespace "ru.ok.itmo.example"
     compileSdk 34
 
     defaultConfig {
