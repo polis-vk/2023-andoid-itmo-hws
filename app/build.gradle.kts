@@ -9,7 +9,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "ru.ok.itmo.hw"
+        applicationId = "itmo.hw"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">itmo-hw</string>
+    <string name="app_name" translatable="false">itmo-hw</string>
     <string name="login_label">login</string>
     <string name="password_label">password</string>
     <string name="sign_in">sign in</string>
+    <string name="switch_theme">Switch theme</string>
 </resources>

@@ -41,20 +41,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_in"
-            app:layout_constraintBottom_toTopOf="@id/gl_bottom"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/switch_theme_button"
+            app:layout_constraintStart_toEndOf="@id/login_input" />
 
     <Button
             android:id="@+id/switch_theme_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/switch_theme"
-            app:layout_constraintBottom_toTopOf="@id/sign_in_button"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/gl_top"
+            app:layout_constraintStart_toEndOf="@id/login_input" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_left"
@@ -82,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="100dp" />
+            app:layout_constraintGuide_end="50dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

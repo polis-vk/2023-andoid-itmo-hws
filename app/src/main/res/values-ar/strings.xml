@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">itmo-hw</string>
+    <string name="login_label">تسجيل الدخول</string>
+    <string name="password_label">كلمة المرور</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="switch_theme">تبديل الموضوع</string>
+</resources>
