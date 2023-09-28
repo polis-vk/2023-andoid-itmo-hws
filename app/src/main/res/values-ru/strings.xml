@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">итмо-дз</string>
+    <string name="email">почта</string>
+    <string name="password">пароль</string>
+    <string name="enter">Войти</string>
+    <string name="sign_in">Вход</string>
+    <string name="incorrect_email">Некорректный  email</string>
+    <string name="small_password">Слишком маленький пароль</string>
+    <string name="field_not_empty">Поле не может быть пустым</string>
+    <string name="night_mode">Темная тема</string>
+</resources>

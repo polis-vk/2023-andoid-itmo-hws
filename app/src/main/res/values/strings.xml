@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">itmo-example</string>
+    <string name="app_name">itmo-hw</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="enter">Enter</string>
+    <string name="sign_in">Sign in</string>
+    <string name="incorrect_email">Incorrect email</string>
+    <string name="small_password">The password is too small</string>
+    <string name="field_not_empty">Field cannot be empty</string>
+    <string name="night_mode">Night mode</string>
 </resources>

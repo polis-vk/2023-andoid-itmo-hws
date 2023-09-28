@@ -7,7 +7,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "ru.ok.itmo.hw"
+        applicationId "ru.ok.itmo.example"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -32,11 +32,12 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'ru.ok.itmo.example'
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }

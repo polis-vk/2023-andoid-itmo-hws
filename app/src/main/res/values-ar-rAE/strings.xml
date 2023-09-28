@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">إيتمو-دز</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="enter">أدخل</string>
+    <string name="sign_in">مدخل</string>
+    <string name="incorrect_email">بريد إلكتروني غير صحيح</string>
+    <string name="small_password">كلمة المرور صغيرة جدا</string>
+    <string name="field_not_empty">لا يمكن أن يكون الحقل فارغا</string>
+    <string name="night_mode">الوضع الليلي</string>
+</resources>
