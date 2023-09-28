@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         val loginField = findViewById<EditText>(R.id.login)
         val passwordField = findViewById<EditText>(R.id.password)
         val errorText = findViewById<TextView>(R.id.error)
+        
         with(themeSwitch) {
             setImageResource(if (currentNightMode) R.drawable.light_mode else R.drawable.dark_mode)
             setOnClickListener {
