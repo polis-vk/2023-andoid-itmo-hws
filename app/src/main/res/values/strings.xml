@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">itmo-hw</string>
+    <string name="app_name" translatable="false">itmo-hw</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="authorize">Authorize</string>
+    <string name="theme_switch">theme switch</string>
+    <string name="empty_login">Empty login</string>
+    <string name="invalid_login">Invalid login</string>
+    <string name="empty_password">Empty password</string>
+    <string name="digits_password">Password must contain letters</string>
+    <string name="short_password">Password must be at least 8 symbols</string>
+    <string name="welcome">Successfully logged in</string>
 </resources>

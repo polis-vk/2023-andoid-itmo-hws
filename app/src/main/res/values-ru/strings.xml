@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="authorize">Авторизоваться</string>
+    <string name="theme_switch">Сменить тему</string>
+    <string name="empty_login">Введите логин</string>
+    <string name="invalid_login">Невалидный логин</string>
+    <string name="empty_password">Пустой пароль</string>
+    <string name="digits_password">Пароль должен содержать буквы</string>
+    <string name="short_password">Пароль должен быть хотя бы 8 символов</string>
+    <string name="welcome">Успешный вход</string>
+</resources>

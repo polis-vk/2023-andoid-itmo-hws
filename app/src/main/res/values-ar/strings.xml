@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="password">كلمة المرور</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="authorize">تسجيل الدخول</string>
+    <string name="theme_switch">تغيير الموضوع</string>
+    <string name="empty_login">أدخل اسم المستخدم الخاص بك</string>
+    <string name="invalid_login">تسجيل دخول غير صالح</string>
+    <string name="empty_password">كلمة مرور فارغة</string>
+    <string name="digits_password">يجب أن تحتوي كلمة المرور على أحرف</string>
+    <string name="short_password">يجب أن تتكون كلمة المرور من 8 أحرف على الأقل</string>
+    <string name="welcome">تسجيل دخول ناجح</string>
+</resources>
