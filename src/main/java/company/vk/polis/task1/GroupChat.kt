@@ -1,7 +1,7 @@
 package company.vk.polis.task1
 
 internal class GroupChat(
-    private val id: Int,
+    val id: Int,
     val userIds: List<Int>,
     @JvmField val messageIds: List<Int>,
     val name : String,
