@@ -7,7 +7,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "ru.ok.itmo.hw"
+        applicationId "ru.ok.itmo.example"
         minSdk 24
         targetSdk 34
         versionCode 1
@@ -39,4 +39,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
+    implementation("junit:junit:4.13.2")
+    implementation("androidx.test.ext:junit:1.1.3")
 }
