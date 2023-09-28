@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">итмо-дз</string>
+    <string name="register">Регистрация</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Вход</string>
+    <string name="night">Ночь</string>
+</resources>

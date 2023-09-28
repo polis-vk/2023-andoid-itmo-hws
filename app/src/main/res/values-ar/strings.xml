@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">إيتمو-دز</string>
+    <string name="register">التسجيل</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="password">كلمة المرور</string>
+    <string name="sign_in">مدخل</string>
+    <string name="night">ليلة</string>
+</resources>
