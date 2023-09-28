@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="loginForm_strokeColor">@color/mainPrimary</color>
+    <color name="loginForm_backgroundColor">@color/softBlack</color>
+    <color name="loginForm_firstTextColor">@color/grayForText</color>
+    <color name="loginForm_secondTextColor">@color/white</color>
+</resources>

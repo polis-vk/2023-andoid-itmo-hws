@@ -21,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity"
+            android:label="@string/login_form_label"
+            android:theme="@style/Theme.Itmoexample"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/loginForm_Guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/loginForm_Guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/loginForm_Guideline" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/main_login_id"
+        android:textSize="20sp"
+
+        app:layout_constraintTop_toTopOf="@+id/gl_top"
+        app:layout_constraintStart_toStartOf="@+id/gl_left"
+        />
+
+    <TextView
+        android:id="@+id/tv_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login"
+        android:text="@string/main_password"
+        android:textSize="20sp"
+
+        app:layout_constraintTop_toBottomOf="@id/barrier_horizontal"
+        app:layout_constraintStart_toStartOf="@+id/gl_left" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="tv_login,tv_password"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_horizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="tv_login,tv_form_login"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_form_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login"
+        android:text=""
+        tools:text="id"
+        android:textSize="20sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintTop_toTopOf="@+id/gl_top"
+        app:layout_constraintStart_toStartOf="@id/barrier_vertical"
+        app:layout_constraintEnd_toEndOf="@+id/gl_right"
+        />
+
+    <TextView
+        android:id="@+id/tv_form_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login"
+        android:text="@string/n_a"
+        android:textSize="20sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintTop_toBottomOf="@id/barrier_horizontal"
+        app:layout_constraintStart_toStartOf="@id/barrier_vertical"
+        app:layout_constraintEnd_toEndOf="@+id/gl_right"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

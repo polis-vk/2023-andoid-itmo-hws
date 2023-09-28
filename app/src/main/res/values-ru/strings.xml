@@ -1,0 +1,12 @@
+<resources>
+    <string name="log_in">Войти</string>
+    <string name="email">Почта</string>
+    <string name="password">Пароль</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="login_form_label">Задание 2</string>
+    <string name="error_empty_email">Не указана почта</string>
+    <string name="error_incorrect_email">Некорректный адрес почты</string>
+    <string name="error_empty_password">Не указан пароль</string>
+    <string name="error_less_than_6_characters_password">Пароль должен содержать минимум 6 символов</string>
+    <string name="error_incorrect_password">Неверный пароль</string>
+</resources>

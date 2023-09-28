@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="loginForm_cornerRadius">20dp</dimen>
+    <dimen name="loginForm_padding">16dp</dimen>
+    <dimen name="loginForm_Guideline">50dp</dimen>
+    <dimen name="loginForm_strokeWidth">2dp</dimen>
+    <dimen name="loginForm_editText_padding_start">16dp</dimen>
+    <dimen name="loginForm_editText_padding_end">@dimen/loginForm_editText_padding_start</dimen>
+    <dimen name="loginForm_editText_padding_top">2dp</dimen>
+    <dimen name="loginForm_editText_padding_bottom">@dimen/loginForm_editText_padding_top</dimen>
+    <dimen name="loginForm_smallTextSize">15sp</dimen>
+    <dimen name="loginForm_textSize">20sp</dimen>
+    <dimen name="loginForm_previewTextSize">30sp</dimen>
+    <dimen name="minHeight_touchZone">48dp</dimen>
+</resources>

@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grayForText">#808080</color>
+    <color name="softBlack">#17212b</color>
+    <color name="mainPrimary">#2196F3</color>
+
+    <color name="loginForm_strokeColor">@color/mainPrimary</color>
+    <color name="loginForm_backgroundColor">@color/white</color>
+    <color name="loginForm_firstTextColor">@color/grayForText</color>
+    <color name="loginForm_secondTextColor">@color/softBlack</color>
 </resources>

@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">itmo-example</string>
+    <string name="app_name" translatable="false">itmo-example</string>
+    <string name="main_login_id" translatable="false">itmo-example>login(id):</string>
+    <string name="main_password" translatable="false">itmo-example>password:</string>
+    <string name="n_a" translatable="false">itmo-example>N/A</string>
+
+    <string name="log_in">Log in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="login_form_label">Task 2</string>
+    <string name="error_empty_email">Email is not specified</string>
+    <string name="error_incorrect_email">Invalid email address</string>
+    <string name="error_empty_password">No password specified</string>
+    <string name="error_less_than_6_characters_password">The password must contain at least 6 characters</string>
+    <string name="error_incorrect_password">Invalid password</string>
 </resources>
