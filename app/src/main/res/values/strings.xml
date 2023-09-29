@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="nightModeButton">night mode</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="submit">log in</string>
+    <string name="en">EN</string>
+    <string name="ar">AR</string>
+    <string name="noLogin">Login is absent</string>
+    <string name="noPassword">Password is absent</string>
+    <string name="notEmail">Login is not a valid email</string>
+    <string name="shortPassword">Password is too short</string>
 </resources>

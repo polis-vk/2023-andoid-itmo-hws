@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إيتمو-مثال</string>
+    <string name="nightModeButton">الوضع الليلي</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="password">كلمة المرور</string>
+    <string name="submit">تسجيل الدخول</string>
+    <string name="en">أون</string>
+    <string name="ar">أر</string>
+    <string name="noLogin">تسجيل الدخول غائب</string>
+    <string name="noPassword">كلمة المرور غائبة</string>
+    <string name="notEmail">تسجيل الدخول ليس بريدا إلكترونيا صالحا</string>
+    <string name="shortPassword">كلمة المرور قصيرة جدا</string>
+</resources>
