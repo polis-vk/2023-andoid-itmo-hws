@@ -1,5 +1,7 @@
 package company.vk.polis.task1
 
-enum class State(idUserDeletedMessage: Int = -1){
-    READ, UNREAD, DELETED, NOTHING;
+sealed class State() {
+    class Read: State()
+    class Unread: State()
+    class Deleted(val idDeleted: Int = -1): State()
 }
