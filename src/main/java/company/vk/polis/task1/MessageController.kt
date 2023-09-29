@@ -2,16 +2,11 @@ package company.vk.polis.task1
 
 class MessageController {
     private val repInfo: List<Entity> = Repository.getInfo()
-    private var parsedInfo = listOf<Entity>()
-    private val messageByUserId = mutableMapOf<Int, MutableList<Message>>() //По юзеру все его сообщения
+    private val messageByUserId = mutableMapOf<Int, MutableList<Message>>()
     private val userByUserId = mutableMapOf<Int, User>()
     private val chats = mutableListOf<Chat>()
     private val groupChats = mutableListOf<GroupChat>()
-
-
-    init {
-        parsedInfo = parseRepInfo()
-    }
+    val parsedInfo = parseRepInfo()
 
     private fun parseRepInfo(): List<Entity> {
         val result = mutableListOf<Entity>()
@@ -55,18 +50,18 @@ class MessageController {
         return result
     }
 
-    fun getUserChatItems(userId: Int, vararg state: State): List<ChatItem> {
+    fun getUserChatItems(userId: Int, state: State? = null): List<ChatItem> {
         val result = mutableListOf<ChatItem>()
         chats.forEach { chat ->
             if (chat.userIds.senderId == userId || chat.userIds.receiverId == userId) {
-                createChatItem(userId, chat.messageIds, state, false)?.let { result.add(it) }
+                createChatItem(userId, chat.messageIds, state, groupChat = false)?.let { result.add(it) }
             }
         }
 
         groupChats.forEach { chat ->
             chat.userIds.forEach { user ->
                 if (user == userId) {
-                    createChatItem(userId, chat.messageIds, state, true)?.let { result.add(it) }
+                    createChatItem(userId, chat.messageIds, state, groupChat = true)?.let { result.add(it) }
                 }
             }
         }
@@ -77,7 +72,7 @@ class MessageController {
     private fun createChatItem(
         userId: Int,
         messageIds: List<Int>,
-        state: Array<out State>,
+        state: State?,
         groupChat: Boolean,
     ): ChatItem? {
         val userMessagesInChat = mutableListOf<Message>()
@@ -88,26 +83,21 @@ class MessageController {
         }
         if (userMessagesInChat.isNotEmpty()) {
             val resMsg = userMessagesInChat.maxBy { it.timestamp }
-            if (state.isNotEmpty() && resMsg.state.equals(state[0]) || state.isEmpty()) {
-                return if (resMsg.state is State.Deleted) {
+            if (state != null && resMsg.state.equals(state) || state == null) {
+                return if (resMsg.state is State.DELETED) {
                     ChatItem(
                         userByUserId[userId]?.avatarUrl,
-                        resMsg.text,
+                        "Сообщение было удалено " + userByUserId[(resMsg.state as State.DELETED).id]?.name,
                         resMsg.state,
-                        groupChat,
-                        userByUserId[(resMsg.state as State.Deleted).id]?.name
+                        groupChat
                     )
                 } else {
-                    ChatItem(userByUserId[userId]?.avatarUrl, resMsg.text, resMsg.state, groupChat, null)
+                    ChatItem(userByUserId[userId]?.avatarUrl, resMsg.text, resMsg.state, groupChat)
                 }
             }
 
         }
         return null
-    }
-
-    fun getParsedInfo(): List<Entity> {
-        return parsedInfo
     }
 
     internal fun sendedMessagesCount(userId: Int): Int? {

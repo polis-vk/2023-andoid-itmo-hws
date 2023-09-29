@@ -1,6 +1,11 @@
 package company.vk.polis.task1;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 25;
@@ -13,13 +18,13 @@ public class DataUtils {
         String pickedOne = states.get(random.nextInt(states.size()));
         switch (pickedOne) {
             case "READ" -> {
-                return new State.Read();
+                return State.READ.INSTANCE;
             }
             case "UNREAD" -> {
-                return new State.Unread();
+                return State.UNREAD.INSTANCE;
             }
             case "DELETED" -> {
-                return new State.Deleted(id);
+                return new State.DELETED(id);
             }
             default -> {
                 throw new IllegalArgumentException("Unknown state");
