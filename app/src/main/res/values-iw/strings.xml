@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Login App</string>
+    <string name="login">כניסה</string>
+    <string name="username">שם משתמש</string>
+    <string name="password">סיסמא</string>
+    <string name="theme">שנה נושא</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Login App</string>
+    <string name="login">Войти</string>
+    <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="theme">Сменить тему</string>
+</resources>

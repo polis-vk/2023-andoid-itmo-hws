@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "2023-android-itmo-hws"
+rootProject.name = "Login App"
 include(":app")
  
