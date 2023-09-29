@@ -7,32 +7,26 @@ import kotlin.collections.LinkedHashMap
 data class UserData(
     val users: MutableList<User>,
     var messages: MutableList<Message>,
-    var chats: MutableList<Chat>,
-    var grouping: MutableList<GroupChat>,
-    var allgroup : MutableList<AllChats>
+    var allgroup: MutableList<AllChats>
 )
 
 class MessageController() {
-    var UserId = LinkedList<Int>()
-    var MessageId = LinkedList<Int>()
-    var UserId_Count = LinkedHashMap<Int, Int>()
+    val UserId = LinkedList<Int>()
+    val MessageId = LinkedList<Int>()
+    val UserId_Count = LinkedHashMap<Int, Int>()
 
     val userData = UserData(
         users = mutableListOf(),
         messages = mutableListOf(),
-        chats = mutableListOf(),
-        grouping = mutableListOf(),
         allgroup = mutableListOf()
     )
 
 
-    fun main(entities: List<Entity>) : Unit {
-        val validEntities = entities.filter { entity -> entity.Valid() }
+    fun init (entities: List<Entity>) {
+        val validEntities = entities.filter { entity -> entity is KotlinEntity && entity.checkValid() }
         initializeData(validEntities)
         filterMessages(userData)
-        filterChats(userData)
-        filterGrChats(userData)
-        unite_groups(userData)
+        filterAllChats(userData)
         countAllUsers()
     }
 
@@ -48,139 +42,68 @@ class MessageController() {
                     userData.messages.add(entity)
                 }
                 is Chat -> {
-                    userData.chats.add(entity)
+                    userData.allgroup.add(entity)
                 }
                 is GroupChat -> {
-                    userData.grouping.add(entity)
+                    userData.allgroup.add(entity)
                 }
             }
         }
     }
-
-    private fun unite_groups(userData: UserData) {
-        val allChats = mutableListOf<AllChats>()
-        allChats.addAll(userData.chats)
-        allChats.addAll(userData.grouping)
-
-        userData.allgroup = allChats
-    }
-
-
 
     private fun filterMessages(userData: UserData) {
-        val messagesToRemove = mutableListOf<Message>()
-        for (message in userData.messages) {
+        userData.messages = userData.messages.filter { message ->
             val userExists = userData.users.any { it.id == message.senderId }
-            val chatExists = userData.chats.any { it.userIds.senderId == message.senderId || it.userIds.receiverId == message.senderId }
-            val grchatExists = userData.grouping.any {message.senderId in it.usersid}
-
-            if (!userExists || (!chatExists && !grchatExists)) {
-                messagesToRemove.add(message)
-            }
-        }
-
-        userData.messages.removeAll(messagesToRemove)
+            val chatExists =
+                userData.allgroup.any { it.getListUsersId().contains(message.senderId)} // || it.getListUsersId().contains(message.receiverId)
+            userExists && chatExists
+        }.toMutableList()
     }
 
-    private fun filterChats(userData: UserData) {
-        var updchat = mutableListOf<Chat>()
-        for (chat in userData.chats) {
-            val user1Exists = userData.users.any { it.id == chat.userIds.senderId }
-            val user2Exists = userData.users.any { it.id == chat.userIds.receiverId }
-
-            var messages = chat.messageIds.intersect(MessageId)
-
-            if (user1Exists && user2Exists && !messages.isEmpty()) {
-                updchat.add(Chat(chat.id, chat.userIds, messages.toList()))
-            }
-        }
-        userData.chats.clear()
-        userData.chats.addAll(updchat)
-    }
-
-    private fun filterGrChats(userData: UserData) { // I apologize for the copy paste. I was thinking of deleting the chat class to create a List with user IDs instead of UserPair userIds,
-        // but I didn't want to change your classes, so I decided to copy-paste
-        val chatsToRemove = mutableListOf<GroupChat>()
-        for (chat in userData.grouping) {
-            val users = chat.usersid.intersect(UserId)
-            val messages = chat.messageIds.intersect(MessageId)
+    private fun filterAllChats(userData: UserData) {
+        val chatsToRemove = mutableListOf<AllChats>()
+        for (chat in userData.allgroup) {
+            val users = chat.getListUsersId().intersect(UserId)
+            val messages = chat.getListMessagesId().intersect(MessageId)
             if (users.size < 2 || messages.isEmpty()) {
                 chatsToRemove.add(chat)
-            } else {
-                chat.messageIds = messages.toList()
-                chat.usersid = users.toList()
             }
         }
-        userData.grouping.removeAll(chatsToRemove)
+        userData.allgroup.removeAll(chatsToRemove.toSet())
     }
 
-    fun GetListMessage(user_id: Int, state: State? = null): List<ChatItem> { // I wanted to make a common interface for chat,
-        // but then for some reason I couldn't get UserPair userIds from chat,
-        // so in order not to worry, I decided to make a copy paste
+    fun GetListMessage(user_id: Int, state: State? = null): List<ChatItem> {
         val chatItems = mutableListOf<ChatItem>()
 
-        for (chat in userData.chats) {
-            if (chat.userIds.senderId == user_id || chat.userIds.receiverId == user_id) {
-                val userMessagesInChat = userData.messages.filter {
-                    it.senderId == user_id && it.id == chat.id && (state == null || it.state == state)
-                }
-
-                val lastUserMessageInChat = userMessagesInChat.maxByOrNull { it.timestamp }
-
-                if (lastUserMessageInChat != null) {
-                    val user = userData.users.find { it.id == user_id }
-                    if (lastUserMessageInChat.state == State.DELETED) {
-                        println("Сообщение было удалено ${user?.avatarUrl ?: "неизвестным пользователем"}")
-                    } else {
-                        val chatItem = ChatItem(user?.avatarUrl, lastUserMessageInChat.text, lastUserMessageInChat.timestamp, chat.id, lastUserMessageInChat.state)
-                        chatItems.add(chatItem)
-                    }
-                }
+        for (chat in userData.allgroup) {
+            if(!chat.getListUsersId().contains(user_id)) {
+                continue
             }
-        }
-
-        for (chat in userData.grouping) {
-            var flag = false;
-            for (i in chat.usersid){
-                if (i == user_id){
-                    flag = true;
-                }
+            val userMessagesInChat = userData.messages.filter {
+                it.senderId == user_id && it.id == chat.id && (state == null || it.state == state)
             }
-            if (flag) {
-                val userMessagesInChat = userData.messages.filter {
-                    it.senderId == user_id && it.id == chat.id && (state == null || it.state == state)
-                }
-
-                val lastUserMessageInChat = userMessagesInChat.maxByOrNull { it.timestamp }
-
-                if (lastUserMessageInChat != null) {
-                    val user = userData.users.find { it.id == user_id }
-                    if (lastUserMessageInChat.state == State.DELETED) {
-                        println("Сообщение было удалено ${user?.avatarUrl ?: "неизвестным пользователем"}")
-                    } else {
-                        val chatItem = ChatItem(user?.avatarUrl, lastUserMessageInChat.text, lastUserMessageInChat.timestamp, chat.id, lastUserMessageInChat.state)
-                        chatItems.add(chatItem)
-                    }
-                }
+            val lastUserMessageInChat = userMessagesInChat.maxByOrNull { it.timestamp } ?: continue
+            var user = userData.users.find { it.id == user_id }
+            if(lastUserMessageInChat.state is State.DELETED) {
+                val id = (lastUserMessageInChat.state as State.DELETED).userId
+                user = userData.users.find { it.id == id }
+                val name = user!!.name
+                println("Сообщения было удалено$name")
+                continue;
             }
+            val chatItem = ChatItem(user?.avatarUrl, lastUserMessageInChat, lastUserMessageInChat.timestamp, chat.id, lastUserMessageInChat.state)
+            chatItems.add(chatItem)
         }
         return chatItems
     }
 
 
-    fun GetListChat(state: State) : List<AllChats>{
+    fun GetListChat(state: State): List<AllChats> { // I don't remember what I needed this method for, but I'll leave it
         val out = mutableListOf<AllChats>()
 
-        for (chat in userData.chats) {
+        for (chat in userData.allgroup) {
             val lastMessage = userData.messages.maxByOrNull { it.timestamp }
-            if (lastMessage != null && lastMessage.state == State.UNREAD){
-                out.add(chat)
-            }
-        }
-
-        for (chat in userData.grouping) {
-            val lastMessage = userData.messages.maxByOrNull { it.timestamp }
-            if (lastMessage != null && lastMessage.state == State.UNREAD){
+            if (lastMessage != null && lastMessage.state == State.UNREAD) {
                 out.add(chat)
             }
         }
@@ -188,13 +111,13 @@ class MessageController() {
         return out
     }
 
-
     private fun CountByUser(user_id: Int): Int { // for task 2.3
         return userData.messages.count { message ->
-            message.senderId == user_id}
+            message.senderId == user_id
+        }
     }
 
-    private fun countAllUsers(): Unit {
+    private fun countAllUsers() {
         val messageCountsByUser = mutableMapOf<Int, Int>()
 
         for (user in userData.users) {
@@ -211,6 +134,5 @@ class MessageController() {
         }
         return count ?: 0
     }
-
 
 }

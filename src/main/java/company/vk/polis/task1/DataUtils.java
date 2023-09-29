@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import company.vk.polis.task1.State.READ;
+import company.vk.polis.task1.State.UNREAD;
+import company.vk.polis.task1.State.DELETED;
+
 
 public class DataUtils {
     private static final int MIN_MESSAGE_PER_USER = 10;
@@ -35,11 +39,12 @@ public class DataUtils {
                 State state = null;
                 int randomIndex = random.nextInt(3);
                 if (randomIndex == 0){
-                    state = State.READ;
+                    state = READ.INSTANCE;
                 } else if (randomIndex == 1) {
-                    state = State.UNREAD;
+                    state = UNREAD.INSTANCE;
                 } else {
-                    state = State.DELETED;
+                    randomIndex = random.nextInt(maxUserId);
+                    state = new DELETED(randomIndex);
                 }
                 Long randomTime = random.nextLong(1000);
                 Message message = new Message(k, text, i, randomTime, state);
@@ -150,7 +155,7 @@ public class DataUtils {
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
                 case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, null));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, State.READ));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, READ.INSTANCE));
                 case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, null));
                 default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, null));
             }

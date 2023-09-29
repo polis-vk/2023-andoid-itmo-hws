@@ -1,13 +1,13 @@
 package company.vk.polis.task1;
 
-public record Message(Integer id, String text, Integer senderId, Long timestamp, State state) implements Entity {
+public record Message(Integer id, String text, Integer senderId, Long timestamp, State state) implements KotlinEntity {
     @Override
     public Integer getId() {
         return id;
     }
 
     @Override
-    public boolean Valid() {
+    public boolean checkValid() {
         if (id == null || timestamp == null|| id < 0 || text == null || senderId == null || senderId < 0 || timestamp < 0 || state == null){
             return false;
         }

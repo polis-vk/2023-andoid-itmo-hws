@@ -1,5 +1,7 @@
 package company.vk.polis.task1
 
-enum class State {
-    READ, UNREAD, DELETED
+sealed interface State {
+    data object READ : State
+    data object UNREAD : State
+    data class DELETED(val userId: Int) : State
 }

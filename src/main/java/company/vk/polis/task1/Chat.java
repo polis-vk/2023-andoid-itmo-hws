@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements Entity, AllChats{
+public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements AllChats{
 
     @Override
     public Integer getId() {
@@ -12,7 +12,7 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
     }
 
     @Override
-    public boolean Valid() {
+    public boolean checkValid() {
         if (id == null || userIds == null|| id < 0 || messageIds == null){
             return false;
         }
@@ -20,17 +20,17 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
     }
 
     @Override
-    public int getType() {
-        return 1;
+    public List<Integer> getListMessagesId() {
+        return messageIds;
     }
-
-    public UserPair ListMembers(){
-        return userIds;
-    }
-
 
     @Override
-    public int ChatId() {
-        return id;
+    public List<Integer> getListUsersId() {
+        return List.of(userIds.senderId(), userIds.receiverId());
+    }
+
+    @Override
+    public String getAvatar() {
+        return "nothing";
     }
 }

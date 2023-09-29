@@ -1,6 +1,8 @@
 package company.vk.polis.task1
 
-interface AllChats {
-    fun getType() : Int
-    fun ChatId() : Int
+interface AllChats : KotlinEntity{
+    fun getListMessagesId(): List<Int>
+    fun getListUsersId(): List<Int>
+
+    fun getAvatar(): String
 }

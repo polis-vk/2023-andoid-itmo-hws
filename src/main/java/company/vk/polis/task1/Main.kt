@@ -5,7 +5,7 @@ fun main() {
     val entities = DataUtils.generateEntity()
     val messageController = MessageController()
 
-    messageController.main(entities)
+    messageController.init(entities)
 
     println("Users:")
     for (user in messageController.userData.users) {
@@ -17,14 +17,9 @@ fun main() {
         println("Message ID: ${message.id}, Text: ${message.text}, Sender ID: ${message.senderId}, Time: ${message.timestamp} State : ${message.state}")
     }
 
-    println("Chats:")
-    for (chat in messageController.userData.chats) {
-        println("Chat ID: ${chat.id}, User IDs: ${chat.userIds}, Message IDs: ${chat.messageIds}")
-    }
-
-    println("GroupChats:")
-    for (chat in messageController.userData.grouping) {
-        println("Chat ID: ${chat.id}, Avatar : ${chat.Link_Avatar} User IDs: ${chat.usersid}, Message IDs: ${chat.messageIds}")
+    println("AllChats:")
+    for (chat in messageController.userData.allgroup) {
+        println("Chat ID: ${chat.id}, Avatar : ${chat.getAvatar()}, User IDs: ${chat.getListUsersId()}, Message IDs: ${chat.getListMessagesId()}")
     }
 
     println("Count:")
@@ -32,7 +27,7 @@ fun main() {
 
 
     println("2.2")
-    val ex = messageController.GetListMessage(0, State.DELETED);
+    val ex = messageController.GetListMessage(0, State.UNREAD);
     for (i in ex){
         println("Avatar URL: ${i.avatarUrl}, Last Message : ${i.lastMessage}, Last Time : ${i.lastTime}, chatid : ${i.chatid}, State : ${i.state}")
     }
