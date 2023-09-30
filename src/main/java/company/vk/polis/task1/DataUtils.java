@@ -125,7 +125,7 @@ public class DataUtils {
         return switch (randomStateInd) {
             case 0 -> State.READ.INSTANCE;
             case 1 -> State.UNREAD.INSTANCE;
-            default -> new State.DELETED(random.nextInt(names.length));
+            default -> new State.Deleted(random.nextInt(names.length));
         };
     }
 }

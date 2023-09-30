@@ -1,15 +1,12 @@
 package company.vk.polis.task1
 
-internal class GroupChat(
+class GroupChat(
     val id: Int,
     val userIds: List<Int>,
-    @JvmField val messageIds: List<Int>,
+    override val messageIds: List<Int>,
     val name : String,
     val avatarUrl: String?,
 ) : BaseChat {
-    override fun getMessageIds(): List<Int> {
-        return messageIds
-    }
 
     override fun getId() = id
 
