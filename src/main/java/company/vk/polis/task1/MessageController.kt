@@ -9,7 +9,7 @@ object MessageController {
         return getValidEntities().filter { it is Message && it.senderId == usedId }.size
     }
 
-    internal fun getChatItems(userId: Int, state: State? = null): List<ChatItem> {
+    fun getChatItems(userId: Int, state: State? = null): List<ChatItem> {
         val entities = getValidEntities()
         return entities.filterIsInstance<BaseChat>()
             .filter { isUserInChat(userId, it) }
