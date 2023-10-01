@@ -5,10 +5,10 @@ import android.util.Patterns
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.switchmaterial.SwitchMaterial
-
 import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         const val PASSWORD_KEY: String = "password"
         const val VIEW_MODE_KEY: String = "view_mode"
     }
+
     private var email: String = ""
     private var password: String = ""
     private lateinit var emailField: TextInputLayout
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         nightModeSwitch = findViewById(R.id.nightModeSwitch)
         passwordField.editText?.setOnEditorActionListener { _, actionId, keyEvent ->
             if ((keyEvent != null && keyEvent.action == KeyEvent.ACTION_UP &&
-                keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ||
+                        keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) ||
                 actionId == EditorInfo.IME_ACTION_DONE
             ) {
                 clickEnter()
@@ -41,7 +42,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         enterButton.setOnClickListener {
             clickEnter()
         }
-
+        if (resources.getString(R.string.light_mode) != resources.getString(R.string.theme)) {
+            nightModeSwitch.isChecked = true
+        }
         nightModeSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
                 toNightMode()
@@ -88,8 +91,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (passwordRes.hasError || emailRes.hasError) {
             return
         }
-        println("You successfully sign in!")
+        Toast.makeText(
+            this, resources.getString(R.string.enter_success),
+            Toast.LENGTH_SHORT
+        ).show()
     }
+
     private fun validateEmail(): ValidationResult {
         val blankTest = checkForBlank(email)
         if (blankTest.hasError)

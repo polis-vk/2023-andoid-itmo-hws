@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeOverlay.TextInputLayout.TextView" parent="">
+        <item name="android:textViewStyle">@style/Widget.TextView.SingleLineEllipsized</item>
+    </style>
+
+    <style name="Widget.TextView.SingleLineEllipsized" parent="">
+        <item name="android:singleLine">true</item>
+    </style>
+</resources>

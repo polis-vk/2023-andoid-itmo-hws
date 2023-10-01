@@ -8,4 +8,5 @@
     <string name="small_password">كلمة المرور صغيرة جدا</string>
     <string name="field_not_empty">لا يمكن أن يكون الحقل فارغا</string>
     <string name="night_mode">الوضع الليلي</string>
+    <string name="enter_success">قمت بتسجيل الدخول بنجاح!</string>
 </resources>

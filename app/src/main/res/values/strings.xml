@@ -8,4 +8,7 @@
     <string name="small_password">The password is too small</string>
     <string name="field_not_empty">Field cannot be empty</string>
     <string name="night_mode">Night mode</string>
+    <string name="theme" translatable="false">light</string>
+    <string name="light_mode" translatable="false">light</string>
+    <string name="enter_success">You successfully sign in!</string>
 </resources>

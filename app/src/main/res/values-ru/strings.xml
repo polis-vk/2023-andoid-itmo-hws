@@ -8,4 +8,5 @@
     <string name="small_password">Слишком маленький пароль</string>
     <string name="field_not_empty">Поле не может быть пустым</string>
     <string name="night_mode">Темная тема</string>
+    <string name="enter_success">Вы успешно вошли в систему!</string>
 </resources>
