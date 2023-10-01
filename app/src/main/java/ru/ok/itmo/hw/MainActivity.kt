@@ -3,7 +3,6 @@ package ru.ok.itmo.hw
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
@@ -21,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("MainActivity", "onCreate")
         currentNightMode = savedInstanceState?.getBoolean("currentNightMode") ?: isNightMode()
         setMode()
 
@@ -30,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val loginField = findViewById<EditText>(R.id.login)
         val passwordField = findViewById<EditText>(R.id.password)
         val errorText = findViewById<TextView>(R.id.error)
-        
+
         with(themeSwitch) {
             setImageResource(if (currentNightMode) R.drawable.light_mode else R.drawable.dark_mode)
             setOnClickListener {
@@ -63,7 +61,11 @@ class MainActivity : AppCompatActivity() {
                     } else if (password.length < 8) {
                         append(getString(R.string.short_password) + "\n")
                     }
-                }.also { if (it == "") Toast.makeText(context, getString(R.string.welcome), Toast.LENGTH_LONG).show() }
+                }.also {
+                    if (it == "") {
+                        Toast.makeText(context, getString(R.string.welcome), Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
     }
@@ -78,10 +80,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d("MainActivity", "onSaveInstanceState")
         outState.putBoolean("currentNightMode", currentNightMode)
     }
 
     private fun isNightMode(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) resources.configuration.isNightModeActive else false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            resources.configuration.isNightModeActive
+        } else {
+            false
+        }
 }
