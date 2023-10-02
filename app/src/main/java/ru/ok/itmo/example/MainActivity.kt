@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                     enter.performClick()
                     return@setOnKeyListener true
                 }
-
                 else -> false
             }
         }
