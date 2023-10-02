@@ -6,4 +6,8 @@
     <string name="Enter">Вход</string>
     <string name="sign_inru">Вход\n</string>
     <string name="mode">Day</string>
+    <string name="field_is_required">Поле надо заполнить</string>
+    <string name="not_email">Введённые данные не являются Email</string>
+    <string name="min_pass">В пароле должно содержаться минимум 6 символов</string>
+    <string name="succes">Успех</string>
 </resources>

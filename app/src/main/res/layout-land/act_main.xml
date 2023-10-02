@@ -69,14 +69,12 @@
             android:background="@drawable/hide"
             android:backgroundTint="@color/main_for_text"
             app:backgroundTint="@null" />
-
     </RelativeLayout>
 
     <Button
         android:id="@+id/enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/rounded_con_purp"
         android:paddingHorizontal="15dp"
         android:paddingVertical="10dp"
@@ -84,9 +82,12 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toEndOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/signIn"
+        app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/theme"
