@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">itmo-example</string>
+    <string name="password">סיסמה</string>
+    <string name="email">אימייל</string>
+    <string name="login">התחברות</string>
+    <string name="email_error_empty">כניסה לא צוינה</string>
+    <string name="email_error_incorrect">התחברות לא חוקית</string>
+    <string name="password_error_empty">לא צוינה סיסמה</string>
+    <string name="password_error_incorrect">סיסמא לא נכונה</string>
+    <string name="entering">נכנסים…</string>
+    <string name="cancel">לְבַטֵל</string>
+    <string name="auto">אוטומטי</string>
+</resources>
