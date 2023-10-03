@@ -11,17 +11,16 @@ object MessageController {
 
     fun getChatItems(userId: Int, state: State? = null): List<ChatItem> {
         val entities = getValidEntities()
-        return entities.filterIsInstance<BaseChat>()
-            .filter { isUserInChat(userId, it) }
-            .mapNotNull { getChatItem(it, entities, getLastMessage(it, entities), state) }
+        return entities.filter { isUserInChat(userId, it) }
+            .mapNotNull { getChatItem(it as BaseChat, entities, getLastMessage(it, entities), state) }
     }
 
     private fun isValid(entity: Entity) = when (entity) {
         is User -> isNotNull(entity.id, entity.name)
         is Message -> isNotNull(entity.id, entity.state, entity.senderId, entity.text, entity.timestamp)
         is Chat -> isNotNull(entity.id, entity.userIds, entity.messageIds)
-        is GroupChat -> isNotNull(entity.id, entity.userIds, entity.messageIds, entity.name)
-        else -> true
+        is GroupChat -> true
+        else -> false
     }
 
     private fun isNotNull(vararg props: Any?): Boolean {
