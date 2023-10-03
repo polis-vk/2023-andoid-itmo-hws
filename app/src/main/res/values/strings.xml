@@ -6,8 +6,9 @@
     <string name="submit">log in</string>
     <string name="en">EN</string>
     <string name="ar">AR</string>
-    <string name="noLogin">Login is absent</string>
-    <string name="noPassword">Password is absent</string>
-    <string name="notEmail">Login is not a valid email</string>
-    <string name="shortPassword">Password is too short</string>
+    <string name="noLogin">You have provided no login</string>
+    <string name="noPassword">You have provided no password</string>
+    <string name="notEmail">Login should be a valid email</string>
+    <string name="shortPassword">Password should be at least 6 characters long</string>
+    <string name="successfulLogin">Login was successful</string>
 </resources>

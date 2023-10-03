@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.textfield.TextInputLayout
-import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,22 +18,24 @@ class MainActivity : AppCompatActivity() {
     private val submit: Button
         get() = findViewById(R.id.submit)
     private var nightMode = false
+    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         submit.setOnClickListener {
-            when {
-                email.text.isBlank() ->
-                    Toast.makeText(this, R.string.noLogin, Toast.LENGTH_SHORT).show()
-                password.text.isBlank() ->
-                    Toast.makeText(this, R.string.noPassword, Toast.LENGTH_SHORT).show()
-                !email.text.matches("^\\S+@\\S+\\.\\S+$".toRegex()) ->
-                    Toast.makeText(this, R.string.notEmail, Toast.LENGTH_SHORT).show()
-                password.text.length < 6 ->
-                    Toast.makeText(this, R.string.shortPassword, Toast.LENGTH_SHORT).show()
-            }
+            toast?.cancel()
+
+            toast = Toast.makeText(this, when {
+                email.text.isBlank() -> R.string.noLogin
+                password.text.isBlank() -> R.string.noPassword
+                !email.text.matches("^\\S+@\\S+\\.\\S+$".toRegex()) ->R.string.notEmail
+                password.text.length < 6 -> R.string.shortPassword
+                else -> R.string.successfulLogin
+            }, Toast.LENGTH_SHORT)
+
+            toast?.show()
         }
 
         password.imeOptions = EditorInfo.IME_ACTION_GO

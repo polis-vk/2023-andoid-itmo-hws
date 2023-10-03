@@ -7,8 +7,9 @@
     <string name="submit">تسجيل الدخول</string>
     <string name="en">أون</string>
     <string name="ar">أر</string>
-    <string name="noLogin">تسجيل الدخول غائب</string>
-    <string name="noPassword">كلمة المرور غائبة</string>
-    <string name="notEmail">تسجيل الدخول ليس بريدا إلكترونيا صالحا</string>
-    <string name="shortPassword">كلمة المرور قصيرة جدا</string>
+    <string name="noLogin">لقد قدمت أي تسجيل الدخول</string>
+    <string name="noPassword">لم تقدم كلمة مرور</string>
+    <string name="notEmail">يجب أن يكون تسجيل الدخول بريدا إلكترونيا صالحا</string>
+    <string name="shortPassword">يجب أن تتكون كلمة المرور من 6 أحرف على الأقل</string>
+    <string name="successfulLogin">كان تسجيل الدخول ناجحا</string>
 </resources>
