@@ -10,27 +10,23 @@ class MessageController {
 
 
     private fun filterInfo(): List<Entity> {
-        try {
-            val information: List<Entity> = Repository.getInfo()
-            return information.filter { entity ->
-                entity.id != null &&
-                        when (entity) {
-                            is Chat -> !(entity.messageIds == null || entity.userIds == null)
-                            is Message -> !(entity.senderId == null
-                                    || entity.text == null || entity.timestamp == null)
-                            is User -> entity.name != null
-                            is GroupChat -> true
-                            else -> false
-                        }
-            }
-        } catch (e: NumberFormatException) {
-            throw Exception("List<Entity> or Entity member of list musn't be null")
+        return Repository.getInfo().filterNotNull().filter { entity ->
+            entity.id != null &&
+                    when (entity) {
+                        is Chat -> !(entity.messageIds == null || entity.userIds == null)
+                        is Message -> !(entity.senderId == null
+                                || entity.text == null || entity.timestamp == null || entity.state == null)
+                        is User -> entity.name != null
+                        is GroupChat -> true
+                        else -> false
+                    }
         }
+
 
     }
 
     private fun getMessageIdMap(validInfo: List<Entity>): Map<Int, Message> {
-        return  validInfo.filterIsInstance<Message>().associateBy({ it.id() }, { it })
+        return validInfo.filterIsInstance<Message>().associateBy({ it.id() }, { it })
     }
 
     private fun getUserToUserId(validInfo: List<Entity>): Map<Int, User> {
@@ -50,9 +46,11 @@ class MessageController {
     }
 
 
-    data class ChatItem(val avatarURL: String?,
-                        var lastMessage: String,
-                        val messageState: State)
+    data class ChatItem(
+        val avatarURL: String?,
+        var lastMessage: String,
+        val messageState: State
+    )
 
 
     fun getChatItems(userId: Int, messageState: State? = null): List<ChatItem> {
@@ -60,17 +58,19 @@ class MessageController {
 
         val receiverChats: List<Chat> = chatList.filter { chat -> chat.userIds.receiverId == userId }
         for (chat in receiverChats) {
-            val messages = messageIdMap.filterKeys { chat.messageIds.contains(it)}.values.toList()
+            val messages = messageIdMap.filterKeys { chat.messageIds.contains(it) }.values.toList()
             val lastMessage = messages.maxBy { it.timestamp }
-            val chatItem = ChatItem(userToUserIdMap[chat.userIds.senderId]?.avatarUrl, lastMessage.text, lastMessage.state)
+            val chatItem = ChatItem(userToUserIdMap[chat.userIds.senderId]?.avatarUrl,
+                getChatItemMessage(lastMessage),
+                lastMessage.state)
             chatItemList.add(chatItem)
         }
 
         val receiverGroupChats: List<GroupChat> = groupChatList.filter { chat -> chat.userIds.contains(userId) }
         for (groupChat in receiverGroupChats) {
-            val messages = messageIdMap.filterKeys { groupChat.messageIds.contains(it)}.values.toList()
+            val messages = messageIdMap.filterKeys { groupChat.messageIds.contains(it) }.values.toList()
             val lastMessage = messages.maxBy { it.timestamp }
-            val chatItem = ChatItem(groupChat.avatarUrl, lastMessage.text, lastMessage.state)
+            val chatItem = ChatItem(groupChat.avatarUrl, getChatItemMessage(lastMessage), lastMessage.state)
             chatItemList.add(chatItem)
         }
 
@@ -84,6 +84,13 @@ class MessageController {
 
     fun getCountOfMessage(userId: Int): Int {
         return messageList.count { message -> message.senderId == userId }
+    }
+
+
+    private fun getChatItemMessage(message: Message): String {
+        return if (message.state is State.Deleted)
+            "Сообщение было удалено ${userToUserIdMap[(message.state as State.Deleted).idDeleted]}"
+             else message.text
     }
 }
 

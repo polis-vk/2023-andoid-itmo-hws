@@ -1,5 +1,7 @@
 package company.vk.polis.task1;
 
+import kotlin.reflect.KClass;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,8 +37,8 @@ public class DataUtils {
                 int idState = random.nextInt(1, 4);
                 final State state;
                 switch (idState) {
-                    case 1 -> state = new State.Unread();
-                    case 2 -> state = new State.Read();
+                    case 1 -> state = State.Unread.INSTANCE;
+                    case 2 -> state = State.Read.INSTANCE;
                     case 3 -> state = new State.Deleted(random.nextInt(1, names.length + 1));
                     default -> state = null;
                 }
@@ -102,10 +104,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(5)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State.Unread()));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State.Unread()));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new State.Unread()));
-                case 3 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State.Unread()));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, State.Unread.INSTANCE));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, State.Unread.INSTANCE));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, State.Unread.INSTANCE));
+                case 3 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, State.Unread.INSTANCE));
                 default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, -1L, null));
             }
         }
