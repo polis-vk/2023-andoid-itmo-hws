@@ -14,12 +14,6 @@ data class GroupChat(val id : Int, val Link_Avatar : String, var usersid : List<
         return usersid;
     }
 
-    override fun checkValid(): Boolean {
-        if (id == null || Link_Avatar == null|| usersid == null || messageIds == null || id < 0){
-            return false;
-        }
-        return true;
-    }
 
     override fun getAvatar(): String {
         return Link_Avatar

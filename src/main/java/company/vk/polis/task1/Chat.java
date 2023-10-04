@@ -1,7 +1,5 @@
 package company.vk.polis.task1;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
 public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements AllChats{
@@ -9,14 +7,6 @@ public record Chat(Integer id, UserPair userIds, List<Integer> messageIds) imple
     @Override
     public Integer getId() {
         return id;
-    }
-
-    @Override
-    public boolean checkValid() {
-        if (id == null || userIds == null|| id < 0 || messageIds == null){
-            return false;
-        }
-        return true;
     }
 
     @Override

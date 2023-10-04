@@ -8,6 +8,7 @@ data class UserData(
     val users: MutableList<User>,
     var messages: MutableList<Message>,
     var allgroup: MutableList<AllChats>
+
 )
 
 class MessageController() {
@@ -21,10 +22,8 @@ class MessageController() {
         allgroup = mutableListOf()
     )
 
-
     fun init (entities: List<Entity>) {
-        val validEntities = entities.filter { entity -> entity is KotlinEntity && entity.checkValid() }
-        initializeData(validEntities)
+        initializeData(entities)
         filterMessages(userData)
         filterAllChats(userData)
         countAllUsers()
@@ -34,18 +33,27 @@ class MessageController() {
         for (entity in entities) {
             when (entity) {
                 is User -> {
-                    UserId.add(entity.id)
-                    userData.users.add(entity)
+                    if (entity.id != null  && entity.name != null){
+                        UserId.add(entity.id)
+                        userData.users.add(entity)
+                    }
                 }
                 is Message -> {
-                    MessageId.add(entity.id)
-                    userData.messages.add(entity)
+                    if (entity.id != null && entity.timestamp != null && entity.text != null && entity.senderId != null && entity.senderId >= 0 && entity.timestamp >= 0 && entity.state != null){
+                        MessageId.add(entity.id)
+                        userData.messages.add(entity)
+                    }
+
                 }
                 is Chat -> {
-                    userData.allgroup.add(entity)
+                    if (entity.id != null && entity.userIds != null && entity.messageIds != null){
+                        userData.allgroup.add(entity)
+                    }
                 }
                 is GroupChat -> {
-                    userData.allgroup.add(entity)
+                    if (entity.id != null && entity.Link_Avatar != null && entity.usersid != null && entity.messageIds != null){
+                        userData.allgroup.add(entity)
+                    }
                 }
             }
         }
@@ -55,7 +63,7 @@ class MessageController() {
         userData.messages = userData.messages.filter { message ->
             val userExists = userData.users.any { it.id == message.senderId }
             val chatExists =
-                userData.allgroup.any { it.getListUsersId().contains(message.senderId)} // || it.getListUsersId().contains(message.receiverId)
+                userData.allgroup.any { it.getListUsersId().contains(message.senderId)}
             userExists && chatExists
         }.toMutableList()
     }
@@ -74,7 +82,6 @@ class MessageController() {
 
     fun GetListMessage(user_id: Int, state: State? = null): List<ChatItem> {
         val chatItems = mutableListOf<ChatItem>()
-
         for (chat in userData.allgroup) {
             if(!chat.getListUsersId().contains(user_id)) {
                 continue
@@ -87,8 +94,17 @@ class MessageController() {
             if(lastUserMessageInChat.state is State.DELETED) {
                 val id = (lastUserMessageInChat.state as State.DELETED).userId
                 user = userData.users.find { it.id == id }
-                val name = user!!.name
-                println("Сообщения было удалено$name")
+                val name = user?.name
+                val deletedMessageText = "Сообщение было удалено$name"
+                val updatedMessage = Message(
+                    lastUserMessageInChat.id,
+                    deletedMessageText,
+                    lastUserMessageInChat.senderId,
+                    lastUserMessageInChat.timestamp,
+                    lastUserMessageInChat.state
+                )
+                val chatItem = ChatItem(user?.avatarUrl, updatedMessage, lastUserMessageInChat.timestamp, chat.id, lastUserMessageInChat.state)
+                chatItems.add(chatItem)
                 continue;
             }
             val chatItem = ChatItem(user?.avatarUrl, lastUserMessageInChat, lastUserMessageInChat.timestamp, chat.id, lastUserMessageInChat.state)
@@ -98,7 +114,7 @@ class MessageController() {
     }
 
 
-    fun GetListChat(state: State): List<AllChats> { // I don't remember what I needed this method for, but I'll leave it
+    fun GetListChat(state: State): List<AllChats> {
         val out = mutableListOf<AllChats>()
 
         for (chat in userData.allgroup) {
