@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Base.Theme.LoginApp" parent="Theme.Material3.DayNight.NoActionBar">
     </style>
 
@@ -35,4 +36,5 @@
     <style name="SHOW">
         <item name="android:background">@drawable/baseline_remove_red_eye_24</item>
     </style>
+
 </resources>
