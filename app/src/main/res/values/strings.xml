@@ -10,4 +10,5 @@
     <string name="no_username">No username provided!</string>
     <string name="not_email">Not an Email address, please enter a valid Email address</string>
     <string name="not_password">Your password must be at least 6 characters long!</string>
+    <string name="app_name">itmo-example</string>
 </resources>
