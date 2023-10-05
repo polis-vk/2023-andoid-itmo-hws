@@ -1,6 +1,7 @@
 package com.example.loginapp
 
 import android.R.attr.password
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -27,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         val lightTheme = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.light_theme);
         val darkTheme = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.dark_theme);
         val systemTheme = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.system_theme);
+        val rickRoll = MediaPlayer.create(this, R.raw.rickroll);
         var showFlag = false;
+
 
         systemTheme.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -44,14 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             if (usernameField.text.toString() == "NeverGonnaGive@You.Up" &&
-                passwordField.text.toString() == "NeverGonnaLetYouDown"
-            ) {
-                Toast.makeText(
-                    this,
-                    "Login Successfull, Sussy Baka",
-                    Toast.LENGTH_LONG
-                ).show()
-                //SusSound.start()
+                passwordField.text.toString() == "NeverGonnaLetYouDown") {
+                rickRoll.start()
             }
             if (usernameField.text.toString() == "") {
                 loginCheck.text = getString(R.string.no_username);
