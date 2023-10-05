@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Authorization</string>
+    <string name="password">Write your password</string>
+    <string name="login">Write you login</string>
+    <string name="done">Done</string>
+    <string name="theme">Change theme</string>
+    <string name="small_password">Password should be more 8 letters</string>
+    <string name="empty_login">Login should be not empty</string>
+    <string name="empty_password">Password should be not empty</string>
+    <string name="mail_expected">Expecte mail adress at login</string>
+</resources>
