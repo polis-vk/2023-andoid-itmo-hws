@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/A"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="A" />
+    <item
+        android:id="@+id/B"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="B" />
+    <item
+        android:id="@+id/C"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="C" />
+    <item
+        android:id="@+id/D"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="D" />
+    <item
+        android:id="@+id/E"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="E" />
+</menu>
