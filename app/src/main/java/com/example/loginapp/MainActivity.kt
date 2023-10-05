@@ -18,26 +18,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val usernameField: EditText = findViewById(R.id.username);
-        val passwordField: EditText = findViewById(R.id.password);
-        val loginButton: androidx.appcompat.widget.AppCompatButton = findViewById(R.id.login_button);
-        val changeThemeSwitch: Switch = findViewById(R.id.theme_button);
-        val showPasswordButton: androidx.appcompat.widget.AppCompatButton = findViewById(R.id.show_password);
-        val loginCheck: TextView = findViewById(R.id.login_validation);
-        val passwordCheck: TextView = findViewById(R.id.password_validation);
-        var showFlag: Boolean = false;
+        val usernameField = findViewById<EditText>(R.id.username);
+        val passwordField = findViewById<EditText>(R.id.password);
+        val loginButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.login_button);
+        val showPasswordButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.show_password);
+        val loginCheck = findViewById<TextView>(R.id.login_validation);
+        val passwordCheck = findViewById<TextView>(R.id.password_validation);
+        val lightTheme = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.light_theme);
+        val darkTheme = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.dark_theme);
+        val systemTheme = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.system_theme);
+        var showFlag = false;
 
-        changeThemeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }else{
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }
+        systemTheme.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
 
+        darkTheme.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        lightTheme.setOnClickListener {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+
         loginButton.setOnClickListener {
-            if (usernameField.getText().toString() == "NeverGonnaGive@You.Up" &&
-                passwordField.getText().toString() == "NeverGonnaLetYouDown"
+            if (usernameField.text.toString() == "NeverGonnaGive@You.Up" &&
+                passwordField.text.toString() == "NeverGonnaLetYouDown"
             ) {
                 Toast.makeText(
                     this,
@@ -46,33 +53,33 @@ class MainActivity : AppCompatActivity() {
                 ).show()
                 //SusSound.start()
             }
-            if (usernameField.getText().toString() == "") {
-                loginCheck.setText("No Username provided");
-            } else if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameField.getText().toString()).matches()){
-                loginCheck.setText("");
+            if (usernameField.text.toString() == "") {
+                loginCheck.text = getString(R.string.no_username);
+            } else if (android.util.Patterns.EMAIL_ADDRESS.matcher(usernameField.text.toString()).matches()){
+                loginCheck.text = "";
             } else {
-                loginCheck.setText("Not an Email address, please enter a valid Email address");
+                loginCheck.text = getString(R.string.not_email);
             }
 
-            if(passwordField.getText().toString() == ""){
-                passwordCheck.setText("No password provided");
-            } else if (passwordField.getText().toString().length < 6){
-                passwordCheck.setText("Your password must be at least 6 characters long!");
+            if(passwordField.text.toString() == ""){
+                passwordCheck.text = getString(R.string.no_password);
+            } else if (passwordField.text.toString().length < 6){
+                passwordCheck.text = getString(R.string.not_password);
             } else {
-                passwordCheck.setText("");
+                passwordCheck.text = "";
             }
 
         }
         showPasswordButton.setOnClickListener {
             if (showFlag) {
-                passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance())
+                passwordField.transformationMethod = PasswordTransformationMethod.getInstance()
                 showFlag = false
             } else {
-                passwordField.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
+                passwordField.transformationMethod = HideReturnsTransformationMethod.getInstance()
                 showFlag = true
             }
         }
-        passwordField.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        passwordField.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN &&
                 keyCode == KeyEvent.KEYCODE_ENTER
             ) {
@@ -81,49 +88,6 @@ class MainActivity : AppCompatActivity() {
             }
             false
         })
-        /*usernameField.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                var s: String = p0.toString();
-                if(android.util.Patterns.EMAIL_ADDRESS.matcher(s).matches()){
-                    loginCheck.setText("");
-                } else {
-                    loginCheck.setText("Not an Email address, please enter a valid Email address");
-                }
-            }
-        })
-
-        passwordField.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                var s: String = p0.toString();
-                if(s.length < 6){
-                    passwordCheck.setText("Your password must be at least 6 characters long!");
-                } else {
-                    loginCheck.setText("Not an Email address, please enter a valid Email address");
-                }
-            }
-        })*/
-
-        /*changeThemeButton.setOnClickListener {
-            if (darkThemeFlag){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                darkThemeFlag = false;
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                darkThemeFlag = true;
-            }
-        }*/
     }
 
 

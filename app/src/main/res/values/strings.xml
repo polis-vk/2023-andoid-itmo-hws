@@ -3,5 +3,11 @@
     <string name="login">Log In</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="theme">Change Theme</string>
+    <string name="light_theme">Light theme</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="system_theme">System theme</string>
+    <string name="no_password">No password provided!</string>
+    <string name="no_username">No username provided!</string>
+    <string name="not_email">Not an Email address, please enter a valid Email address</string>
+    <string name="not_password">Your password must be at least 6 characters long!</string>
 </resources>

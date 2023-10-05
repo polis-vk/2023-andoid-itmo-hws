@@ -3,5 +3,11 @@
     <string name="login">כניסה</string>
     <string name="username">שם משתמש</string>
     <string name="password">סיסמא</string>
-    <string name="theme">שנה נושא</string>
+    <string name="light_theme">נושא אור</string>
+    <string name="dark_theme">נושא כהה</string>
+    <string name="system_theme">נושא מערכת</string>
+    <string name="no_password">אין סיסמא מסופקת!</string>
+    <string name="no_username">אין שם משתמש מסופק!</string>
+    <string name="not_email">לא כתובת דואר אלקטרוני, נא להזין כתובת דואר אלקטרוני חוקית</string>
+    <string name="not_password">הסיסמה שלך חייבת להיות לפחות 6 תווים!</string>
 </resources>
