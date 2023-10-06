@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إيتمو-مثال</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="password">أدخل كلمة المرور:</string>
+    <string name="email">أدخل بريدك الإلكتروني:</string>
+    <string name="no_email_error">حدد البريد الإلكتروني الصحيح</string>
+    <string name="no_password_error">لا يمكن أن تكون كلمة المرور فارغة</string>
+    <string name="incorrect_email_error">البريد الإلكتروني غير صحيح</string>
+    <string name="incorrect_password_error">يجب أن تتكون كلمة المرور من 6 رموز على الأقل</string>
+    <string name="correct_input">الإدخال الصحيح</string>
+    <string name="night_mode">الوضع الليلي</string>
+</resources>

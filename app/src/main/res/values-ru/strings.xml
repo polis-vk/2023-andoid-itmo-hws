@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">итмо-пример</string>
+    <string name="login">ВОЙТИ</string>
+    <string name="password">Введите пароль:</string>
+    <string name="email">Введите вашу почту:</string>
+    <string name="no_email_error">Укажите почту</string>
+    <string name="no_password_error">Пароль не может быть пустым</string>
+    <string name="incorrect_email_error">Почта неверна</string>
+    <string name="incorrect_password_error">Пароль должен содержать хотя бы 6 симолов</string>
+    <string name="correct_input">Верный ввод</string>
+    <string name="night_mode">Ночной режим</string>
+</resources>

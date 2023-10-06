@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="login">LOG IN</string>
+    <string name="password">Enter the password:</string>
+    <string name="email">Enter your email:</string>
+    <string name="no_email_error">Specify correct email</string>
+    <string name="no_password_error">Password cannot be empty</string>
+    <string name="incorrect_email_error">Email is incorrect</string>
+    <string name="incorrect_password_error">Password should be at least 6 symbols long</string>
+    <string name="correct_input">Correct input</string>
+    <string name="night_mode">Night mode</string>
 </resources>
