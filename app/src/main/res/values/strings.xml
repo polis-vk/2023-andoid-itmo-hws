@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="email_input">Enter your email</string>
+    <string name="password_input">Enter your password</string>
+    <string name="button_show_password">show password</string>
+    <string name="button_enter">Enter</string>
 </resources>
