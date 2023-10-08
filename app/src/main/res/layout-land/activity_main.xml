@@ -3,51 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/email_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:autofillHints="null"
         android:hint="@string/email_input"
         android:inputType="textEmailAddress"
+        android:textSize="20sp"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
+
+
         app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toTopOf="@id/guideline_top"
-
-
-        android:textSize="20sp"
-        android:layout_marginTop="25dp"
-        />
+        app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
     <EditText
         android:id="@+id/password_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:autofillHints="null"
         android:hint="@string/password_input"
         android:inputType="textPassword"
+        android:textSize="20sp"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
-        app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@id/email_input"
 
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        />
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/email_input" />
 
     <Button
         android:id="@+id/button_show_password"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        app:layout_constraintTop_toBottomOf="@id/password_input"
-        app:layout_constraintEnd_toEndOf="@id/password_input"
         android:text="@string/button_show_password"
-        android:textSize="13sp"
         android:textAllCaps="false"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@id/password_input"
+        app:layout_constraintTop_toBottomOf="@id/password_input"
 
         />
 
@@ -55,11 +52,11 @@
         android:id="@+id/button_change_theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/button_change_theme"
+        android:textAllCaps="false"
+        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@id/guideline_top"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/button_change_theme"
-        android:textSize="13sp"
-        android:textAllCaps="false"
 
         />
 
@@ -69,13 +66,10 @@
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:layout_constraintStart_toStartOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/email_input"
-        app:layout_constraintBottom_toTopOf="@id/password_input"
         android:text="@string/button_enter"
-
-        />
-
+        app:layout_constraintBottom_toTopOf="@id/password_input"
+        app:layout_constraintStart_toStartOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@id/email_input" />
 
 
     <androidx.constraintlayout.widget.Guideline
