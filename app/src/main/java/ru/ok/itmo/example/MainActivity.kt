@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.Gravity
+import android.view.KeyEvent
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.TextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -16,39 +19,82 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val email = findViewById<TextView>(R.id.email_input)
-        val password = findViewById<TextView>(R.id.password_input)
+        val emailField = findViewById<EditText>(R.id.email_input)
+        val passwordField = findViewById<EditText>(R.id.password_input)
         val enterButton = findViewById<Button>(R.id.button_enter)
         val showPasswordButton = findViewById<Button>(R.id.button_show_password)
+        val changeThemeButton = findViewById<Button>(R.id.button_change_theme)
         var isPasswordShowed = false
 
         enterButton.setOnClickListener {
-            if (email.text.toString() == "" || email.text.toString().length < 6 ||
-                !android.util.Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
-                makeWidget("Wrong email")
-            } else if (password.text.toString() == "") {
-                makeWidget("Wrong password")
+            if (emailField.text.toString() == "") {
+                makeWidget(R.string.error_empty_emil);
+            } else if (emailField.text.toString().length < 6) {
+                makeWidget(R.string.error_few_chars)
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailField.text.toString())
+                    .matches()
+            ) {
+                makeWidget(R.string.error_wrong_email)
+            } else if (passwordField.text.toString() == "") {
+                makeWidget(R.string.error_empty_password)
             } else {
-                makeWidget("Log in successfully!")
+                makeWidget(R.string.login)
+            }
+        }
+
+        passwordField.setOnKeyListener { v, keyCode, event ->
+            when {
+                (keyCode == KeyEvent.KEYCODE_ENTER) -> {
+                    enterButton.performClick()
+                    closeKeyboard()
+                    return@setOnKeyListener true
+                }
+
+                else -> false
             }
         }
 
         showPasswordButton.setOnClickListener {
-            if  (isPasswordShowed) {
-                password.transformationMethod = PasswordTransformationMethod.getInstance()
+            if (isPasswordShowed) {
+                passwordField.transformationMethod = PasswordTransformationMethod.getInstance()
+                showPasswordButton.text = getString(R.string.button_show_password)
             } else {
-                password.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                passwordField.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                showPasswordButton.text = getString(R.string.button_hide_password)
             }
             isPasswordShowed = !isPasswordShowed
+        }
+
+
+        changeThemeButton.setOnClickListener {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+
         }
 
     }
 
 
-    private fun makeWidget(text: String) {
-        val toast = Toast.makeText(this, text, Toast.LENGTH_SHORT)
-        toast.show();
+    private fun makeWidget(intText: Int) {
+        val toast = Toast.makeText(this, getString(intText), Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
     }
 
 
+    private fun closeKeyboard() {
+        val view = this.currentFocus
+        if (view != null) {
+            val manager = getSystemService(
+                INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            manager
+                .hideSoftInputFromWindow(
+                    view.windowToken, 0
+                )
+        }
+    }
 }
