@@ -7,7 +7,7 @@ class MessageController {
 
     fun getFilterEntity(): List<Entity> = Repository.getInfo().stream().filter { e -> e.isValid }.toList();
 
-    fun getChartItemFotUser(userId: Int, state: StateType = StateType.DEFAULT): List<ChatItem> {
+    fun getChartItemFotUser(userId: Int, state: State = State.DEFAULT()): List<ChatItem> {
         // prepare data
         val entities = getFilterEntity()
         val messages = entities.filterIsInstance<Message>()
@@ -16,7 +16,7 @@ class MessageController {
         }.toList() as List<ChatEntity>
 
         val result = ArrayList<ChatItem>()
-        if (state.equals(StateType.DEFAULT)) {
+        if (state is State.DEFAULT) {
             for (chat in chatsForUser) {
                 if (chat.checkUser(userId)) {
                     val messagesForChat = messages.stream().filter{m -> chat.messageIds().contains(m.id)}.toList()
@@ -52,7 +52,7 @@ class MessageController {
             .filter { e -> e is ChatEntity && e.checkUser(userId)}.toList() as List<ChatEntity>
 
         return chatsForUser.stream().map { ch -> messages.stream().filter {
-                m -> ch.messageIds().contains(m.id()) && (!StateType.DELETED.equals(m.state)) }.count()
+                m -> ch.messageIds().contains(m.id()) && (m.state is State.DELETED) }.count()
         }.count().toInt()
     }
 

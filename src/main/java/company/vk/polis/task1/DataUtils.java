@@ -118,9 +118,9 @@ public class DataUtils {
     public static State generateState() {
         Random random = new Random();
         return switch (random.nextInt(COUNT_STATE)) {
-            case 0 -> new ReadState();
-            case 1 -> new UnreadState();
-            case 2 -> new DeleteState(random.nextInt(10));
+            case 0 -> new State.READ();
+            case 1 -> new State.UNREAD();
+            case 2 -> new State.DELETED(random.nextInt(10));
             default -> throw new IllegalStateException("Unexpected value: " + random.nextInt(COUNT_STATE - 1));
         };
     }

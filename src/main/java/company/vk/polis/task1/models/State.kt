@@ -1,5 +1,8 @@
 package company.vk.polis.task1.models
 
-sealed interface State {
-    val state: StateType
+sealed class State {
+    class READ : State()
+    class UNREAD : State()
+    class DELETED(val userId : Int) : State()
+    class DEFAULT() : State()
 }
