@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">itmo-example</string>
     <string name="start">Start</string>
     <string name="name_fragment">Name Fragment</string>
     <string name="random_number">Random Number</string>
