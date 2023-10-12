@@ -14,13 +14,13 @@ class FragmentActivity : FragmentActivity(R.layout.activity_menu) {
         stack.add("A")
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container_view, Fragment("A"), stack.last())
+            .add(R.id.fragment_container_view, FragmentTemplate("A"), stack.last())
             .commit()
 
         navigationMenu = findViewById(R.id.menu_buttons)
 
         navigationMenu.setOnItemSelectedListener {
-            createOrRollback(when (it.itemId) {
+            transitionOnNewFragment(when (it.itemId) {
                 R.id.A -> "A"
                 R.id.B -> "B"
                 R.id.C -> "C"
@@ -49,21 +49,21 @@ class FragmentActivity : FragmentActivity(R.layout.activity_menu) {
         else -> throw IllegalArgumentException("Unknown menu item $name")
     }
 
-    private fun createOrRollback(name: String) {
+    private fun transitionOnNewFragment(name: String) {
         if (name in stack.map { it }) {
             stack.takeLastWhile { it != name }.forEach { _ ->
                 supportFragmentManager.popBackStack()
             }
             stack = stack.dropLastWhile { it != name }.toMutableList()
         } else {
-            navigate(name)
+            createFragment(name)
         }
     }
 
-    private fun navigate(name: String) {
-        val new = Fragment(name)
+    private fun createFragment(name: String) {
         val prev = supportFragmentManager.findFragmentByTag(stack.last())
             ?: throw IllegalArgumentException("Fragment not found $name")
+        val new = FragmentTemplate(name)
 
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container_view, new, name)
