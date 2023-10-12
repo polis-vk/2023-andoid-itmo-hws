@@ -4,13 +4,13 @@ import java.util.concurrent.*
 import kotlin.math.pow
 
 fun main() {
-    testPart4()
+    testPart5()
 }
 
 // PART 1
-class IntSumArray(private val args: IntArray) : Runnable {
+class IntSumArray(private val arr: IntArray) : Runnable {
     override fun run() {
-        println(args.sum())
+        println(arr.sum())
     }
 
 }
@@ -89,7 +89,7 @@ class SynchronizedTotalizator {
     }
 
     override fun toString(): String {
-        return "main.kotlin.SynchronizedTotalizator:$cnt"
+        return "SynchronizedTotalizator:$cnt"
     }
 }
 
@@ -101,7 +101,7 @@ class UnSynchronizedTotalizator {
     }
 
     override fun toString(): String {
-        return "main.kotlin.UnSynchronizedTotalizator:$cnt"
+        return "UnSynchronizedTotalizator:$cnt"
     }
 }
 
@@ -131,4 +131,33 @@ fun testPart4() {
 
     threadsForUnSync.forEach(Thread::join)
     println(unSynchronizedTotalizator)
+}
+
+// PART 5
+
+class ConcurrentIntSumArray(private val arr: IntArray, private val iterateType: IterateType) : Runnable {
+    enum class IterateType(val startPosition: Int) {
+        EVEN(0), UNEVEN(1)
+    }
+    var sum = 0
+        private set
+    override fun run() {
+        for(i in iterateType.startPosition..arr.size step 2) {
+            sum += i
+        }
+    }
+}
+
+fun testPart5() {
+    val array =  IntArray(10000000){ (0..1000).random() }
+    val evenIntSumArray= ConcurrentIntSumArray(array, ConcurrentIntSumArray.IterateType.EVEN)
+    val unevenIntSumArray= ConcurrentIntSumArray(array, ConcurrentIntSumArray.IterateType.UNEVEN)
+    val thread1 = Thread(evenIntSumArray)
+    val thread2 = Thread(unevenIntSumArray)
+    thread1.start()
+    thread2.start()
+    thread1.join()
+    thread2.join()
+    val result = evenIntSumArray.sum + unevenIntSumArray.sum
+    println(result)
 }
