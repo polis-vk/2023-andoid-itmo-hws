@@ -18,8 +18,7 @@ class FragmentWithButton : Fragment(R.layout.fragment_with_button) {
         val button = view.findViewById<Button>(R.id.btn_start)
         button.setOnClickListener {
             parentFragmentManager.commit {
-                setReorderingAllowed(true)
-                add(R.id.fragment_container, FragmentWithNavigation())
+                replace(R.id.fragment_container, FragmentWithNavigation((3..5).random()))
                 addToBackStack(null)
             }
         }

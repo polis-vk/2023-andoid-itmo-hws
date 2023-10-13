@@ -1,33 +1,41 @@
 package ru.ok.itmo.example
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigationrail.NavigationRailView
 
-class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
-
-
+class FragmentWithNavigation(private var numberOfSections: Int = 0) : Fragment(R.layout.fragment_with_navigation) {
+    private lateinit var navigationView: FrameLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val buttonContainer = view.findViewById<LinearLayout>(R.id.button_container)
-//        val randomButtonCount = (3..5).random()
-//
-//        Log.d("dfs","dsf")
-//
-//        for (i in 1..randomButtonCount) {
-//            Log.d("dfs","$i")
-//            val button = Button(requireContext())
-//            button.text = "Button $i"
-//            buttonContainer.addView(button)
-//
-//            button.setOnClickListener {
-//                Log.d("dfs","\"Button $i\"")
-//            }
-//        }
+        if (savedInstanceState != null)
+            numberOfSections = savedInstanceState.getInt("numberOfSections")
+
+        navigationView = view.findViewById(R.id.nav_view)
+        update(resources.configuration.orientation)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("numberOfSections", numberOfSections)
+    }
+
+    private fun update(orientation: Int)
+    {
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            for (i in 1..numberOfSections) {
+                (navigationView as BottomNavigationView).menu.add(0, R.id.fragment_container, 0, "Sec: $i").setIcon(R.drawable.ic_launcher_foreground)
+            }
+        } else {
+            for (i in 1..numberOfSections) {
+                (navigationView as NavigationRailView).menu.add(0, R.id.fragment_container, 0, "Sec: $i").setIcon(R.drawable.ic_launcher_foreground)
+            }
+        }
     }
 }
