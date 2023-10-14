@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="start">Start</string>
+    <string name="millis_50">50 millis</string>
+    <string name="millis_100">100 millis</string>
+    <string name="millis_300">300 millis</string>
+    <string name="millis_500">500 millis</string>
+    <string name="reset">Reset</string>
 </resources>
