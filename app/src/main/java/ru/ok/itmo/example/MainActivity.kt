@@ -5,12 +5,16 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private var step: Long = 0
     private var flag = false
     private var now = 0
-
+    private var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,21 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             thread.start()
         }
 
+        fun startProgress() {
+            if (step.toInt() == 0) {
+                step = 100
+            }
+            if (disposable == null || disposable?.isDisposed == true) {
+                disposable = Observable.interval(step, TimeUnit.MILLISECONDS)
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .takeWhile { !flag && now < 100 }
+                    .subscribe {
+                        now++
+                        progress.progress = now
+                    }
+            }
+        }
+
         buttons.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radioButton4 -> step = 50
@@ -47,17 +66,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
         }
 
-
-
         start.setOnClickListener {
-            startProgressThread()
             flag = false
+            startProgress()
         }
 
         end.setOnClickListener {
             flag = true
             now = 0
             progress.progress = 0
+            disposable?.dispose()
         }
     }
 }
