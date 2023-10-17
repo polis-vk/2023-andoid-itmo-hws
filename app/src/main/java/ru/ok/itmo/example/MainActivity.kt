@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
         }
 
+
+
         start.setOnClickListener {
             startProgressThread()
             flag = false
