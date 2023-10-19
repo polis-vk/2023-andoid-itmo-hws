@@ -10,16 +10,17 @@
     android:gravity="center">
 
     <Button
-        android:id="@+id/TARImpl"
+        android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/thread_and_runnable_implementation"
-        android:onClick="startTARImpl"/>
+        android:text="@string/start"
+        android:onClick="startProgressBar"/>
 
-    <Button
-        android:id="@+id/RXJavaImpl"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/rxjava_implemetation"
-        android:onClick="startRXJavaImpl"/>
+        android:layout_marginTop="16dp"
+        android:max="100"/>
 </LinearLayout>
