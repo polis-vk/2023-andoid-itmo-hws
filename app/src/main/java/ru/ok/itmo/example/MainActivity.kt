@@ -1,44 +1,35 @@
 package ru.ok.itmo.example
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private lateinit var buttonStart : Button
-    private lateinit var progressBar : ProgressBar
-    private var isButtonClicked = false
+
+    private lateinit var buttonThreadBegin : Button
+    private lateinit var buttonRxBegin : Button
+    private lateinit var buttonAddBegin : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        buttonStart = findViewById(R.id.startButton)
-        progressBar = findViewById(R.id.progress_bar)
 
-        buttonStart.setOnClickListener {
-            if (!isButtonClicked) {
-                getProcessThread().start()
-            }
+        buttonThreadBegin = findViewById(R.id.button_thread_begin)
+        buttonRxBegin = findViewById(R.id.button_rx_begin)
+        buttonAddBegin = findViewById(R.id.button_additional_begin)
+
+        buttonThreadBegin.setOnClickListener {
+            startActivity(Intent(this, ThreadActivity::class.java))
         }
-    }
 
-
-    private fun getProcessThread(): Thread {
-        return Thread {
-            isButtonClicked = true
-            var currentProgress = 0
-            if (progressBar.progress != 100) {
-                currentProgress = progressBar.progress
-            }
-            for (i in currentProgress + 1..100) {
-                runOnUiThread {
-                    progressBar.progress = i
-                }
-                Thread.sleep(100)
-            }
-            isButtonClicked = false
+        buttonRxBegin.setOnClickListener {
+            startActivity(Intent(this, RxActivity::class.java))
         }
-    }
+        buttonAddBegin.setOnClickListener {
+            startActivity(Intent(this, AdditionalActivity::class.java))
+        }
 
+    }
 }
+
