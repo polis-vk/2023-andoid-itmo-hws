@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="_50_ms">50 ms</string>
+    <string name="_100_ms">100 ms</string>
+    <string name="_300_ms">300 ms</string>
+    <string name="_500_ms">500 ms</string>
+    <string name="start">Start</string>
+    <string name="restart">Restart</string>
 </resources>
