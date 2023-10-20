@@ -1,6 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</FrameLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10sp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/buttonsBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        >
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            />
+
+        <Button
+            android:id="@+id/startButtonRx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startRx"
+            />
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reset"
+            />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/millisGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toBottomOf="@+id/buttonsBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <RadioButton
+            android:id="@+id/m50"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/millis50"
+            />
+
+        <RadioButton
+            android:id="@+id/m100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/millis100"
+            />
+
+        <RadioButton
+            android:id="@+id/m300"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/millis300"
+            />
+
+        <RadioButton
+            android:id="@+id/m500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/millis500"
+            />
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
