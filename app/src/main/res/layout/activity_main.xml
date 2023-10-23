@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</FrameLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/layout_center"
+        android:layout_height="300px">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50px"/>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:id="@+id/layout_button"
+                android:layout_height="100px">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="250px"
+                    android:layout_height="wrap_content"
+                    android:text="Start" />
+
+                <RadioGroup
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                    <RadioButton
+                        android:layout_width="200px"
+                        android:layout_height="match_parent"
+                        android:id="@+id/r50"
+                        android:text="50"/>
+
+                    <RadioButton
+                        android:layout_width="200px"
+                        android:layout_height="match_parent"
+                        android:id="@+id/r100"
+                        android:text="100"/>
+
+                    <RadioButton
+                        android:layout_width="200px"
+                        android:layout_height="match_parent"
+                        android:id="@+id/r300"
+                        android:text="300"/>
+
+                    <RadioButton
+                        android:layout_width="200px"
+                        android:layout_height="match_parent"
+                        android:id="@+id/r500"
+                        android:text="500"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        <Button
+            android:id="@+id/button_restart"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Restart" />
+    </LinearLayout>
+
+</LinearLayout>
