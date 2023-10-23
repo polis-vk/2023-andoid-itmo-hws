@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">itmo-example</string>
+    <string name="app_name">MultiThread</string>
+    <string name="fill">Fill it!</string>
+    <string name="restart">One more time!</string>
+    <string name="button_50">50мс</string>
+    <string name="button_100">100мс</string>
+    <string name="button_300">300мс</string>
+    <string name="button_500">500мс</string>
 </resources>
