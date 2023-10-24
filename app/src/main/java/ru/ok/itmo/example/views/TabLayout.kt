@@ -7,32 +7,26 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatButton
 import ru.ok.itmo.example.R
 
-class TabLayout : LinearLayout {
+
+class TabLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
     private val tabs: MutableList<AppCompatButton> = ArrayList()
     private var onTabSelectedListener: (String, Int) -> Unit = { _: String, _: Int -> }
     var selectedTabPos = -1
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
-            super(context, attrs, defStyleAttr, defStyleRes)
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
-            super(context, attrs, defStyleAttr)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context) : super(context)
-
     fun addTab(name: String) {
         val but = createButton(name, tabs.size)
-        if (tabs.isEmpty()) {
-            addView(but)
-            tabs.add(but)
+        val isEmpty = tabs.isEmpty()
+        addView(but)
+        tabs.add(but)
+        if (isEmpty) {
             selectedTabPos = 0
             but.callOnClick()
-        } else {
-            addView(but)
-            tabs.add(but)
         }
-
     }
 
     fun addTabsWithClear(selected: Int, names: ArrayList<String>) {
