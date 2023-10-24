@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:max="100"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/startThreadProcess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/start_progress"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/resetThreadProcess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/reset_progress"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/speedRatioHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/speed_of_filling" />
+
+    <RadioGroup
+        android:id="@+id/speedRatio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/ms50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ms50" />
+
+        <RadioButton
+            android:id="@+id/ms100"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/ms100" />
+
+        <RadioButton
+            android:id="@+id/ms300"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ms300" />
+
+        <RadioButton
+            android:id="@+id/ms500"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ms500" />
+    </RadioGroup>
+</LinearLayout>

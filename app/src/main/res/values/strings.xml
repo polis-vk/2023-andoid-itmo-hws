@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="to_timer">To timer</string>
+    <string name="to_thread_progress">Thread progress bar</string>
+    <string name="to_rx_progress">RX progress bar</string>
+    <string name="start_progress">Start progress</string>
+    <string name="reset_progress">Reset progress</string>
+    <string name="speed_of_filling">Speed of filling:</string>
+    <string name="ms50">50ms</string>
+    <string name="ms100">100ms</string>
+    <string name="ms300">300ms</string>
+    <string name="ms500">500ms</string>
 </resources>
