@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="task_1">Task 1</string>
+    <string name="task_2">Task 2</string>
+    <string name="task_3">Task 3</string>
+    <string name="task_4">Task 4</string>
 </resources>
