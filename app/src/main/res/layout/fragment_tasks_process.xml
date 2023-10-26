@@ -5,9 +5,9 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/task_1"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/glTop"
         app:layout_constraintEnd_toEndOf="parent"

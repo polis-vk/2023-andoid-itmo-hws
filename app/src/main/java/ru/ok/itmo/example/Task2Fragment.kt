@@ -1,16 +1,32 @@
 package ru.ok.itmo.example
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
-class Task2Fragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_task2, container, false)
+class Task2Fragment : BaseTaskFragment() {
+    override fun configureUI() {
+        task.text = getString(R.string.task_2)
+    }
+
+    override fun startWork() {
+        val progressFlow = flow {
+            for (i in 0..100) {
+                emit(i)
+                delay(100)
+            }
+        }
+
+        MainScope().launch(Dispatchers.IO) {
+            progressFlow
+                .flowOn(Dispatchers.IO)
+                .collect { n ->
+                    launch(Dispatchers.Main) {
+                        updateUi(n)
+                    }
+                }
+        }
     }
 }
