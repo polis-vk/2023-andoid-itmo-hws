@@ -1,11 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/task_1"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/glTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start"
+        app:layout_constraintTop_toBottomOf="@+id/glCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/startButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp" />
+
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="55dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glCenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="300dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
