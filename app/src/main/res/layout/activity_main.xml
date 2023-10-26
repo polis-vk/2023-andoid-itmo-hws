@@ -1,6 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:gravity="center"
+    >
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginVertical="16dp"
+        android:textSize="52sp">
+
+    </TextView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:visibility="visible">
+
+    </ProgressBar>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="16dp">
+
+        <Button
+            android:id="@+id/button_thread_worker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Thread Worker"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="16dp"
+            android:textSize="20sp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/button_rx_worker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Rx Worker"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="16dp"
+            android:textSize="20sp">
+
+        </Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="16dp">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/button_set_time_50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50"
+                android:layout_marginHorizontal="8dp"
+                >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/button_set_time_100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:text="100"
+                android:checked="true"
+                >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/button_set_time_300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:text="300"
+                >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/button_set_time_500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:text="500"
+                >
+            </RadioButton>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_reset"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Reset"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="16dp"
+            >
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>
