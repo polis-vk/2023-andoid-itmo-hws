@@ -1,4 +1,4 @@
-package ru.ok.itmo.example
+package ru.ok.itmo.example.counters
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CoroutinesUsualWorker(
+class CoroutinesWorker(
     private val counter: Counter,
     private val startUpdateUi: () -> Unit,
     private val updateUi: (value: Int) -> Unit,

@@ -1,4 +1,4 @@
-package ru.ok.itmo.example
+package ru.ok.itmo.example.counters
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

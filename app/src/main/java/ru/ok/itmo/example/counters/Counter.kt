@@ -1,4 +1,4 @@
-package ru.ok.itmo.example
+package ru.ok.itmo.example.counters
 
 class Counter {
     var value = 0

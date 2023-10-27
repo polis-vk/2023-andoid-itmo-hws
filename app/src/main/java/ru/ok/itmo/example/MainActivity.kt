@@ -1,5 +1,7 @@
 package ru.ok.itmo.example
 
+import android.app.TimePickerDialog
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ProgressBar
@@ -9,6 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import ru.ok.itmo.example.alarm.AlarmWorker
+import ru.ok.itmo.example.counters.CoroutinesViewModelWorker
+import ru.ok.itmo.example.counters.CoroutinesWorker
+import ru.ok.itmo.example.counters.Counter
+import ru.ok.itmo.example.counters.FlowWorker
+import ru.ok.itmo.example.counters.ViewModelWorker
+import ru.ok.itmo.example.counters.ViewModelWorkerFactory
+import ru.ok.itmo.example.counters.Worker
 
 class MainActivity: AppCompatActivity(R.layout.activity_main) {
 
@@ -19,7 +29,9 @@ class MainActivity: AppCompatActivity(R.layout.activity_main) {
     private lateinit var buttonCoroutinesViewModelWorker: Button
     private lateinit var buttonFlowWorker: Button
 
-    private lateinit var coroutinesWorker: CoroutinesUsualWorker
+    private lateinit var buttonSetAlarm: Button
+
+    private lateinit var coroutinesWorker: CoroutinesWorker
     private lateinit var coroutinesViewModelWorker: CoroutinesViewModelWorker
     private lateinit var flowWorker: FlowWorker
 
@@ -59,7 +71,7 @@ class MainActivity: AppCompatActivity(R.layout.activity_main) {
         progressBar = findViewById(R.id.progress_bar)
         textView = findViewById(R.id.text_view)
 
-        coroutinesWorker = CoroutinesUsualWorker(counter, startUpdateUi, updateUi, endUpdateUi)
+        coroutinesWorker = CoroutinesWorker(counter, startUpdateUi, updateUi, endUpdateUi)
         coroutinesViewModelWorker = ViewModelProvider(this, ViewModelWorkerFactory(counter))[CoroutinesViewModelWorker::class.java]
         flowWorker = FlowWorker(counter)
 
@@ -68,15 +80,50 @@ class MainActivity: AppCompatActivity(R.layout.activity_main) {
         buttonCoroutinesWorker = findViewById(R.id.button_coroutines_worker)
         buttonCoroutinesViewModelWorker = findViewById(R.id.button_coroutines_view_model_worker)
         buttonFlowWorker = findViewById(R.id.button_flow_worker)
+        buttonSetAlarm = findViewById(R.id.button_set_alarm)
 
         btnUsualLogic(buttonCoroutinesWorker, coroutinesWorker)
         btnViewModelLogic(buttonCoroutinesViewModelWorker, coroutinesViewModelWorker)
         btnFlowLogic(buttonFlowWorker, flowWorker)
+
+        buttonSetAlarm.setOnClickListener {
+            showTimePickerDialog()
+        }
     }
 
-    private fun btnUsualLogic(button: Button, usualWorker: Worker<Unit>) {
+    private fun showTimePickerDialog() {
+        val currentTime = Calendar.getInstance()
+        val hour = currentTime.get(Calendar.HOUR_OF_DAY)
+        val minute = currentTime.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, selectedHour, selectedMinute ->
+                scheduleAlarm(selectedHour, selectedMinute)
+            },
+            hour,
+            minute,
+            true
+        )
+        timePickerDialog.show()
+    }
+    private fun scheduleAlarm(hour: Int, minute: Int) {
+        val currentTime = Calendar.getInstance()
+        val selectedTime = Calendar.getInstance()
+        selectedTime.set(Calendar.HOUR_OF_DAY, hour)
+        selectedTime.set(Calendar.MINUTE, minute)
+        selectedTime.set(Calendar.SECOND, 0)
+
+        if (selectedTime.before(currentTime)) {
+            selectedTime.add(Calendar.DATE, 1)
+        }
+
+        AlarmWorker.scheduleAlarmWork(this, selectedTime.timeInMillis)
+    }
+
+    private fun btnUsualLogic(button: Button, worker: Worker<Unit>) {
         button.setOnClickListener {
-            usualWorker.run(SLEEP_TIME_MS)
+            worker.run(SLEEP_TIME_MS)
         }
     }
 
