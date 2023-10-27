@@ -45,10 +45,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         fun task1() {
             Thread {
+                val delay = getDelayValue()
                 while (progressBar.progress != 100) {
                     runOnUiThread { workWithUI() }
                     try {
-                        Thread.sleep(getDelayValue())
+                        Thread.sleep(delay)
                     } catch (e: InterruptedException) {
                         e.printStackTrace()
                     }
