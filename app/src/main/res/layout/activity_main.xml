@@ -75,4 +75,14 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button_set_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set alarm"
+        android:layout_marginHorizontal="8dp"
+        android:textSize="16sp">
+
+    </Button>
+
 </LinearLayout>
