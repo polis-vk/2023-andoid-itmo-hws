@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:gravity="center"
+    >
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginVertical="16dp"
+        android:textSize="52sp">
+
+    </TextView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:visibility="visible">
+
+    </ProgressBar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginVertical="16dp">
+
+            <Button
+                android:id="@+id/button_coroutines_worker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Coroutines Worker"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="16sp">
+
+            </Button>
+
+            <Button
+                android:id="@+id/button_coroutines_view_model_worker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Coroutines ViewModel Worker"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="16sp">
+
+            </Button>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_flow_worker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Flow Worker"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
+            android:textSize="16sp">
+
+        </Button>
+
+    </LinearLayout>
+
+</LinearLayout>
