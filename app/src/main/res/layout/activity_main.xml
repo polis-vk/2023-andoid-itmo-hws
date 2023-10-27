@@ -39,4 +39,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="176dp"
+        android:layout_height="192dp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerTextView">
+
+        <RadioButton
+            android:id="@+id/rdBtnOption1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/rdBtnOption1" />
+
+        <RadioButton
+            android:id="@+id/rdBtnOption2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/rdBtnOption2" />
+
+        <RadioButton
+            android:id="@+id/rdBtnOption3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rdBtnOption3" />
+
+        <RadioButton
+            android:id="@+id/rdBtnOption4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/rdBtnOption4" />
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

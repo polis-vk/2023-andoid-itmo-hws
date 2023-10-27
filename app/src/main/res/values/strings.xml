@@ -3,4 +3,8 @@
     <string name="startBarBtn">Start</string>
     <string name="restartBarBtn">Update</string>
     <string name="headerTextView">ProgressBarApp</string>
+    <string name="rdBtnOption1">50ms</string>
+    <string name="rdBtnOption2">100ms</string>
+    <string name="rdBtnOption3">300ms</string>
+    <string name="rdBtnOption4">500ms</string>
 </resources>
