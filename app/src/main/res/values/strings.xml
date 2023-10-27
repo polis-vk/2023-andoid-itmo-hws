@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">itmo-example</string>
+    <string name="app_name">MultiThread</string>
+    <string name="cor_fill">Coroutines fill</string>
+    <string name="flow_fill">Flow fill</string>
+    <string name="button_50">50мс</string>
+    <string name="button_100">100мс</string>
+    <string name="button_300">300мс</string>
+    <string name="button_500">500мс</string>
+    <string name="set_alarm">Set an alarm</string>
 </resources>
