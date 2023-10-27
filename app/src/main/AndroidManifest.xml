@@ -27,6 +27,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".KotlinCoroutinesImplementation"
+            android:exported="false" />
+        <activity
+            android:name=".KotlinFlowImplementation"
+            android:exported="false" />
+        <activity
+            android:name=".StateFlowImplementation"
+            android:exported="false" />
+
     </application>
 
 </manifest>
