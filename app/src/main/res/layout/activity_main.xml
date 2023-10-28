@@ -3,58 +3,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:layout_margin="0dp"
     android:gravity="center"
     >
 
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:layout_marginVertical="16dp"
-        android:textSize="52sp">
-
-    </TextView>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="16dp"
-        android:visibility="visible">
-
-    </ProgressBar>
+        app:cardCornerRadius="32dp"
+        app:cardElevation="16dp"
+        android:layout_marginVertical="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginVertical="16dp">
+        android:orientation="vertical"
+        android:layout_marginVertical="16dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Counter"
+            android:textAlignment="center"
+            android:layout_marginVertical="0dp"
+            android:textSize="60sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAlignment="center"
+            android:layout_marginVertical="0dp"
+            android:textSize="52sp">
+        </TextView>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:visibility="visible">
+
+        </ProgressBar>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginVertical="16dp">
 
-            <Button
-                android:id="@+id/button_coroutines_worker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Coroutines Worker"
-                android:layout_marginHorizontal="8dp"
-                android:textSize="16sp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginVertical="0dp">
 
-            </Button>
+                <Button
+                    android:id="@+id/button_coroutines_worker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coroutines Worker"
+                    android:layout_marginHorizontal="8dp"
+                    android:textSize="16sp">
+
+                </Button>
+
+                <Button
+                    android:id="@+id/button_coroutines_view_model_worker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Coroutines ViewModel Worker"
+                    android:layout_marginHorizontal="8dp"
+                    android:textSize="16sp">
+
+                </Button>
+
+            </LinearLayout>
 
             <Button
-                android:id="@+id/button_coroutines_view_model_worker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Coroutines ViewModel Worker"
+                android:id="@+id/button_flow_worker"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Flow Worker"
+                android:layout_weight="1"
                 android:layout_marginHorizontal="8dp"
                 android:textSize="16sp">
 
@@ -62,27 +99,94 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button_flow_worker"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Flow Worker"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="8dp"
-            android:textSize="16sp">
-
-        </Button>
-
     </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/button_set_alarm"
+
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Set alarm"
-        android:layout_marginHorizontal="8dp"
-        android:textSize="16sp">
+        app:cardCornerRadius="32dp"
+        app:cardElevation="16dp"
+        android:layout_marginVertical="8dp">
 
-    </Button>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginVertical="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alarm"
+            android:textAlignment="center"
+            android:layout_marginVertical="0dp"
+            android:textSize="60sp">
+        </TextView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="0dp">
+
+            <TextView
+                android:id="@+id/date_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:layout_marginVertical="8dp"
+                android:textSize="32sp">
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/status_alarm_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:layout_marginVertical="8dp"
+                android:textSize="32sp">
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="0dp">
+
+            <Button
+                android:id="@+id/button_set_alarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Set alarm"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="16sp">
+
+            </Button>
+
+            <Button
+                android:id="@+id/button_reset_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset"
+                android:layout_marginHorizontal="8dp"
+                android:textSize="16sp">
+
+            </Button>
+        </LinearLayout>
+
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
