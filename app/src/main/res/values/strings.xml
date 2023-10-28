@@ -6,4 +6,7 @@
     <string name="task_4">Task 4</string>
     <string name="start">Start</string>
     <string name="restart">Restart</string>
+    <string name="set_alarm">Set alarm</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_message">Time to wake up!</string>
 </resources>
