@@ -6,8 +6,8 @@ fun main() {
         t2?.join()
     }
     t2 = Thread{
-        t1?.join()
+        t1.join()
     }
-    t1?.start()
+    t1.start()
     t1.join()
 }

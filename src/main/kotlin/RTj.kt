@@ -8,12 +8,12 @@ fun main(){
     t2.start()
     t1.join()
     t2.join()
-    println(r1.getResult() + r2.getResult())
+    println(r1.result + r2.result)
 }
 
 class SumOfPartIntArray(private val arr: Array<Int>, private val l: Int, private val r: Int) : Runnable {
-    private var result: Int = 0
-    fun getResult() = result
+    var result: Int = 0
+        private set
     override fun run() {
         result = 0
         for (i: Int in l..<r) result += arr[i]
