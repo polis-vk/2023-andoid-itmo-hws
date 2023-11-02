@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-</FrameLayout>
+    <Button
+        android:id="@+id/coroutines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/coroutines"
+        style="?android:attr/buttonBarButtonStyle" />
+    <Button
+        android:id="@+id/flow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/flow"
+        style="?android:attr/buttonBarButtonStyle" />
+    <Button
+        android:id="@+id/stateFlow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stateflow"
+        style="?android:attr/buttonBarButtonStyle" />
+    <Button
+        android:id="@+id/alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alarm"
+        style="?android:attr/buttonBarButtonStyle" />
+</LinearLayout>
