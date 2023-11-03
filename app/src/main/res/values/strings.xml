@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">itmo-example</string>
+
+    <string name="start_task1">Запустить задание 1</string>
+    <string name="start_task2">Запустить задание 2</string>
+    <string name="start_task3">Запустить задание 3</string>
+    <string name="start_task4">Запустить задание 4</string>
+    <string name="start">Запустить</string>
+    <string name="schedule_alarm">Запланировать будильник</string>
+    <string name="scheduled_alarm">Будильник запланирован</string>
+
+    <string name="past_date">Дата в прошлом</string>
+
+    <string name="alarm_title">Будильник</string>
+    <string name="alarm_content">Содержание</string>
 </resources>
