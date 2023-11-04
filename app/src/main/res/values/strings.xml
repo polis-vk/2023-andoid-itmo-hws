@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">itmo-example</string>
-    <string name="thread">THREAD</string>
-    <string name="observable">OBSERVABLE</string>
     <string name="start">START</string>
-    <string name="reset">RESET</string>
+    <string name="alarm">ALARM</string>
+    <string name="thread">thread</string>
+    <string name="observable">observable</string>
+    <string name="coroutines">coroutines</string>
+    <string name="flow">flow</string>
+    <string name="state_flow">state flow</string>
+
 </resources>

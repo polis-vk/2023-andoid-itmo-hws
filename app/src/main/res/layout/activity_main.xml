@@ -27,6 +27,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress_bar"/>
 
+    <Button
+        android:id="@+id/alarm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/alarm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/start_button"/>
+
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
@@ -39,28 +49,28 @@
         <RadioButton android:id="@+id/thread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="thread"
+            android:text="@string/thread"
             android:checked="true"
             />
         <RadioButton android:id="@+id/observable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="observable"
+            android:text="@string/observable"
             />
         <RadioButton android:id="@+id/coroutines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="coroutines"
+            android:text="@string/coroutines"
             />
         <RadioButton android:id="@+id/flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="flow"
+            android:text="@string/flow"
             />
         <RadioButton android:id="@+id/state_flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="state flow"
+            android:text="@string/state_flow"
             />
 
     </RadioGroup>
