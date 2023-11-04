@@ -7,12 +7,12 @@ import android.widget.ProgressBar
 import android.widget.RadioGroup
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
-import ru.ok.itmo.example.Timers.CoroutinesTimer
-import ru.ok.itmo.example.Timers.FlowTimer
-import ru.ok.itmo.example.Timers.ObservableTimer
-import ru.ok.itmo.example.Timers.StateFlowTimer
-import ru.ok.itmo.example.Timers.ThreadTimer
-import ru.ok.itmo.example.Timers.TimerProtocol
+import ru.ok.itmo.example.timers.CoroutinesTimer
+import ru.ok.itmo.example.timers.FlowTimer
+import ru.ok.itmo.example.timers.ObservableTimer
+import ru.ok.itmo.example.timers.StateFlowTimer
+import ru.ok.itmo.example.timers.ThreadTimer
+import ru.ok.itmo.example.timers.TimerProtocol
 import ru.ok.itmo.example.alarm.AlarmWorker
 import java.util.Calendar
 

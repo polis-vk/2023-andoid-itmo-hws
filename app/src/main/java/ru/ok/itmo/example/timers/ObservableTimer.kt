@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.Timers
+package ru.ok.itmo.example.timers
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable

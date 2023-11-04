@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.Timers
+package ru.ok.itmo.example.timers
 
 interface TimerProtocol {
     var sleepTime: Long

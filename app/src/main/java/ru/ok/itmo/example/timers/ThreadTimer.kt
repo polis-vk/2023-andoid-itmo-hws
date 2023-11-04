@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.Timers
+package ru.ok.itmo.example.timers
 
 class ThreadTimer(override var sleepTime: Long) : TimerProtocol {
     private var current = 0

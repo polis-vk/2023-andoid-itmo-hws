@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.Timers
+package ru.ok.itmo.example.timers
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
