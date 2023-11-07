@@ -1,15 +1,13 @@
-package task_4_2
-
-import java.util.concurrent.Executors
+package task_4_4
 
 fun main() {
-    val noSync = IneedMoreCountersBiggerNumbersNoSync();
+    val noSync = iNeedMoreCountersBiggerNumbersNoSync();
     println(noSync)
-    val sync = IneedMoreCountersBiggerNumbersSync();
+    val sync = iNeedMoreCountersBiggerNumbersSync();
     println(sync)
 }
 
-fun IneedMoreCountersBiggerNumbersNoSync() : Int{
+fun iNeedMoreCountersBiggerNumbersNoSync() : Int{
     var k = 0;
     val thread1 = Thread {
         for(i in 1..1000){
@@ -38,7 +36,7 @@ fun IneedMoreCountersBiggerNumbersNoSync() : Int{
     return k;
 }
 
-fun IneedMoreCountersBiggerNumbersSync() : Int{
+fun iNeedMoreCountersBiggerNumbersSync() : Int{
     var k = 0;
     val smth = arrayOf(1, 2);
     val thread1 = Thread {
