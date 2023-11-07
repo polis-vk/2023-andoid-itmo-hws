@@ -1,15 +1,11 @@
 package ru.ok.itmo.example
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigationrail.NavigationRailView
 
 class FragmentWithNavigation(private var numberOfSections: Int = 0) : Fragment(R.layout.fragment_with_navigation) {
-    private lateinit var navigationView: FrameLayout
+    private lateinit var navigationView: NavigationViewInterface
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -17,8 +13,8 @@ class FragmentWithNavigation(private var numberOfSections: Int = 0) : Fragment(R
         if (savedInstanceState != null)
             numberOfSections = savedInstanceState.getInt("numberOfSections")
 
-        navigationView = view.findViewById(R.id.nav_view)
-        update(resources.configuration.orientation)
+        navigationView = processNavigationView(view.findViewById(R.id.nav_view))
+        update()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -26,16 +22,10 @@ class FragmentWithNavigation(private var numberOfSections: Int = 0) : Fragment(R
         outState.putInt("numberOfSections", numberOfSections)
     }
 
-    private fun update(orientation: Int)
+    private fun update()
     {
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            for (i in 1..numberOfSections) {
-                (navigationView as BottomNavigationView).menu.add(0, R.id.fragment_container, 0, "Sec: $i").setIcon(R.drawable.ic_launcher_foreground)
-            }
-        } else {
-            for (i in 1..numberOfSections) {
-                (navigationView as NavigationRailView).menu.add(0, R.id.fragment_container, 0, "Sec: $i").setIcon(R.drawable.ic_launcher_foreground)
-            }
+        for (i in 1..numberOfSections) {
+            navigationView.menu.add(0, R.id.fragment_container, 0, "Sec: $i").setIcon(R.drawable.ic_launcher_foreground)
         }
     }
 }
