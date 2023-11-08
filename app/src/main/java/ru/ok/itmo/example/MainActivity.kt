@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val buttonMenu = findViewById<Button>(R.id.button_menu)
         buttonMenu.setOnClickListener {
-            startActivity(Intent(this, FragmentActivity::class.java))
+            startActivity(Intent(this, FragmentAct::class.java))
         }
     }
 }

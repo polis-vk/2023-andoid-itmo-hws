@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".FragmentActivity"
+                android:name=".FragmentAct"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

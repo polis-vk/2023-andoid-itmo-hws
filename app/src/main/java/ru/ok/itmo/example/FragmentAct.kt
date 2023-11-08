@@ -4,18 +4,29 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.navigation.NavigationBarView
 
-class FragmentActivity : FragmentActivity(R.layout.activity_menu) {
+class FragmentAct : FragmentActivity(R.layout.activity_menu) {
     private var stack = mutableListOf<String>()
     private lateinit var navigationMenu: NavigationBarView
 
+    private var count: Int = 0
+    private val nameKeyCount = "count_key"
+    private val nameKeyStack = "stack_key"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            val putListString = savedInstanceState.getStringArrayList(nameKeyStack)
+            if (putListString != null) {
+                for (i in putListString) {
+                    stack.add(i)
+                }
+            }
+        } else {
+            stack.add("A")
 
-        stack.add("A")
-
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container_view, FragmentTemplate("A"), stack.last())
-            .commit()
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container_view, FragmentTemplate.newInstance("A"), stack.last())
+                .commit()
+        }
 
         navigationMenu = findViewById(R.id.menu_buttons)
 
@@ -31,13 +42,24 @@ class FragmentActivity : FragmentActivity(R.layout.activity_menu) {
             true
         }
 
-        val count = (3..5).random()
+        count = savedInstanceState?.getInt(nameKeyCount) ?: (3..5).random()
+
         if (count < 5) {
             navigationMenu.menu.removeItem(R.id.E)
         }
         if (count < 4) {
             navigationMenu.menu.removeItem(R.id.D)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(nameKeyCount, count)
+        val putListString = arrayListOf<String>()
+        for (i in stack) {
+            putListString.add(i)
+        }
+        outState.putStringArrayList(nameKeyStack, putListString)
     }
 
     private fun menuIndex(name: String) = when (name) {
@@ -63,7 +85,7 @@ class FragmentActivity : FragmentActivity(R.layout.activity_menu) {
     private fun createFragment(name: String) {
         val prev = supportFragmentManager.findFragmentByTag(stack.last())
             ?: throw IllegalArgumentException("Fragment not found $name")
-        val new = FragmentTemplate(name)
+        val new = FragmentTemplate.newInstance(name)
 
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container_view, new, name)
