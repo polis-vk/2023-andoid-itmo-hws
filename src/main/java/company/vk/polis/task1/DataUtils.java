@@ -23,6 +23,14 @@ public class DataUtils {
         return users;
     }
 
+    private static State generateMessageState(Random random, int maxUserId) {
+        return switch (random.nextInt(3)) {
+            case 0 -> State.Read.INSTANCE;
+            case 1 -> State.Unread.INSTANCE;
+            case 2 -> new State.Deleted(random.nextInt(maxUserId));
+            default -> throw new RuntimeException();
+        };
+    }
     public static Map<Integer, List<Message>> generateMessages(int maxUserId) {
         Map<Integer, List<Message>> map = new HashMap<>();
         Random random = new Random();
@@ -32,12 +40,7 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                State state = new State.UNREAD();
-                switch (random.nextInt(3)) {
-                    case 0 -> state = new State.READ();
-                    case 1 -> state = new State.UNREAD();
-                    case 2 -> state = new State.DELETED(random.nextInt(maxUserId));
-                }
+                State state = generateMessageState(random, maxUserId);
                 Message message = new Message(k, text, i, System.currentTimeMillis(), state);
                 messages.add(message);
             }
@@ -133,10 +136,10 @@ public class DataUtils {
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
             switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State.UNREAD()));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State.UNREAD()));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new State.UNREAD()));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State.UNREAD()));
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, State.Unread.INSTANCE));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, State.Unread.INSTANCE));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, State.Unread.INSTANCE));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, State.Unread.INSTANCE));
             }
         }
         garbage = random.nextInt(50);
