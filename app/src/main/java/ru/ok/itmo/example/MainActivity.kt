@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace(R.id.fragment_container, FragmentWithButton())
+                replace(R.id.main_fragment_container, FragmentWithButton())
             }
         }
     }
