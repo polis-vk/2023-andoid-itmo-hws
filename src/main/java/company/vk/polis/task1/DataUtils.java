@@ -28,7 +28,8 @@ public class DataUtils {
             for (int j = 0; j < numMessages; j++, k++) {
                 for (var state : StateEnum.getEntries()) {
                     String text = texts[random.nextInt(texts.length)];
-                    Message message = new Message(k, text, i, System.currentTimeMillis(), new State(state));
+                    State stateObj = state.equals(StateEnum.DELETED) ? new State(state, (long) i) : new State(state);
+                    Message message = new Message(k, text, i, System.currentTimeMillis(), stateObj);
                     messages.add(message);
                 }
             }

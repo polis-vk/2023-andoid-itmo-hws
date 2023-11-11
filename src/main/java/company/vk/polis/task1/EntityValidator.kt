@@ -8,10 +8,10 @@ class EntityValidator {
             }
 
             return when (entity) {
-                is Message -> return validateNotNull(entity.text, entity.senderId, entity.state, entity.timestamp)
-                is User -> return validateNotNull(entity.name)
-                is Chat -> return validateNotNull(entity.userIds, entity.messageIds)
-                is GroupChat -> return validateNotNull(entity.getMessageIds(), entity.getUserIds())
+                is Message -> validateNotNull(entity.text, entity.senderId, entity.state, entity.timestamp)
+                is User -> validateNotNull(entity.name)
+                is Chat -> validateNotNull(entity.userIds, entity.messageIds)
+                is GroupChat -> validateNotNull(entity.getMessageIds(), entity.getUserIds())
                 else -> throw IllegalArgumentException("entity ${entity.javaClass} not found")
             }
         }

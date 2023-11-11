@@ -8,13 +8,13 @@ internal class MessageController {
 
     fun getChatItems(userId: Int, state: StateEnum?): List<ChatItem> {
         return chats.filter { it.getUserIds().contains(userId) }
-                .associateBy { it }
-                .mapValues { getMessagesByIds(it.value.getMessageIds()) }
-                .mapValues { it.value.filter { m -> m.senderId == userId } }
-                .filterValues { it.isNotEmpty() }
-                .mapValues { it.value.last() }
-                .filterValues { state == null || it.state.getState() == state }
-                .map { toChatItem(it.key, it.value, userId) }
+            .associateBy { it }
+            .mapValues { getMessagesByIds(it.value.getMessageIds()) }
+            .mapValues { it.value.filter { m -> m.senderId == userId } }
+            .filterValues { it.isNotEmpty() }
+            .mapValues { it.value.last() }
+            .filterValues { state == null || it.state.getState() == state }
+            .map { toChatItem(it.key, it.value, userId) }
     }
 
     fun countMessages(userId: Int): Int {
@@ -26,7 +26,8 @@ internal class MessageController {
     }
 
     private fun toChatItem(chat: BaseChat, message: Message, userId: Int): ChatItem {
-        return ChatItem(getUser(userId)?.avatarUrl, chat.getChatAvatar(), message, userId, message.state)
+        val user = getUser(userId) ?: throw IllegalArgumentException("Userid $userId not found")
+        return ChatItem(user.avatarUrl, message, user, message.state)
     }
 
     private fun getUser(userId: Int): User? {
