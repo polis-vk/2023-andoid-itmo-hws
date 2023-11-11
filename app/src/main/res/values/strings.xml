@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="login_button_text">Войти через телефон</string>
+    <string name="login">Логин</string>
+    <string name="password_label">Пароль</string>
+    <string name="sign_in">Войти\n</string>
 </resources>
