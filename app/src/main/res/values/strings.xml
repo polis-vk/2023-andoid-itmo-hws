@@ -4,4 +4,8 @@
     <string name="password_label">password</string>
     <string name="sign_in">sign in</string>
     <string name="switch_theme">Switch theme</string>
+    <string name="login_empty_toast">Login field is empty</string>
+    <string name="password_empty_toast">Password field is empty</string>
+    <string name="incorrect_email_toast">Incorrect email</string>
+    <string name="incorrect_password_toast">Incorrect password</string>
 </resources>

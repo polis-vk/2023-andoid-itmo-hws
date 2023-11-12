@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:imeOptions="actionGo"
                 android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 

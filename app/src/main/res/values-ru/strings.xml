@@ -5,4 +5,8 @@
     <string name="password_label">Пароль</string>
     <string name="sign_in">Войти</string>
     <string name="switch_theme">Сменить тему</string>
+    <string name="login_empty_toast">Поле логина пустое</string>
+    <string name="password_empty_toast">Поле пароля пустое</string>
+    <string name="incorrect_email_toast">Введен неправильный email</string>
+    <string name="incorrect_password_toast">Некорректный пароль</string>
 </resources>

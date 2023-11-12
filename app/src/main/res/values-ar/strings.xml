@@ -5,4 +5,8 @@
     <string name="password_label">كلمة المرور</string>
     <string name="sign_in">تسجيل الدخول</string>
     <string name="switch_theme">تبديل الموضوع</string>
+    <string name="login_empty_toast">حقل تسجيل الدخول فارغ</string>
+    <string name="password_empty_toast">حقل كلمة المرور فارغ</string>
+    <string name="incorrect_email_toast">غير صحيح البريد الإلكتروني</string>
+    <string name="incorrect_password_toast">كلمة سر خاطئة</string>
 </resources>
