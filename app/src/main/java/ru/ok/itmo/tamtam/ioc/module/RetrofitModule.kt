@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import ru.ok.itmo.tamtam.data.retrofit.AuthService
 import ru.ok.itmo.tamtam.data.retrofit.TokenInterceptor
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
@@ -35,11 +36,8 @@ interface RetrofitModule {
         fun provideRetrofitBuilder(): Retrofit.Builder {
             return Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
-                .addConverterFactory(
-                    GsonConverterFactory.create(
-                        GsonBuilder().setLenient().create()
-                    )
-                )
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
         }
 
         @AppComponentScope
