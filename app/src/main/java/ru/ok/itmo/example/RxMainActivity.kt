@@ -1,19 +1,23 @@
 package ru.ok.itmo.example
 
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import ru.ok.itmo.example.databinding.ActivityRxMainBinding
+import java.util.concurrent.TimeUnit
 
-import ru.ok.itmo.example.databinding.ActivityMainBinding
+class RxMainActivity : AppCompatActivity() {
+    private var _binding: ActivityRxMainBinding? = null
+    private val binding: ActivityRxMainBinding get() = _binding!!
 
-class MainActivity : AppCompatActivity() {
-    private var _binding: ActivityMainBinding? = null
-    private val binding: ActivityMainBinding get() = _binding!!
-    private val handler: Handler by lazy { Handler(mainLooper) }
-    private var thread: Thread? = null
     @Volatile
     private var progress: Int = 100
     private var timeStep: Long = 100L
+
+    private val disposables = CompositeDisposable()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -23,17 +27,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityRxMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         restoreArgs(savedInstanceState)
         initListeners()
 
-        if (progress < 100){
-            thread = getProgressThread().also { it.start() }
+        if (progress < 100) {
+            startProgress()
         }
     }
 
-    private fun restoreArgs(savedInstanceState: Bundle?){
+    private fun restoreArgs(savedInstanceState: Bundle?) {
         savedInstanceState?.getInt(PROGRESS_VALUE)?.let {
             progress = it
         }
@@ -42,9 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initListeners(){
+    private fun initListeners() {
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            timeStep = when(checkedId){
+            timeStep = when (checkedId) {
                 binding.radioButton50.id -> 50L
                 binding.radioButton100.id -> 100L
                 binding.radioButton300.id -> 300L
@@ -53,30 +57,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.restart.setOnClickListener {
-            thread?.interrupt()
-            progress = 0
-            thread = getProgressThread().also { it.start() }
+            restartProgress()
         }
     }
 
-    private fun getProgressThread(): Thread = Thread {
-        while (progress < 100){
-            if (Thread.currentThread().isInterrupted) return@Thread
-            handler.post {
-                binding.progressBar.progress = progress + 1
-            }
-            try {
-                Thread.sleep(timeStep)
-            }catch (e: InterruptedException){
-                return@Thread
-            }
-            progress++
-        }
+    private fun startProgress() {
+        disposables.add(
+            Observable.interval(timeStep, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeWhile { progress < 100 }
+                .subscribe {
+                    progress++
+                    binding.progressBar.progress = progress
+                }
+        )
     }
+
+    private fun stopProgress() {
+        disposables.clear()
+    }
+
+    private fun restartProgress() {
+        stopProgress()
+        progress = 0
+        startProgress()
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
-        thread?.interrupt()
+        disposables.clear()
         _binding = null
     }
 
