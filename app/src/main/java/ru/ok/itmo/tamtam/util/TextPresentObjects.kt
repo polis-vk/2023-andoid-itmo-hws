@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.util
+package ru.ok.itmo.tamtam.util
 
 data object TextPresentObjects {
     const val unknown = "Неизвестная ошибка"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ru.ok.itmo.example.ui.LoginFragment"
+        android:name="ru.ok.itmo.tamtam.ui.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="ru.ok.itmo.example.ui.StartFragment"
+        android:name="ru.ok.itmo.tamtam.ui.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" >
         <action
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="ru.ok.itmo.example.ui.ChatsFragment"
+        android:name="ru.ok.itmo.tamtam.ui.ChatsFragment"
         android:label="fragment_chats"
         tools:layout="@layout/fragment_chats" >
         <action

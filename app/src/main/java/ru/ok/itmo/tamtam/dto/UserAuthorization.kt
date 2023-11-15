@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.dto;
+package ru.ok.itmo.tamtam.dto;
 
 import com.google.gson.annotations.SerializedName
 

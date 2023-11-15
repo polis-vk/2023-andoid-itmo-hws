@@ -1,7 +1,7 @@
-package ru.ok.itmo.example.client
+package ru.ok.itmo.tamtam.client
 
-import ru.ok.itmo.example.domain.ErrorType
-import ru.ok.itmo.example.dto.UserAuthorization
+import ru.ok.itmo.tamtam.domain.ErrorType
+import ru.ok.itmo.tamtam.dto.UserAuthorization
 
 class AuthorizationProvider {
     private fun client() = LoginApi.provideLoginApi(RetrofitProvider.retrofit(""))

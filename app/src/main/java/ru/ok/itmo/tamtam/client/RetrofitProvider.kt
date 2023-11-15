@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.client
+package ru.ok.itmo.tamtam.client
 
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor

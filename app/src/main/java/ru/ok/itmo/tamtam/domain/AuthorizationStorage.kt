@@ -1,7 +1,7 @@
-package ru.ok.itmo.example.domain
+package ru.ok.itmo.tamtam.domain
 
-import ru.ok.itmo.example.client.AuthorizationProvider
-import ru.ok.itmo.example.dto.UserAuthorization
+import ru.ok.itmo.tamtam.client.AuthorizationProvider
+import ru.ok.itmo.tamtam.dto.UserAuthorization
 
 object AuthorizationStorage {
     private val authorizationProvider = AuthorizationProvider()

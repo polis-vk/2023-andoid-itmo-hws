@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.domain
+package ru.ok.itmo.tamtam.domain
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

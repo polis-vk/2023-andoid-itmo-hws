@@ -1,12 +1,11 @@
-package ru.ok.itmo.example.domain
+package ru.ok.itmo.tamtam.domain
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.ok.itmo.example.client.AuthorizationProvider
-import ru.ok.itmo.example.dto.UserAuthorization
+import ru.ok.itmo.tamtam.dto.UserAuthorization
 
 class LoginViewModel : ViewModel() {
     private val _loginState = MutableLiveData<LoginState>(LoginState.Unknown)

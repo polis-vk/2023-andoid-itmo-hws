@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.ui
+package ru.ok.itmo.tamtam.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import ru.ok.itmo.example.R
-import ru.ok.itmo.example.databinding.FragmentChatsBinding
-import ru.ok.itmo.example.domain.AuthorizationStorage
-import ru.ok.itmo.example.domain.ChatsViewModel
-import ru.ok.itmo.example.domain.LoginViewModel
+import ru.ok.itmo.tamtam.R
+import ru.ok.itmo.tamtam.databinding.FragmentChatsBinding
+import ru.ok.itmo.tamtam.domain.ChatsViewModel
 
 class ChatsFragment : Fragment() {
     private val viewModel by viewModels<ChatsViewModel>()

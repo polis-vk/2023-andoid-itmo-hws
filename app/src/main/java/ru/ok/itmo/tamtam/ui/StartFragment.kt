@@ -1,14 +1,13 @@
-package ru.ok.itmo.example.ui
+package ru.ok.itmo.tamtam.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.Navigation
-import ru.ok.itmo.example.R
-import ru.ok.itmo.example.databinding.FragmentStartBinding
+import ru.ok.itmo.tamtam.R
+import ru.ok.itmo.tamtam.databinding.FragmentStartBinding
 
 
 class StartFragment : Fragment() {

@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.domain
+package ru.ok.itmo.tamtam.domain
 
 sealed interface LoginState {
     data class Success(val token: String?) : LoginState
