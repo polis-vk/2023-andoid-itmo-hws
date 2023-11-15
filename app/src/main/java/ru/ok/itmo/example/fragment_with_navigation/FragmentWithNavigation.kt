@@ -104,7 +104,7 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
     }
 
     private fun replaceSection(title: String, tag: String) {
-        childFragmentManager.findFragmentByTag(tag)?.run {
+        childFragmentManager.findFragmentByTag(tag)?.let {
             childFragmentManager.popBackStack(tag, 0)
         } ?: addNewSection(title, tag)
     }
