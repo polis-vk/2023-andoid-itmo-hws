@@ -1,4 +1,4 @@
-package ru.ok.itmo.example
+package ru.ok.itmo.example.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import ru.ok.itmo.example.domain.ErrorType
+import ru.ok.itmo.example.R
 import ru.ok.itmo.example.databinding.FragmentLoginBinding
+import ru.ok.itmo.example.domain.LoginState
+import ru.ok.itmo.example.domain.LoginViewModel
+import ru.ok.itmo.example.util.TextPresentObjects
 
 class LoginFragment : Fragment() {
     private val viewModel by viewModels<LoginViewModel>()
     private lateinit var binding: FragmentLoginBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,16 +77,12 @@ class LoginFragment : Fragment() {
     private fun shorOrHideError(error: Throwable?) {
         when (error) {
             null -> binding.errorText.text = ""
-            is ErrorType.Unknown -> binding.errorText.text =
-                "Неизвестная ошибка"
-
+            is ErrorType.Unknown -> binding.errorText.text = TextPresentObjects.unknown
             is ErrorType.InternetConnection -> binding.errorText.text =
-                "Ошибка подключения к сети или серверу"
+                TextPresentObjects.internetConnection
 
-            is ErrorType.Unauthorized -> binding.errorText.text =
-                "Ошибка авторизации: неверный логин или пароль"
-
-            else -> binding.errorText.text = "Ошибка"
+            is ErrorType.Unauthorized -> binding.errorText.text = TextPresentObjects.unauthorized
+            else -> binding.errorText.text = TextPresentObjects.error
         }
     }
 }
