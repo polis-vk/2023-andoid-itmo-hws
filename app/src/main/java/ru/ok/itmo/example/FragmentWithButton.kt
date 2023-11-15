@@ -19,7 +19,7 @@ class FragmentWithButton : Fragment(R.layout.fragment_with_button) {
         button.setOnClickListener {
             parentFragmentManager.commit {
                 replace(
-                    R.id.main_fragment_container,
+                    R.id.fragment_main_container,
                     FragmentWithNavigation.newInstance((3..5).random())
                 )
                 addToBackStack(null)

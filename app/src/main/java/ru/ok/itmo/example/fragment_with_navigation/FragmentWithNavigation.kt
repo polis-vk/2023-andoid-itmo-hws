@@ -10,7 +10,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import ru.ok.itmo.example.FragmentPage
 import ru.ok.itmo.example.R
 
 class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
@@ -114,7 +113,7 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
             setReorderingAllowed(true)
             replace(
                 R.id.fragment_with_navigation_container,
-                sharedViewModel.fragmentMap.getOrPut(tag) { FragmentPage.newInstance(title) },
+                sharedViewModel.fragmentMap.getOrPut(tag) { FragmentSection.newInstance(title) },
                 tag
             )
             addToBackStack(tag)

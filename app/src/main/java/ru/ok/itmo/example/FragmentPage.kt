@@ -26,9 +26,11 @@ class FragmentPage : Fragment(R.layout.fragment_page) {
         private const val DEFAULT_VALUE_INT = -1
         private const val DEFAULT_VALUE_LONG = -1L
 
-        fun newInstance(sectionTitle: CharSequence) = FragmentPage().apply {
+        fun newInstance(sectionTitle: CharSequence, pageNumber: Int) = FragmentPage().apply {
             arguments = bundleOf(
-                TAGS.SECTION_TITLE to sectionTitle, TAGS.CREATE_TIME to System.currentTimeMillis()
+                TAGS.SECTION_TITLE to sectionTitle,
+                TAGS.PAGE_NUMBER to pageNumber,
+                TAGS.CREATE_TIME to System.currentTimeMillis()
             )
         }
     }
@@ -48,6 +50,10 @@ class FragmentPage : Fragment(R.layout.fragment_page) {
         val sectionTitle = arguments.getCharSequence(TAGS.SECTION_TITLE)
             ?: throw IllegalArgumentException("I don't know section title")
 
+        val pageNumber = arguments.getInt(TAGS.PAGE_NUMBER, DEFAULT_VALUE_INT)
+            .takeIf { it != DEFAULT_VALUE_INT }
+            ?: throw IllegalArgumentException("I don't know page number")
+
         val createTime = arguments.getLong(TAGS.CREATE_TIME, DEFAULT_VALUE_LONG)
             .takeIf { it != DEFAULT_VALUE_LONG }
             ?: throw IllegalArgumentException("I don't know create time")
@@ -57,7 +63,7 @@ class FragmentPage : Fragment(R.layout.fragment_page) {
             .also { arguments.putInt(TAGS.RANDOM_NUMBER, it) }
 
         view.findViewById<TextView>(R.id.section_title_value).text = sectionTitle.toString()
-        view.findViewById<TextView>(R.id.page_value).text = "???"
+        view.findViewById<TextView>(R.id.page_value).text = pageNumber.toString()
         view.findViewById<TextView>(R.id.random_number_value).text = randomNumber.toString()
         view.findViewById<TextView>(R.id.creation_time_value).text = timeFormat.format(createTime)
 
