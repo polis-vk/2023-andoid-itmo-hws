@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import java.text.SimpleDateFormat
 
 class FragmentPage : Fragment(R.layout.fragment_page) {
@@ -58,13 +59,23 @@ class FragmentPage : Fragment(R.layout.fragment_page) {
             .takeIf { it != DEFAULT_VALUE_LONG }
             ?: throw IllegalArgumentException("I don't know create time")
 
-        val randomNumber = arguments.getInt(TAGS.RANDOM_NUMBER, DEFAULT_VALUE_INT)
-            .takeIf { it != DEFAULT_VALUE_INT } ?: (1..50).random()
-            .also { arguments.putInt(TAGS.RANDOM_NUMBER, it) }
+        val randomNumberFromArg = arguments.getInt(TAGS.RANDOM_NUMBER, DEFAULT_VALUE_INT)
+        if (randomNumberFromArg != DEFAULT_VALUE_INT) {
+            view.findViewById<TextView>(R.id.random_number_value).text =
+                randomNumberFromArg.toString()
+        } else {
+            val businessLogic: BusinessLogic by viewModels (
+                ownerProducer = { this }
+            )
+            businessLogic.randomNumber.observe(requireActivity()) { randomNumberFromBusinessLogic ->
+                arguments.putInt(TAGS.RANDOM_NUMBER, randomNumberFromBusinessLogic)
+                view.findViewById<TextView>(R.id.random_number_value).text =
+                    randomNumberFromBusinessLogic.toString()
+            }
+        }
 
         view.findViewById<TextView>(R.id.section_title_value).text = sectionTitle.toString()
         view.findViewById<TextView>(R.id.page_value).text = pageNumber.toString()
-        view.findViewById<TextView>(R.id.random_number_value).text = randomNumber.toString()
         view.findViewById<TextView>(R.id.creation_time_value).text = timeFormat.format(createTime)
 
         currentTimeTextView = view.findViewById(R.id.current_time_value)
