@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/accent"
+    tools:context=".StartedFragment" >
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="130dp"
+        android:layout_height="154.5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <Button
+        android:id="@+id/buttonPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_smartphone"
+        android:drawablePadding="8dp"
+        android:paddingHorizontal="48dp"
+        android:textColor="@color/accent"
+        android:background="@drawable/button_started_phone"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toTopOf="@id/buttonLogin"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/button_started_phone" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:background="@drawable/button_started_login"
+        app:layout_constraintBottom_toTopOf="@id/textViewPrivacyPolicy"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/white"
+        android:paddingHorizontal="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/button_started_login" />
+
+    <TextView
+        android:id="@+id/textViewPrivacyPolicy"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="-1sp"
+        android:gravity="center_horizontal|top"
+        android:alpha="0.7"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif"
+        android:text="@string/privacy_policy" />
+</androidx.constraintlayout.widget.ConstraintLayout>

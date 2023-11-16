@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">itmo-example</string>
+
+    <string name="privacy_policy">Нажимая «Войти», вы соглашаетесь с политикой
+конфиденциальности</string>
+    <string name="button_started_login">ВОЙТИ ЧЕРЕЗ ЛОГИН</string>
+    <string name="button_started_phone">ВОЙТИ ЧЕРЕЗ ТЕЛЕФОН</string>
+
 </resources>
