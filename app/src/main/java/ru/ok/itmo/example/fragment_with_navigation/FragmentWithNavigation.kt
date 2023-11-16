@@ -21,6 +21,11 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
             const val MENU_DATA = "menuData"
         }
 
+        object ResultTags {
+            const val RESULT = "result"
+            const val COUNT_FRAGMENTS = "countFragments"
+        }
+
         fun newInstance(numberOfSections: Int) = FragmentWithNavigation().apply {
             arguments = bundleOf(
                 TAGS.NUMBER_OF_SECTIONS to numberOfSections
@@ -30,6 +35,18 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         class FragmentWithNavigationViewModel(private val savedStateHandle: SavedStateHandle) :
             ViewModel() {
             val fragmentMap = mutableMapOf<String, Fragment>()
+
+            fun countFragments(): Int {
+                var sum = 0
+                for (fragment in fragmentMap.values) {
+                    sum += (fragment as FragmentSection).arguments?.getInt(
+                        FragmentSection.Companion.TAGS.PAGE_COUNT,
+                        0
+                    ).takeIf { it != 0 }
+                        ?: throw java.lang.IllegalArgumentException("Incorrect fragment count")
+                }
+                return sum
+            }
 
             fun isStoresSavedState(): Boolean {
                 return savedStateHandle.contains(TAGS.MENU_DATA)
@@ -88,6 +105,7 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
                 childFragmentManager.run {
                     if (backStackEntryCount <= 1) {
                         parentFragmentManager.popBackStack()
+                        exit()
                     } else {
                         val lastFragmentTag =
                             getBackStackEntryAt(backStackEntryCount - 2).name
@@ -101,6 +119,14 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    private fun exit() {
+        parentFragmentManager.setFragmentResult(
+            ResultTags.RESULT, bundleOf(
+                ResultTags.COUNT_FRAGMENTS to viewModel.countFragments()
+            )
+        )
     }
 
     private fun replaceSection(title: String, tag: String) {
