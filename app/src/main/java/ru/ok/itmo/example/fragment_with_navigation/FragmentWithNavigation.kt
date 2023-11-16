@@ -10,7 +10,9 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import ru.ok.itmo.example.fragment_section.FragmentSection
 import ru.ok.itmo.example.R
+import ru.ok.itmo.example.Destroyable
 
 class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
     companion object {
@@ -26,9 +28,15 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
             )
         }
 
-        class FragmentWithNavigationSharedViewModel(private val savedStateHandle: SavedStateHandle) :
+        class FragmentWithNavigationViewModel(private val savedStateHandle: SavedStateHandle) :
             ViewModel() {
             val fragmentMap = mutableMapOf<String, Fragment>()
+
+            fun destroyFragments() {
+                for (fragment in fragmentMap.values) {
+                    (fragment as Destroyable).destroy()
+                }
+            }
 
             fun isStoresSavedState(): Boolean {
                 return savedStateHandle.contains(TAGS.MENU_DATA)
@@ -51,7 +59,7 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         }
     }
 
-    private val sharedViewModel: FragmentWithNavigationSharedViewModel by viewModels()
+    private val viewModel: FragmentWithNavigationViewModel by viewModels()
     private lateinit var navigationView: NavigationViewInterface
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,11 +70,11 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         val numberOfSections = arguments?.getInt(TAGS.NUMBER_OF_SECTIONS)
             ?: throw IllegalArgumentException("I don't know how many sections are needed")
 
-        if (sharedViewModel.isStoresSavedState()) {
+        if (viewModel.isStoresSavedState()) {
             drawMenu()
-            navigationView.selectedItemId = sharedViewModel.selectedItemId
+            navigationView.selectedItemId = viewModel.selectedItemId
         } else {
-            sharedViewModel.menuData = MenuData(numberOfSections)
+            viewModel.menuData = MenuData(numberOfSections)
             drawMenu()
             val firstItem = navigationView.menu.getItem(0)
             firstItem.isChecked = true
@@ -85,14 +93,15 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 childFragmentManager.run {
-                    if (backStackEntryCount <= 1)
+                    if (backStackEntryCount <= 1) {
                         parentFragmentManager.popBackStack()
-                    else {
+                        viewModel.destroyFragments()
+                    } else {
                         val lastFragmentTag =
-                            getBackStackEntryAt(backStackEntryCount - 2).name?.toInt()
+                            getBackStackEntryAt(backStackEntryCount - 2).name
                                 ?: throw IllegalArgumentException("Unknown Fragment in BackStack")
 
-                        navigationView.menu.findItem(lastFragmentTag).isChecked = true
+                        navigationView.menu.findItem(lastFragmentTag.toInt()).isChecked = true
                     }
                     popBackStack()
                 }
@@ -113,7 +122,7 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
             setReorderingAllowed(true)
             replace(
                 R.id.fragment_with_navigation_container,
-                sharedViewModel.fragmentMap.getOrPut(tag) { FragmentSection.newInstance(title) },
+                viewModel.fragmentMap.getOrPut(tag) { FragmentSection.newInstance(title) },
                 tag
             )
             addToBackStack(tag)
@@ -122,11 +131,11 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        sharedViewModel.selectedItemId = navigationView.selectedItemId
+        viewModel.selectedItemId = navigationView.selectedItemId
     }
 
     private fun drawMenu() {
-        for (section in sharedViewModel.menuData.sectionsData) {
+        for (section in viewModel.menuData.sectionsData) {
             navigationView.menu.add(section.groupId, section.itemId, section.order, section.title)
                 .setIcon(section.iconRes)
         }

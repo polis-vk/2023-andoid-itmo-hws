@@ -17,10 +17,12 @@ class FragmentWithButton : Fragment(R.layout.fragment_with_button) {
     private fun btnStartLogic(view: View) {
         val button = view.findViewById<Button>(R.id.btn_start)
         button.setOnClickListener {
+            val fragment = FragmentWithNavigation.newInstance((3..5).random())
             parentFragmentManager.commit {
+                setPrimaryNavigationFragment(fragment)
                 replace(
                     R.id.fragment_main_container,
-                    FragmentWithNavigation.newInstance((3..5).random())
+                    fragment
                 )
                 addToBackStack(null)
             }
