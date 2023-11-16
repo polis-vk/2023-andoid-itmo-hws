@@ -14,4 +14,11 @@
     <string name="input_password">Введите логин</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="login">Войти</string>
+    <string name="chats_page">Чаты</string>
+    <string name="settings">Настройки</string>
+    <string name="retry_request">Повторить запрос</string>
+    <string name="message_text">Текст сообщения</string>
+    <string name="message_none">Нет сообщений</string>
+    <string name="please_send_message">Напишите первым\nили отправьте стикер</string>
+    <string name="avatar">Аватар</string>
 </resources>

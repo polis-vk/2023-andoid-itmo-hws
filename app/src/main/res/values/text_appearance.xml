@@ -9,6 +9,13 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.TamTam.Header" parent="TextAppearance.TamTam">
+        <item name="font">@font/roboto_medium</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.TamTam.ScreenTitle" parent="TextAppearance.TamTam">
         <item name="font">@font/roboto_medium</item>
         <item name="android:textSize">17sp</item>
@@ -33,6 +40,12 @@
         <item name="font">@font/roboto_regular</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.TamTam.Helper" parent="TextAppearance.TamTam">
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="TextAppearance.TamTam.Content" parent="TextAppearance.TamTam">

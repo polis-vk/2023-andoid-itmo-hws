@@ -18,7 +18,7 @@ import ru.ok.itmo.tamtam.AppNavigationDirections
 import ru.ok.itmo.tamtam.R
 import ru.ok.itmo.tamtam.data.AuthRepository
 import ru.ok.itmo.tamtam.databinding.FragmentLoginBinding
-import ru.ok.itmo.tamtam.presentation.core.NotificationType
+import ru.ok.itmo.tamtam.utils.NotificationType
 import ru.ok.itmo.tamtam.presentation.stateholder.LoginViewModel
 import ru.ok.itmo.tamtam.utils.FragmentWithBinding
 import javax.inject.Inject

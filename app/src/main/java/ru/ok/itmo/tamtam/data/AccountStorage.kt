@@ -21,12 +21,20 @@ class AccountStorage @Inject constructor(
             accountPreferences.edit().putString(PREF_KEY_TOKEN, value).apply()
         }
 
+    var login: String?
+        get() = accountPreferences.getString(PREF_KEY_LOGIN, null)
+        set(value) {
+            accountPreferences.edit().putString(PREF_KEY_LOGIN, value).apply()
+        }
+
     fun clear() {
         accountPreferences.edit().remove(PREF_KEY_TOKEN).apply()
+        accountPreferences.edit().remove(PREF_KEY_LOGIN).apply()
     }
 
     companion object {
         private const val PREF_PACKAGE_NAME = "ru.ok.itmo.tamtam"
         private const val PREF_KEY_TOKEN = "token"
+        private const val PREF_KEY_LOGIN = "login"
     }
 }

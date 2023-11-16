@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.ok.itmo.tamtam.data.AuthRepository
-import ru.ok.itmo.tamtam.presentation.core.NotificationType
+import ru.ok.itmo.tamtam.utils.NotificationType
 import ru.ok.itmo.tamtam.utils.Resource
 import javax.inject.Inject
 

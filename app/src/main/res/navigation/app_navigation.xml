@@ -23,7 +23,25 @@
     <fragment
         android:id="@+id/chatsFragment"
         android:name="ru.ok.itmo.tamtam.presentation.fragment.ChatsFragment"
-        android:label="ChatsFragment" />
+        android:label="ChatsFragment">
+        <action
+            android:id="@+id/action_chatsFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="ru.ok.itmo.tamtam.presentation.fragment.ChatFragment"
+        android:label="ChatFragment">
+        <argument
+            android:name="chat_id"
+            app:argType="string" />
+    </fragment>
 
     <action
         android:id="@+id/action_to_launchFragment"
@@ -47,6 +65,7 @@
         app:popExitAnim="@anim/slide_in_right"
         app:popUpTo="@id/launchFragment"
         app:popUpToInclusive="true" />
+
 </navigation>
 
 

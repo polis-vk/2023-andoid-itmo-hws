@@ -1,7 +1,6 @@
 package ru.ok.itmo.tamtam.ioc.module
 
 import android.util.Log
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import ru.ok.itmo.tamtam.data.retrofit.AuthService
+import ru.ok.itmo.tamtam.data.retrofit.MessageService
 import ru.ok.itmo.tamtam.data.retrofit.TokenInterceptor
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
 import java.util.concurrent.TimeUnit
@@ -65,6 +65,18 @@ interface RetrofitModule {
                 .client(okHttpClient)
                 .build()
                 .create(AuthService::class.java)
+        }
+
+        @AppComponentScope
+        @Provides
+        fun provideMessageService(
+            retrofitBuilder: Retrofit.Builder,
+            okHttpClient: OkHttpClient
+        ): MessageService {
+            return retrofitBuilder
+                .client(okHttpClient)
+                .build()
+                .create(MessageService::class.java)
         }
     }
 }
