@@ -17,4 +17,8 @@
     <string name="forgot_password_submit">Восстановить</string>
     <string name="home_header">Домашняя страница</string>
     <string name="home_description">Домашняя страница</string>
+    
+    <string name="channel_card_default_title">Чат</string>
+    <string name="channel_card_default_preview">Превью сообщения</string>
+    <string name="channel_card_default_time">12:00</string>
 </resources>

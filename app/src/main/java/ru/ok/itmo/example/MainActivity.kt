@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import ru.ok.itmo.example.auth.EnterFragment
+import ru.ok.itmo.example.config.App
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +23,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 if (supportFragmentManager.backStackEntryCount == 0) {
                     finish()
                 } else {
+                    App.instance.run {
+                        if (token != null) {
+                            userRepository.logout(token!!)
+                            token = null
+                        }
+                    }
+
                     supportFragmentManager.popBackStack()
                 }
                 return true

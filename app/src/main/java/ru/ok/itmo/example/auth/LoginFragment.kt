@@ -10,8 +10,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.ok.itmo.example.MainActivity
 import ru.ok.itmo.example.R
+import ru.ok.itmo.example.config.App
+import ru.ok.itmo.example.domain.AuthToken
+import ru.ok.itmo.example.domain.LoginForm
 import ru.ok.itmo.example.main.HomeFragment
 import ru.ok.itmo.example.utils.disable
 import ru.ok.itmo.example.utils.enable
@@ -57,11 +63,24 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 loginText.isNullOrBlank() -> toast("No login is provided")
                 passwordText.isNullOrBlank() -> toast("No password is provided")
                 else -> {
-                    parentFragmentManager.beginTransaction()
-                        .remove(this)
-                        .replace(R.id.screen_container, HomeFragment(), "home")
-                        .addToBackStack("home")
-                        .commit()
+                    App.instance.userRepository.login(LoginForm(loginText, passwordText)).enqueue(object : Callback<AuthToken> {
+                        override fun onResponse(
+                            call: Call<AuthToken>,
+                            response: Response<AuthToken>
+                        ) {
+                            App.instance.token = response.headers()["X-Auth-Token"]
+
+                            parentFragmentManager.beginTransaction()
+                                .remove(this@LoginFragment)
+                                .replace(R.id.screen_container, HomeFragment(), "home")
+                                .addToBackStack("home")
+                                .commit()
+                        }
+
+                        override fun onFailure(call: Call<AuthToken>, t: Throwable) {
+                            toast("Invalid login or password")
+                        }
+                    })
                 }
             }
         }
