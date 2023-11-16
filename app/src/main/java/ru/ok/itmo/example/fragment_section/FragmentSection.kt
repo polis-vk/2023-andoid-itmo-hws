@@ -7,14 +7,13 @@ import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import ru.ok.itmo.example.FragmentPage
 import ru.ok.itmo.example.R
-import ru.ok.itmo.example.Destroyable
 import ru.ok.itmo.example.SharedViewModel
 
-class FragmentSection : Fragment(R.layout.fragment_section), Destroyable {
+class FragmentSection : Fragment(R.layout.fragment_section) {
     companion object {
 
         object TAGS {
@@ -31,7 +30,9 @@ class FragmentSection : Fragment(R.layout.fragment_section), Destroyable {
 
     private lateinit var argumentsNotNull: Bundle
     private lateinit var callback: OnBackPressedCallback
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val viewModel: SharedViewModel by viewModels (
+        ownerProducer = { requireParentFragment() }
+    )
     private lateinit var sectionData: SectionData
     private lateinit var sectionTitle: String
 
@@ -44,7 +45,7 @@ class FragmentSection : Fragment(R.layout.fragment_section), Destroyable {
         sectionTitle = argumentsNotNull.getCharSequence(TAGS.SECTION_TITLE)?.toString()
             ?: throw IllegalArgumentException("I don't know section title")
 
-        sectionData = sharedViewModel.sectionDataMap.getOrPut(sectionTitle) {
+        sectionData = viewModel.sectionDataMap.getOrPut(sectionTitle) {
             SectionData()
         }
 
@@ -121,10 +122,5 @@ class FragmentSection : Fragment(R.layout.fragment_section), Destroyable {
 
     private fun getAndIncPageCount(): Int {
         return (getPageCount() + 1).also { argumentsNotNull.putInt(TAGS.PAGE_COUNT, it) }
-    }
-
-    override fun destroy() {
-        sectionData.backStack.clear()
-        sectionData.fragmentMap.clear()
     }
 }

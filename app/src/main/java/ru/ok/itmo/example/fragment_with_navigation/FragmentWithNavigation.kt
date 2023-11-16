@@ -12,7 +12,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import ru.ok.itmo.example.fragment_section.FragmentSection
 import ru.ok.itmo.example.R
-import ru.ok.itmo.example.Destroyable
 
 class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
     companion object {
@@ -31,12 +30,6 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         class FragmentWithNavigationViewModel(private val savedStateHandle: SavedStateHandle) :
             ViewModel() {
             val fragmentMap = mutableMapOf<String, Fragment>()
-
-            fun destroyFragments() {
-                for (fragment in fragmentMap.values) {
-                    (fragment as Destroyable).destroy()
-                }
-            }
 
             fun isStoresSavedState(): Boolean {
                 return savedStateHandle.contains(TAGS.MENU_DATA)
@@ -95,7 +88,6 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
                 childFragmentManager.run {
                     if (backStackEntryCount <= 1) {
                         parentFragmentManager.popBackStack()
-                        viewModel.destroyFragments()
                     } else {
                         val lastFragmentTag =
                             getBackStackEntryAt(backStackEntryCount - 2).name
