@@ -5,6 +5,12 @@
 конфиденциальности</string>
     <string name="button_started_login">ВОЙТИ ЧЕРЕЗ ЛОГИН</string>
     <string name="button_started_phone">ВОЙТИ ЧЕРЕЗ ТЕЛЕФОН</string>
+    
+    <string name="type_your_login_and_password">Введите ваш логин и пароль</string>
+    <string name="hint_login">Введите логин</string>
+    <string name="hint_password">Введите пароль</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="sign_in">ВОЙТИ</string>
 
     <string name="action_bar_login">Логин</string>
 

@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.navigation.Navigation
+import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -20,42 +23,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
-//        getSupportActionBar().setCustomView(R.layout.custom_action_bar_layout);
-
-//        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-
-        supportActionBar!!.run {
-            setDisplayShowCustomEnabled(true)
-            setDisplayShowHomeEnabled(false)
-            setCustomView(R.layout.action_bar_simple)
-
-            customView.run {
-                (parent as Toolbar)
-                    .setContentInsetsAbsolute(0, 0)
-
-                findViewById<ImageButton>(R.id.buttonBack)
-                    .setOnClickListener {
-                        onBackPressedDispatcher.onBackPressed()
-                    }
+        viewModel.signedIn.observe(this, {
+            if (it) {
+                Navigation.findNavController(this, R.id.navHostFragment)
+                    .navigate(R.id.action_loginFragment_to_chatsFragment)
             }
-        }
-
-
-
-//        val actionBar: View = layoutInflater.inflate(R.layout.action_bar_simple, null)
-//        val layoutParams = ActionBar.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-//        supportActionBar!!.setCustomView(actionBar, layoutParams)
-
-//        setSupportActionBar(actionBar as Toolbar)
-//        supportActionBar!!.setCustomView(R.layout.action_bar_simple, ActionBar.LayoutParams(
-//            ViewGroup.LayoutParams.MATCH_PARENT)
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-//        val navController = navHostFragment.findNavController()
-//        navController.navigate(R.id.loginFragment)
+        })
     }
+
 
 }

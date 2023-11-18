@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light">
+    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -10,13 +10,20 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="actionBarStyle">@style/ApplicationBarTheme</item>
-        <!-- Customize your theme here. -->
-    </style>
-    
-    <style name="ApplicationBarTheme" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="fontFamily">sans-serif</item>
 
     </style>
+    
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="textAppearanceCaption">@style/TextAppearance</item>
+        <item name="hintTextAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+
 </resources>

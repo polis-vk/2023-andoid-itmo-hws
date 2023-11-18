@@ -17,12 +17,11 @@ import androidx.navigation.navGraphViewModels
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class StartedFragment : Fragment() {
+class StartedFragment : Fragment(R.layout.fragment_started) {
     private var param1: String? = null
     private var param2: String? = null
 
     private val viewModel: MainViewModel by activityViewModels()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +31,9 @@ class StartedFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_started, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val act = activity as AppCompatActivity
-//        act.supportActionBar!!.hide()
 
         view.findViewById<Button>(R.id.buttonLogin).setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_startedFragment_to_loginFragment)
