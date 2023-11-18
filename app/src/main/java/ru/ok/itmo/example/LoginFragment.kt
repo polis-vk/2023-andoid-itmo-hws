@@ -7,12 +7,12 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
-    lateinit var actionBar: SimpleActionBar
     private val viewModel: MainViewModel by activityViewModels()
     lateinit var button: Button
     lateinit var loginField : TextInputEditText
@@ -21,11 +21,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        actionBar = SimpleActionBar(getString(R.string.action_bar_login))
-//        childFragmentManager.beginTransaction()
-//            .add(R.id.action_bar_container, actionBar)
-//            .commit()
-
+        view.findViewById<FragmentContainerView>(R.id.action_bar_container)
+            .getFragment<SimpleActionBar>().title = getString(R.string.action_bar_login)
 
         button = view.findViewById<Button?>(R.id.buttonSignIn).apply {
             setOnClickListener {

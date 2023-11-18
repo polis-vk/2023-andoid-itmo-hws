@@ -12,7 +12,13 @@
     <string name="forget_password">Забыли пароль?</string>
     <string name="sign_in">ВОЙТИ</string>
 
+    <string name="login_error_unauthorized">Неправильный логин или пароль</string>
+    <string name="login_error_cant_connect">Не получилось связаться с сервером</string>
+    <string name="login_error">Что-то пошло не так</string>
+
+
     <string name="action_bar_login">Логин</string>
+    <string name="action_bar_chats">Чаты</string>
 
     <string name="content_description_back_button">Кнопка назад</string>
 

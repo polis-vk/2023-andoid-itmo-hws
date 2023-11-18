@@ -1,20 +1,11 @@
 package ru.ok.itmo.example
 
-import android.app.ActionBar.LayoutParams
+
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import androidx.activity.OnBackPressedDispatcher
+import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation
-import org.w3c.dom.Text
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -23,13 +14,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.signedIn.observe(this, {
+        viewModel.signIn.observe(this) {
             if (it) {
                 Navigation.findNavController(this, R.id.navHostFragment)
                     .navigate(R.id.action_loginFragment_to_chatsFragment)
+                viewModel.signIn.value = false
             }
-        })
+        }
+
+        viewModel.toastMessage.observe(this) {
+            if (it is Int) {
+                Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+                viewModel.toastMessage.value = null
+            }
+        }
     }
-
-
 }
