@@ -41,8 +41,8 @@ class StartedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val act = activity as AppCompatActivity
-        act.supportActionBar!!.hide()
+//        val act = activity as AppCompatActivity
+//        act.supportActionBar!!.hide()
 
         view.findViewById<Button>(R.id.buttonLogin).setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_startedFragment_to_loginFragment)
