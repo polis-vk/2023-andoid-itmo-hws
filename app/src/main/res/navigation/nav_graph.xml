@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startedFragment">
+
+    <fragment
+        android:id="@+id/startedFragment"
+        android:name="ru.ok.itmo.example.StartedFragment"
+        android:label="fragment_started"
+        tools:layout="@layout/fragment_started" >
+        <action
+            android:id="@+id/action_startedFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/startedFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ru.ok.itmo.example.LoginFragment"
+        android:label="LoginFragment" />
+</navigation>

@@ -12,6 +12,6 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_started, container, false)
+        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 }
