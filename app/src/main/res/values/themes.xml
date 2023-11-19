@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Itmoexample" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -13,17 +13,17 @@
         <item name="fontFamily">sans-serif</item>
 
     </style>
-    
+
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="hintTextColor">@color/secondary</item>
+        <item name="android:textSize">12sp</item>
         <item name="boxStrokeWidth">0dp</item>
-        <item name="textAppearanceCaption">@style/TextAppearance</item>
-        <item name="hintTextAppearance">@style/TextAppearance</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
     </style>
 
-    <style name="TextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/accent</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-    
 
 </resources>

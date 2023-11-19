@@ -33,7 +33,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             isEnabled = false
         }
 
-        loginField = view.findViewById<TextInputEditText?>(R.id.editTextText2).apply {
+        loginField = view.findViewById<TextInputEditText?>(R.id.editTextLogin).apply {
             doOnTextChanged { text, start, before, count ->
                enableButtonIfNeed()
             }
