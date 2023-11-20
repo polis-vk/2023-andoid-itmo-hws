@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/loginForm_backgroundColor"
-    >
+    android:background="@color/loginForm_backgroundColor">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_top"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="0dp"
-        />
+        app:layout_constraintGuide_begin="0dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_left"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/loginForm_Guideline"
-        />
+        app:layout_constraintGuide_begin="@dimen/loginForm_Guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_right"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/loginForm_Guideline"
-        />
+        app:layout_constraintGuide_end="@dimen/loginForm_Guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gl_bot"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/loginForm_Guideline"
-        />
+        app:layout_constraintGuide_end="@dimen/loginForm_Guideline" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch_theme"
@@ -48,15 +42,14 @@
         android:text="@string/dark_theme"
         android:textSize="@dimen/loginForm_smallTextSize"
 
-        app:layout_constraintTop_toTopOf="@id/gl_top"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="@id/gl_right"
-        app:layout_constraintStart_toStartOf="@id/gl_left"
 
         app:layout_constraintHorizontal_bias="0.99"
-        app:layout_constraintVertical_bias="0.01"
-        />
+        app:layout_constraintStart_toStartOf="@id/gl_left"
+
+        app:layout_constraintTop_toTopOf="@id/gl_top"
+        app:layout_constraintVertical_bias="0.01" />
 
     <TextView
         android:id="@+id/tv_preview"
@@ -66,14 +59,13 @@
         android:textColor="@color/loginForm_secondTextColor"
         android:textSize="@dimen/loginForm_previewTextSize"
 
-        app:layout_constraintTop_toTopOf="@id/gl_top"
         app:layout_constraintBottom_toTopOf="@+id/text_input_layout_email"
-
         app:layout_constraintEnd_toStartOf="@+id/gl_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_left"
 
-        app:layout_constraintVertical_chainStyle="packed"
-        />
+        app:layout_constraintStart_toStartOf="@+id/gl_left"
+        app:layout_constraintTop_toTopOf="@id/gl_top"
+
+        app:layout_constraintVertical_chainStyle="packed" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -82,26 +74,24 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/loginForm_padding"
 
-        app:layout_constraintTop_toBottomOf="@id/tv_preview"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/text_input_layout_password"
 
         app:layout_constraintEnd_toStartOf="@+id/gl_right"
         app:layout_constraintStart_toStartOf="@+id/gl_left"
 
-        app:errorEnabled="true"
-        >
+        app:layout_constraintTop_toBottomOf="@id/tv_preview">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minHeight_touchZone"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-
-            android:scrollbars="horizontal"
             android:maxLines="1"
-            />
+
+            android:minHeight="@dimen/minHeight_touchZone"
+            android:scrollbars="horizontal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,26 +101,24 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/loginForm_padding"
 
-        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_email"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/btn_login"
 
         app:layout_constraintEnd_toStartOf="@+id/gl_right"
         app:layout_constraintStart_toStartOf="@+id/gl_left"
-
-        app:errorEnabled="true"
-        >
+        app:passwordToggleEnabled="true"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minHeight_touchZone"
             android:hint="@string/password"
             android:inputType="textPassword"
-
-            android:scrollbars="horizontal"
             android:maxLines="1"
-            />
+
+            android:minHeight="@dimen/minHeight_touchZone"
+            android:scrollbars="horizontal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,16 +129,15 @@
 
         android:layout_marginVertical="@dimen/loginForm_padding"
 
-        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password"
-        app:layout_constraintBottom_toBottomOf="@id/gl_bot"
-
-        app:layout_constraintEnd_toStartOf="@+id/gl_right"
-        app:layout_constraintStart_toStartOf="@+id/gl_left"
-
+        android:background="@drawable/login_form_button_background_selector"
         android:text="@string/log_in"
+
         android:textColor="@drawable/login_form_button_text_color_selector"
         android:textSize="@dimen/loginForm_previewTextSize"
-        android:background="@drawable/login_form_button_background_selector"
-        />
+
+        app:layout_constraintBottom_toBottomOf="@id/gl_bot"
+        app:layout_constraintEnd_toStartOf="@+id/gl_right"
+        app:layout_constraintStart_toStartOf="@+id/gl_left"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_layout_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

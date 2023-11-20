@@ -21,10 +21,9 @@ class LoginActivity : AppCompatActivity() {
         btnLoginLogic()
     }
 
-    private fun switchThemeLogic()
-    {
+    private fun switchThemeLogic() {
         val switchTheme = findViewById<SwitchCompat>(R.id.switch_theme)
-        if (Utils.isNightModeActive(this)){
+        if (Utils.isNightModeActive(this)) {
             switchTheme.isChecked = true
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
@@ -38,8 +37,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun editTextPasswordLogic()
-    {
+    private fun editTextPasswordLogic() {
         val editTextPassword = findViewById<TextInputEditText>(R.id.edit_text_password)
         val btnLogin = findViewById<Button>(R.id.btn_login)
         editTextPassword.setOnEditorActionListener { _, actionId, event ->
@@ -51,8 +49,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun btnLoginLogic()
-    {
+    private fun btnLoginLogic() {
         val textInputLayoutEmail = findViewById<TextInputLayout>(R.id.text_input_layout_email)
         val textInputLayoutPassword = findViewById<TextInputLayout>(R.id.text_input_layout_password)
         val editTextEmail = findViewById<TextInputEditText>(R.id.edit_text_email)
@@ -74,7 +71,8 @@ class LoginActivity : AppCompatActivity() {
                 textInputLayoutPassword.error = getString(R.string.error_empty_password)
             } else if (password.length < 6) {
                 textInputLayoutEmail.error = null
-                textInputLayoutPassword.error = getString(R.string.error_less_than_6_characters_password)
+                textInputLayoutPassword.error =
+                    getString(R.string.error_less_than_6_characters_password)
             } else {
                 val userId = authorize(email, password)
 
@@ -92,8 +90,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     @Suppress("UNUSED_PARAMETER", "RedundantNullableReturnType")
-    private fun authorize(login: String, password: String): String?
-    {
+    private fun authorize(login: String, password: String): String? {
         /** MAGIC **/
         return "${login}+${42}"
     }

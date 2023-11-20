@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity(R.layout.activity_main) {
 
         try {
             launcher.launch(null)
-        } catch (e : IllegalStateException) {
+        } catch (e: IllegalStateException) {
             tvFormLogin.text = e.toString()
             Log.e(TAG, e.toString())
         }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,9 +35,8 @@
         android:text="@string/main_login_id"
         android:textSize="20sp"
 
-        app:layout_constraintTop_toTopOf="@+id/gl_top"
         app:layout_constraintStart_toStartOf="@+id/gl_left"
-        />
+        app:layout_constraintTop_toTopOf="@+id/gl_top" />
 
     <TextView
         android:id="@+id/tv_password"
@@ -48,24 +46,22 @@
         android:text="@string/main_password"
         android:textSize="20sp"
 
-        app:layout_constraintTop_toBottomOf="@id/barrier_horizontal"
-        app:layout_constraintStart_toStartOf="@+id/gl_left" />
+        app:layout_constraintStart_toStartOf="@+id/gl_left"
+        app:layout_constraintTop_toBottomOf="@id/barrier_horizontal" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:barrierDirection="right"
-        app:constraint_referenced_ids="tv_login,tv_password"
-        />
+        app:constraint_referenced_ids="tv_login,tv_password" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier_horizontal"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="tv_login,tv_form_login"
-        />
+        app:constraint_referenced_ids="tv_login,tv_form_login" />
 
 
     <TextView
@@ -74,13 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_login"
         android:text=""
-        tools:text="id"
         android:textSize="20sp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintTop_toTopOf="@+id/gl_top"
-        app:layout_constraintStart_toStartOf="@id/barrier_vertical"
         app:layout_constraintEnd_toEndOf="@+id/gl_right"
-        />
+        app:layout_constraintStart_toStartOf="@id/barrier_vertical"
+        app:layout_constraintTop_toTopOf="@+id/gl_top"
+        tools:text="id" />
 
     <TextView
         android:id="@+id/tv_form_password"
@@ -90,9 +85,8 @@
         android:text="@string/n_a"
         android:textSize="20sp"
         app:layout_constrainedWidth="true"
-        app:layout_constraintTop_toBottomOf="@id/barrier_horizontal"
-        app:layout_constraintStart_toStartOf="@id/barrier_vertical"
         app:layout_constraintEnd_toEndOf="@+id/gl_right"
-        />
+        app:layout_constraintStart_toStartOf="@id/barrier_vertical"
+        app:layout_constraintTop_toBottomOf="@id/barrier_horizontal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
