@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
             } else if (password.isEmpty()) {
                 textInputLayoutEmail.error = null
                 textInputLayoutPassword.error = getString(R.string.error_empty_password)
-            } else if (password.length < 6) {
+            } else if (password.length < PasswordRules.MIN_PASSWORD_LENGTH) {
                 textInputLayoutEmail.error = null
                 textInputLayoutPassword.error =
                     getString(R.string.error_less_than_6_characters_password)
