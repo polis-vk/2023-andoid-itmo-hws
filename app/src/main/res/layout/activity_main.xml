@@ -13,11 +13,9 @@
         android:autofillHints="null"
         android:hint="@string/email_input"
         android:inputType="textEmailAddress"
-        android:textSize="20sp"
+        android:textSize="@dimen/input_text_size"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
-
-
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
@@ -29,10 +27,9 @@
         android:autofillHints="null"
         android:hint="@string/password_input"
         android:inputType="textPassword"
-        android:textSize="20sp"
+        android:textSize="@dimen/input_text_size"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
-
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintTop_toBottomOf="@id/email_input" />
 
@@ -42,11 +39,9 @@
         android:layout_height="48dp"
         android:text="@string/button_show_password"
         android:textAllCaps="false"
-        android:textSize="13sp"
+        android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@id/password_input"
-        app:layout_constraintTop_toBottomOf="@id/password_input"
-
-        />
+        app:layout_constraintTop_toBottomOf="@id/password_input" />
 
     <Button
         android:id="@+id/button_change_theme"
@@ -54,11 +49,9 @@
         android:layout_height="wrap_content"
         android:text="@string/button_change_theme"
         android:textAllCaps="false"
-        android:textSize="13sp"
+        android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toTopOf="@id/guideline_top"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <Button
@@ -69,9 +62,7 @@
         android:text="@string/button_enter"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
-        app:layout_constraintStart_toStartOf="@id/guideline_left"
-
-        />
+        app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
 
     <androidx.constraintlayout.widget.Guideline

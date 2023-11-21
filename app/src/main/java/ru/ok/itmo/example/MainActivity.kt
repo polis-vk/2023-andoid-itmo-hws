@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatDelegate
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-
+    companion object {
+        private const val MIN_EMAIL_FIELD_SIZE = 6
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +29,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         var isPasswordShowed = false
 
         enterButton.setOnClickListener {
-            if (emailField.text.toString() == "") {
-                makeWidget(R.string.error_empty_emil);
-            } else if (emailField.text.toString().length < 6) {
+            if (emailField.text.isBlank()) {
+                makeWidget(R.string.error_empty_emil)
+            } else if (emailField.text.count() < MIN_EMAIL_FIELD_SIZE) {
                 makeWidget(R.string.error_few_chars)
             } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailField.text.toString())
                     .matches()
@@ -97,4 +99,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 )
         }
     }
+
 }
