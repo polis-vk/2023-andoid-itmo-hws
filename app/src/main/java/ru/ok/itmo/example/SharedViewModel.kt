@@ -1,41 +1,35 @@
 package ru.ok.itmo.example
 
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModel
-import ru.ok.itmo.example.login.FragmentLogin
+import androidx.navigation.NavController
 
 class SharedViewModel : ViewModel() {
     companion object {
         const val DEFAULT_TOKEN = "default_token"
     }
 
-    lateinit var fragmentManager: FragmentManager
+    lateinit var navController: NavController
     private var token: String = DEFAULT_TOKEN
 
     fun logout() {
         token = DEFAULT_TOKEN
         closeAll()
-        startApp()
     }
 
     fun login(newToken: String) {
         token = newToken
-        closeAll()
-        startApp()
     }
 
     fun startApp() {
-        fragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(
-                R.id.fragment_main_container,
-                if (token == DEFAULT_TOKEN) FragmentLogin() else FragmentBack()
-            )
+        if (token == DEFAULT_TOKEN) {
+            navController.navigate(R.id.action_splashFragment_to_login_nav_graph)
+        } else {
+            navController.navigate(R.id.action_splashFragment_to_app_nav_graph)
         }
     }
 
     private fun closeAll() {
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        navController.popBackStack(navController.graph.startDestinationId, false)
+        startApp()
     }
 }

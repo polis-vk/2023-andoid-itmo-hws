@@ -10,4 +10,6 @@
     <string name="action_bar_back_title">Нажми назад</string>
     <string name="error_unauthorized">Неправильный логин или пароль</string>
     <string name="success_auth">Вы авторизовались</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

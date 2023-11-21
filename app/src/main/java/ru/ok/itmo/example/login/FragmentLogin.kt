@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,8 +48,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private fun authorizationLogic() {
         val tokenObserver = Observer<String> { token ->
-            sharedViewModel.login(token)
-            successUnauthorized()
+            successAuth(token)
         }
         viewModel.token.observe(viewLifecycleOwner, tokenObserver)
     }
@@ -82,8 +82,10 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         showToastInFragment(getString(R.string.error_unauthorized))
     }
 
-    private fun successUnauthorized() {
+    private fun successAuth(token: String) {
+        sharedViewModel.login(token)
         showToastInFragment(getString(R.string.success_auth))
+        findNavController().navigate(R.id.action_fragmentLogin_to_app_nav_graph)
     }
 
     private fun showToastInFragment(message: String) {
