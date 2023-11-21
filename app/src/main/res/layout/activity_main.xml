@@ -7,30 +7,40 @@
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/fill_button"
+        android:id="@+id/coroutines_fill_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cor_fill"
         android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toStartOf="@id/restart_button"
+        app:layout_constraintEnd_toStartOf="@id/flow_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/restart_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/flow_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/flow_fill"
         android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/viewmodel_button"
+        app:layout_constraintStart_toEndOf="@id/coroutines_fill_button"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/viewmodel_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/viewmodel_fill"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/fill_button"
+        app:layout_constraintStart_toEndOf="@id/flow_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/fill_button"
+        app:layout_constraintTop_toBottomOf="@id/flow_button"
         android:orientation="horizontal"
         android:gravity="center">
 

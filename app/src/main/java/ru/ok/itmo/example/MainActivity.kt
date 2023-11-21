@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.RadioGroup
 import android.widget.TimePicker
+import androidx.lifecycle.ViewModelProvider
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -16,15 +17,16 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import java.util.Calendar
-
+import androidx.lifecycle.LifecycleOwner
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var inc = 0;
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar);
-        val corButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.fill_button);
-        val flowButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.restart_button);
+        val corButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.coroutines_fill_button);
+        val flowButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.flow_button);
+        val viewModelButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.viewmodel_button);
         val radioGroup = findViewById<RadioGroup>(R.id.radio_group);
         val alarmButton = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.alarm_button);
 
@@ -80,11 +82,23 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        fun viewModelSolution(){
+            progressBar.progress = 0;
+            val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+            viewModel.fill()
+            viewModel.progress.observe(this){
+                progressBar.progress = it;
+            }
+        }
+
         corButton.setOnClickListener {
             coroutinesSolution();
         }
         flowButton.setOnClickListener {
             flowSolution()
+        }
+        viewModelButton.setOnClickListener {
+            viewModelSolution();
         }
         alarmButton.setOnClickListener {
             val calendar = Calendar.getInstance();

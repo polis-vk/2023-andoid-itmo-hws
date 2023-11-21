@@ -7,4 +7,5 @@
     <string name="button_300">300мс</string>
     <string name="button_500">500мс</string>
     <string name="set_alarm">Set an alarm</string>
+    <string name="viewmodel_fill">ViewModel Fill</string>
 </resources>
