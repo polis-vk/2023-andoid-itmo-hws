@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 
 class StartFragment : Fragment(R.layout.start_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val loginButton = view.findViewById<Button>(R.id.login_button)
+        val loginButton = view.findViewById<Button>(R.id.start_button)
         loginButton.setOnClickListener {
             findNavController().navigate(R.id.action_start_fragment_to_login_fragment)
         }

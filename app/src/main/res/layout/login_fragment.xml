@@ -28,7 +28,7 @@
             app:layout_constraintVertical_bias="0.5">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/login_back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_back_24"
@@ -95,8 +95,11 @@
             app:layout_constraintVertical_bias="0.5">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/loginInputEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:maxLines="1"
                 android:paddingStart="16dp"
                 android:paddingBottom="16dp" />
 
@@ -107,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:hint="@string/password_label"
             android:layout_marginTop="16dp"
 
             android:background="@drawable/login_input_view"
@@ -116,8 +120,12 @@
             app:layout_constraintTop_toBottomOf="@+id/loginInput">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordInputEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:background="@color/white"
+                android:inputType="textPassword"
                 android:paddingStart="16dp"
                 android:paddingBottom="16dp" />
 
@@ -126,6 +134,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
+        android:id="@+id/login_button"
         style="@style/login_button_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
