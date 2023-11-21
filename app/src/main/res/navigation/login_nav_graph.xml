@@ -12,7 +12,18 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_fragmentLogin_to_app_nav_graph"
-            app:destination="@id/app_nav_graph" />
+            app:destination="@id/app_nav_graph"
+            app:popUpTo="@id/fragmentLogin"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_fragmentLogin_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <include app:graph="@navigation/app_nav_graph" />
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="ru.ok.itmo.example.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>

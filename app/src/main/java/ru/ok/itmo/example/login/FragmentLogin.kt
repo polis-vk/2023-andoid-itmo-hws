@@ -7,6 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -30,6 +31,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
     private lateinit var editTextLogin: TextInputEditText
     private lateinit var editTextPassword: TextInputEditText
     private lateinit var btnLogin: Button
+    private lateinit var forgotPasswordTextView: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,13 +39,21 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         editTextLogin = view.findViewById(R.id.edit_text_login)
         editTextPassword = view.findViewById(R.id.edit_text_password)
         btnLogin = view.findViewById(R.id.btn_login)
+        forgotPasswordTextView = view.findViewById(R.id.forgot_password_text_view)
 
         actionBarLogic()
+        forgotPasswordLogic()
         keyboardLogic()
         editTextLoginLogic()
         editTextPasswordLogic()
         btnLoginLogic()
         authorizationLogic()
+    }
+
+    private fun forgotPasswordLogic() {
+        forgotPasswordTextView.setOnClickListener {
+            findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToForgotPasswordFragment())
+        }
     }
 
     private fun authorizationLogic() {
@@ -85,7 +95,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
     private fun successAuth(token: String) {
         sharedViewModel.login(token)
         showToastInFragment(getString(R.string.success_auth))
-        findNavController().navigate(R.id.action_fragmentLogin_to_app_nav_graph)
+        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToAppNavGraph())
     }
 
     private fun showToastInFragment(message: String) {

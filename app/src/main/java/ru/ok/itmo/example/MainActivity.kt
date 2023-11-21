@@ -13,10 +13,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         sharedViewModel.navController =
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as
                     NavHostFragment).navController
-
-        if (savedInstanceState == null) {
-            sharedViewModel.startApp()
-        }
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {

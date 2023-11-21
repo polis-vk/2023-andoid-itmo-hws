@@ -22,9 +22,9 @@ class SharedViewModel : ViewModel() {
 
     fun startApp() {
         if (token == DEFAULT_TOKEN) {
-            navController.navigate(R.id.action_splashFragment_to_login_nav_graph)
+            navController.navigate(SplashFragmentDirections.actionSplashFragmentToLoginNavGraph())
         } else {
-            navController.navigate(R.id.action_splashFragment_to_app_nav_graph)
+            navController.navigate(SplashFragmentDirections.actionSplashFragmentToAppNavGraph())
         }
     }
 

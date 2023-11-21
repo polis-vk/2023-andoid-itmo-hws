@@ -3,13 +3,13 @@
     <string name="login_info">Введите ваш логин и пароль</string>
     <string name="login_message">Логин</string>
     <string name="password_message">Пароль</string>
-    <string name="forgot_password_message">Забыли пароль?</string>
+    <string name="forgot_password_link_message">Забыли пароль?</string>
     <string name="login_button_massage">Войти</string>
     <string name="login_form_label">Логин</string>
     <string name="action_bar_login_title">Логин</string>
     <string name="action_bar_back_title">Нажми назад</string>
     <string name="error_unauthorized">Неправильный логин или пароль</string>
     <string name="success_auth">Вы авторизовались</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forgot_password_layout_message">А зря</string>
+    <string name="splash_fragment_stub">SplashFragment</string>
 </resources>
