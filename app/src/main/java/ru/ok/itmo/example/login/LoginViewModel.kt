@@ -8,10 +8,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.ok.itmo.example.login.repository.FakeLoginRepository
 import ru.ok.itmo.example.login.repository.LoginState
+import ru.ok.itmo.example.login.repository.RealLoginRepository
 import ru.ok.itmo.example.login.repository.UserCredentials
 
 class LoginViewModel : ViewModel() {
-    private val loginRepository = FakeLoginRepository();
+    private val loginRepository = RealLoginRepository();
 
     private val _status = MutableStateFlow<LoginState>(LoginState.Started)
     val status = _status.asStateFlow()

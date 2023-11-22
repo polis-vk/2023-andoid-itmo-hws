@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment
 import ru.ok.itmo.example.R
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.onEach
@@ -19,9 +23,14 @@ import ru.ok.itmo.example.login.repository.LoginState
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
     private val loginViewModel by viewModels<LoginViewModel>()
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loginViewModel.logout()
+
+        navController = view.findNavController()
 
         val loginField = view.findViewById<TextInputEditText>(R.id.loginInputEdit)
         val passwordField = view.findViewById<TextInputEditText>(R.id.passwordInputEdit)
@@ -39,24 +48,19 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             loginViewModel.status.onEach {
                 Log.d(TAG, "New status: $it")
                 if (it is LoginState.Success) {
-                    findNavController().navigate(R.id.action_login_fragment_to_chatsFragment)
-                } else {
+                    navController.navigate(R.id.action_login_fragment_to_chats_fragment)
+                } else if (it is LoginState.Failure) {
                     Toast.makeText(context, R.string.login_failure_toast, Toast.LENGTH_SHORT).show()
                 }
             }.stateIn(this)
         }
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        val callback = object : OnBackPressedCallback(
-//            true
-//        ) {
-//            override fun handleOnBackPressed() {
-//                loginViewModel.logout()
-//            }
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        loginViewModel.logout()
+
+    }
 
     companion object {
         const val TAG = "LOGIN_FRAGMENT"

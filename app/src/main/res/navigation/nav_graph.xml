@@ -17,13 +17,13 @@
         android:id="@+id/login_fragment"
         android:name="ru.ok.itmo.example.login.LoginFragment" >
         <action
-            android:id="@+id/action_login_fragment_to_chatsFragment"
+            android:id="@+id/action_login_fragment_to_chats_fragment"
             app:destination="@id/chatsFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
         android:name="ru.ok.itmo.example.chats.ChatsFragment"
         android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats" />
+        tools:layout="@layout/chats_fragment" />
 
 </navigation>
