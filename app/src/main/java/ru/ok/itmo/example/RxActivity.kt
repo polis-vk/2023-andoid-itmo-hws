@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.internal.disposables.ArrayCompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
@@ -31,8 +30,9 @@ class RxActivity : AppCompatActivity(R.layout.activity_action) {
             if (isProgressEmpty() || isProgressFull() || isConfigRestarted) {
                 isConfigRestarted = false
                 disposable = Observable.intervalRange(
-                    1, 100, 0, 100, TimeUnit.MILLISECONDS, Schedulers.io()
-                ).observeOn(AndroidSchedulers.mainThread())
+                    1, 100, 0, 100, TimeUnit.MILLISECONDS
+                ).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         progressBar.progress = it.toInt()
                         testTextView.text = it.toString()

@@ -1,13 +1,14 @@
 package ru.ok.itmo.example
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
@@ -18,12 +19,12 @@ class AdditionalActivity : AppCompatActivity(R.layout.activity_additional) {
     private lateinit var buttonRestart: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var testTextView: TextView
+    private lateinit var disposable: Disposable
 
     private lateinit var radioButton50: RadioButton
     private lateinit var radioButton100: RadioButton
     private lateinit var radioButton300: RadioButton
     private lateinit var radioButton500: RadioButton
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,19 +51,14 @@ class AdditionalActivity : AppCompatActivity(R.layout.activity_additional) {
                 }
 
 
-                val result = Observable.intervalRange(
+                disposable = Observable.intervalRange(
                     1, 100, 0, getProgressBarPeriod(), TimeUnit.MILLISECONDS
-                )
-                    .doOnError {
-                    it.message?.let { it1 -> Log.d("HANDLE_IT!!!!!", it1) }
-                }.doOnComplete { changeButtonVisibility(buttonRestart) }
-                    .observeOn(Schedulers.io())
+                ).doOnComplete { changeButtonVisibility(buttonRestart) }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
-                        runOnUiThread {
-                            progressBar.progress = it.toInt()
-                            testTextView.text = it.toString()
-                        }
-
+                        progressBar.progress = it.toInt()
+                        testTextView.text = it.toString()
                     }
             }
         }
@@ -102,6 +98,13 @@ class AdditionalActivity : AppCompatActivity(R.layout.activity_additional) {
             radioButton500.isChecked -> 500
             else -> 100
         }
+    }
+
+    override fun onDestroy() {
+        if (::disposable.isInitialized && !disposable.isDisposed) {
+            disposable.dispose()
+        }
+        super.onDestroy()
     }
 
 }
