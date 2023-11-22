@@ -29,7 +29,8 @@ class SharedViewModel : ViewModel() {
     }
 
     private fun closeAll() {
-        navController.popBackStack(navController.graph.startDestinationId, false)
+        navController.popBackStack(R.id.start_nav_graph, true)
+        navController.navigate(R.id.start_nav_graph)
         startApp()
     }
 }
