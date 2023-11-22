@@ -11,8 +11,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel.navController =
-            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as
-                    NavHostFragment).navController
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {

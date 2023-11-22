@@ -6,7 +6,7 @@
     app:startDestination="@id/fragmentBack">
     <fragment
         android:id="@+id/fragmentBack"
-        android:name="ru.ok.itmo.example.FragmentBack"
+        android:name="ru.ok.itmo.example.BackFragment"
         android:label="fragment_back"
         tools:layout="@layout/fragment_back" />
 </navigation>

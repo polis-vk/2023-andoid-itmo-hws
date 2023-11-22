@@ -24,7 +24,7 @@ import ru.ok.itmo.example.R
 import ru.ok.itmo.example.SharedViewModel
 import ru.ok.itmo.example.server.ServerException
 
-class FragmentLogin : Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels(ownerProducer = { requireActivity() })
 
@@ -61,7 +61,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private fun forgotPasswordLogic() {
         forgotPasswordTextView.setOnClickListener {
-            findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToForgotPasswordFragment())
+            findNavController().navigate(LoginFragmentDirections.actionFragmentLoginToForgotPasswordFragment())
         }
     }
 
@@ -72,8 +72,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         viewModel.token.observe(viewLifecycleOwner, tokenObserver)
     }
 
-    private fun btnChangeState(state: Boolean)
-    {
+    private fun btnChangeState(state: Boolean) {
         btnLogin.isEnabled = state
         Helper.setButtonColor(
             btnLogin, requireContext(), if (state) R.color.buttons else R.color.disabled_button
@@ -123,7 +122,7 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
     private fun successAuth(token: String) {
         sharedViewModel.login(token)
         showToastInFragment(getString(R.string.success_auth))
-        findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToAppNavGraph())
+        findNavController().navigate(LoginFragmentDirections.actionFragmentLoginToAppNavGraph())
         hideLoading()
     }
 

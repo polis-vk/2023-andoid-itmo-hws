@@ -9,11 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 
-class FragmentBack : Fragment(R.layout.fragment_back) {
+class BackFragment : Fragment(R.layout.fragment_back) {
 
-    private val sharedViewModel: SharedViewModel by viewModels(
-        ownerProducer = { requireActivity() }
-    )
+    private val sharedViewModel: SharedViewModel by viewModels(ownerProducer = { requireActivity() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,8 +24,7 @@ class FragmentBack : Fragment(R.layout.fragment_back) {
         actionBar?.setBackgroundDrawable(
             ColorDrawable(
                 Helper.getColor(
-                    requireContext(),
-                    R.color.white
+                    requireContext(), R.color.white
                 )
             )
         )

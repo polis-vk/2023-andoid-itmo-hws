@@ -8,19 +8,17 @@
         android:id="@+id/splashFragment"
         android:name="ru.ok.itmo.example.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_app_nav_graph"
             app:destination="@id/app_nav_graph"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"
-            />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_splashFragment_to_login_nav_graph"
             app:destination="@id/login_nav_graph"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"
-            />
+            app:popUpToInclusive="true" />
     </fragment>
     <include app:graph="@navigation/app_nav_graph" />
     <include app:graph="@navigation/login_nav_graph" />

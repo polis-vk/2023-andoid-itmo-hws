@@ -7,15 +7,14 @@
 
     <fragment
         android:id="@+id/fragmentLogin"
-        android:name="ru.ok.itmo.example.login.FragmentLogin"
+        android:name="ru.ok.itmo.example.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_fragmentLogin_to_app_nav_graph"
             app:destination="@id/app_nav_graph"
             app:popUpTo="@id/fragmentLogin"
-            app:popUpToInclusive="true"
-            />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_fragmentLogin_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment" />

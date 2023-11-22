@@ -9,7 +9,7 @@
     <color name="red">#FF3F3F</color>
     <color name="white">#FFFFFF</color>
 
-<!--    -->
+    <!--    -->
 
     <color name="buttons">@color/accent</color>
     <color name="icons">@color/accent</color>
@@ -22,7 +22,7 @@
     <color name="main">@color/black</color>
     <color name="text">@color/black</color>
 
-<!--    -->
+    <!--    -->
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#14000000</color>
 </resources>
