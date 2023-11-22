@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.server
+package ru.ok.itmo.tamtam.server
 
 import android.util.Log
 import kotlinx.coroutines.Dispatchers

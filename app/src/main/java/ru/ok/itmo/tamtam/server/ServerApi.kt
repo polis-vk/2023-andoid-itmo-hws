@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.server
+package ru.ok.itmo.tamtam.server
 
 import okhttp3.ResponseBody
 import retrofit2.http.Body

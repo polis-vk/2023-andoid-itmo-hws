@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.login
+package ru.ok.itmo.tamtam.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,6 +1,6 @@
-package ru.ok.itmo.example.login
+package ru.ok.itmo.tamtam.login
 
-import ru.ok.itmo.example.server.ServerWorker
+import ru.ok.itmo.tamtam.server.ServerWorker
 
 class LoginModel {
     suspend fun authorization(

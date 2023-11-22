@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.login
+package ru.ok.itmo.tamtam.login
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -19,10 +19,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
-import ru.ok.itmo.example.Helper
-import ru.ok.itmo.example.R
-import ru.ok.itmo.example.SharedViewModel
-import ru.ok.itmo.example.server.ServerException
+import ru.ok.itmo.tamtam.Helper
+import ru.ok.itmo.tamtam.R
+import ru.ok.itmo.tamtam.SharedViewModel
+import ru.ok.itmo.tamtam.server.ServerException
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()

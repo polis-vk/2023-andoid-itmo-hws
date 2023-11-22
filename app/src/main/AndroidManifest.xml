@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ru.ok.itmo.example">
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
+    package="ru.ok.itmo.tamtam">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Itmoexample"
+        android:theme="@style/Theme.ItmoTamTam"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">itmo-example</string>
+    <string name="app_name">ТамТам</string>
     <string name="login_info">Введите ваш логин и пароль</string>
     <string name="login_message">Логин</string>
     <string name="password_message">Пароль</string>
