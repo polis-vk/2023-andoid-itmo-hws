@@ -7,8 +7,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/body"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/arrow_left_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_marginStart="4dp"
+
+            android:padding="12dp"
+
+            android:src="@drawable/arrow_left_outline_back_vk"
+
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/arrow_left_back_description"
+
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+
+            android:layout_margin="16dp"
+
+            android:text="@string/action_bar_login_title"
+            android:textColor="@color/text"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:outlineProvider="bounds"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@id/navbar"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -30,6 +92,7 @@
         />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -44,7 +107,9 @@
             app:boxStrokeWidthFocused="1dp"
             app:counterTextColor="@color/secondary"
             app:boxStrokeColor="@color/accent"
-            app:errorEnabled="false"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@null"
+            app:errorTextAppearance="@style/MyZeroSizeTextAppearance"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -69,6 +134,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -83,7 +149,10 @@
             app:boxStrokeWidthFocused="1dp"
             app:counterTextColor="@color/secondary"
             app:boxStrokeColor="@color/accent"
-            app:errorEnabled="false"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true"
+            app:errorIconDrawable="@null"
+            app:errorTextAppearance="@style/MyZeroSizeTextAppearance"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -112,18 +181,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="@string/forgot_password_link_message"
-
-            android:textSize="18sp"
-            android:textColor="@color/active_elements"
-
             android:layout_marginTop="16dp"
 
             android:clickable="true"
             android:focusable="true"
-            />
+
+            android:layout_marginStart="-10dp"
+            android:padding="10dp"
+
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:background="?android:attr/selectableItemBackground"
+
+            android:text="@string/forgot_password_link_message"
+            android:textColor="@color/active_elements"
+            android:textSize="18sp" />
 
     </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/body"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_login"
@@ -144,8 +227,19 @@
 
         app:cornerRadius="@dimen/button_corner_radius"
 
-        app:layout_constraintBottom_toBottomOf="parent"
         android:backgroundTint="@color/disabled_button"
-        />
+        >
+    </com.google.android.material.button.MaterialButton>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,15 @@
 package ru.ok.itmo.example.login
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 import ru.ok.itmo.example.Helper
 import ru.ok.itmo.example.R
@@ -30,18 +30,27 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
 
     private lateinit var editTextLogin: TextInputEditText
     private lateinit var editTextPassword: TextInputEditText
+    private lateinit var textLayoutLogin: TextInputLayout
+    private lateinit var textLayoutPassword: TextInputLayout
     private lateinit var btnLogin: Button
+    private lateinit var progressBar: ProgressBar
     private lateinit var forgotPasswordTextView: TextView
+    private lateinit var arrowLeftBack: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         editTextLogin = view.findViewById(R.id.edit_text_login)
         editTextPassword = view.findViewById(R.id.edit_text_password)
-        btnLogin = view.findViewById(R.id.btn_login)
-        forgotPasswordTextView = view.findViewById(R.id.forgot_password_text_view)
+        textLayoutLogin = view.findViewById(R.id.text_layout_login)
+        textLayoutPassword = view.findViewById(R.id.text_layout_password)
 
-        actionBarLogic()
+        btnLogin = view.findViewById(R.id.btn_login)
+        progressBar = view.findViewById(R.id.progress_bar)
+        forgotPasswordTextView = view.findViewById(R.id.forgot_password_text_view)
+        arrowLeftBack = view.findViewById(R.id.arrow_left_back)
+
+        navBarLogic()
         forgotPasswordLogic()
         keyboardLogic()
         editTextLoginLogic()
@@ -63,39 +72,59 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         viewModel.token.observe(viewLifecycleOwner, tokenObserver)
     }
 
+    private fun btnChangeState(state: Boolean)
+    {
+        btnLogin.isEnabled = state
+        Helper.setButtonColor(
+            btnLogin, requireContext(), if (state) R.color.buttons else R.color.disabled_button
+        )
+    }
+
     private fun btnLoginLogic() {
         val enableObserver = Observer<Boolean> { state ->
-            btnLogin.isEnabled = state
-            Helper.setButtonColor(
-                btnLogin, requireContext(), if (state) R.color.buttons else R.color.disabled_button
-            )
+            btnChangeState(state)
         }
         viewModel.readyForAuthorization.observe(viewLifecycleOwner, enableObserver)
 
         btnLogin.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
+            showLoading()
+            lifecycleScope.launch {
                 try {
                     viewModel.authorization()
                 } catch (e: ServerException) {
                     when (e) {
-                        ServerException.Unauthorized ->
-                            errorUnauthorized()
+                        ServerException.Unauthorized -> errorUnauthorized()
                     }
                 } catch (e: Exception) {
                     showToastInFragment(e.message ?: "Unknown error")
+                    hideLoading()
                 }
             }
         }
     }
 
+    private fun showLoading() {
+        btnLogin.visibility = View.INVISIBLE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        btnLogin.visibility = View.VISIBLE
+        progressBar.visibility = View.INVISIBLE
+    }
+
     private fun errorUnauthorized() {
         showToastInFragment(getString(R.string.error_unauthorized))
+        textLayoutLogin.error = getString(R.string.error_unauthorized)
+        textLayoutPassword.error = getString(R.string.error_unauthorized)
+        hideLoading()
     }
 
     private fun successAuth(token: String) {
         sharedViewModel.login(token)
         showToastInFragment(getString(R.string.success_auth))
         findNavController().navigate(FragmentLoginDirections.actionFragmentLoginToAppNavGraph())
+        hideLoading()
     }
 
     private fun showToastInFragment(message: String) {
@@ -108,17 +137,10 @@ class FragmentLogin : Fragment(R.layout.fragment_login) {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
-    private fun actionBarLogic() {
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.title = getString(R.string.action_bar_login_title)
-        actionBar?.setBackgroundDrawable(
-            ColorDrawable(
-                Helper.getColor(
-                    requireContext(), R.color.white
-                )
-            )
-        )
-        actionBar?.elevation = 0f
+    private fun navBarLogic() {
+        arrowLeftBack.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun editTextLoginLogic() {

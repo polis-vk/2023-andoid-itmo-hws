@@ -12,4 +12,5 @@
     <string name="success_auth">Вы авторизовались</string>
     <string name="forgot_password_layout_message">А зря</string>
     <string name="splash_fragment_stub">SplashFragment</string>
+    <string name="arrow_left_back_description">arrow_left_back</string>
 </resources>
