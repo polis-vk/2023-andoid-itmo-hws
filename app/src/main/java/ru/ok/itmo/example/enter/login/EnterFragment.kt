@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import ru.ok.itmo.example.R
 import ru.ok.itmo.example.databinding.FragmentEnterBinding
+import ru.ok.itmo.example.network.result.LogInResult
 
 class EnterFragment : Fragment(R.layout.fragment_enter) {
     private var _binding: FragmentEnterBinding? = null
@@ -33,7 +34,7 @@ class EnterFragment : Fragment(R.layout.fragment_enter) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        viewModel.isCorrectData.observe(viewLifecycleOwner) {isCorrectData ->
+        viewModel.isCorrectData.observe(viewLifecycleOwner) { isCorrectData ->
             binding.enterButton.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),

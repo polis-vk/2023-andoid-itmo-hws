@@ -8,30 +8,34 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.ok.itmo.example.domain.TamTamUseCase
+import ru.ok.itmo.example.domain.AuthUseCase
 import ru.ok.itmo.example.network.RetrofitProvider
-import ru.ok.itmo.example.network.TamTamApi
+import ru.ok.itmo.example.network.api.AuthApi
+import ru.ok.itmo.example.network.result.LogInResult
 
 class EnterViewModel : ViewModel() {
     companion object {
         const val TAG = "EnterViewModel"
     }
+
     private var login: String = ""
     private var password: String = ""
 
     private val _isCorrectData = MutableLiveData(false)
     val isCorrectData: LiveData<Boolean> get() = _isCorrectData
 
-    private val tamTamUseCase by lazy {
+    private val authUseCase by lazy {
         val retrofit = RetrofitProvider.retrofit
-        val tamTamApi = TamTamApi.provideTamTamApi(retrofit)
-        TamTamUseCase(tamTamApi)
+        val authApi = AuthApi.provideAuthApi(retrofit)
+        AuthUseCase(authApi)
     }
+
     fun loginChange(login: String) {
         this.login = login
         Log.d(TAG, "new login: '$login'")
         validate()
     }
+
     fun passwordChange(password: String) {
         this.password = password
         Log.d(TAG, "new password: '$password'")
@@ -52,7 +56,7 @@ class EnterViewModel : ViewModel() {
 
     fun getLogin(): String = login
     fun getPassword(): String = password
-    fun logIn(isOnline: Boolean, resultHandler: (LogInResult)-> Unit) {
+    fun logIn(isOnline: Boolean, resultHandler: (LogInResult) -> Unit) {
         if (isCorrectData.value == false) return
         if (!isOnline) {
             resultHandler.invoke(
@@ -61,7 +65,7 @@ class EnterViewModel : ViewModel() {
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
-            val result = tamTamUseCase.logIn(login, password)
+            val result = authUseCase.logIn(login, password)
             withContext(Dispatchers.Main) {
                 resultHandler.invoke(result)
             }

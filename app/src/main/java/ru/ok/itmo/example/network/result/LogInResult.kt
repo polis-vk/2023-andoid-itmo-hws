@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.enter.login
+package ru.ok.itmo.example.network.result
 
 data class LogInResult(
     val isAuthorized: Boolean = false,
@@ -12,6 +12,7 @@ data class LogInResult(
         TIMED_OUT,
         UNKNOWN_ERROR
     }
+
     companion object {
         fun success(token: String): LogInResult {
             return LogInResult(true, ErrorType.NO_ERROR, token)

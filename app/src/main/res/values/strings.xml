@@ -16,4 +16,10 @@
     <string name="server_error">Ошибка сервера.</string>
     <string name="no_internet_connection">Нет подключения к интернету.</string>
     <string name="timed_out">Превышенно время ожидания</string>
+    <string name="chats">Чаты</string>
+    <string name="edit_chats">Редактировать чаты</string>
+    <string name="photo">Фото</string>
+    <string name="three_dots">…</string>
+    <string name="error">error: %1$s</string>
+    <string name="no_messages">Сообщений нет</string>
 </resources>
