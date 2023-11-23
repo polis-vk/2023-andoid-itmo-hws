@@ -3,7 +3,9 @@ package ru.ok.itmo.example.main
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,9 @@ import ru.ok.itmo.example.config.App
 import ru.ok.itmo.example.domain.ChannelName
 import ru.ok.itmo.example.domain.ChannelPreview
 import ru.ok.itmo.example.domain.Message
+import ru.ok.itmo.example.domain.MessageData
+import ru.ok.itmo.example.domain.MessageDataText
+import java.util.Date
 import kotlin.concurrent.thread
 
 class HomeFragment : Fragment(R.layout.home_fragment) {
@@ -51,7 +56,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
 
                             channels += ChannelPreview(channelName,
                                 lastMessage.data.Text?.text ?: "<image>",
-                                lastMessage.dateTime)
+                                Date(lastMessage.time))
 
                             await--
                             Log.i("527ea0220035231", "Channel acquired: $channelName")
@@ -74,7 +79,19 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
 
                         channelsRecycler.apply {
                             layoutManager = LinearLayoutManager(context)
-                            adapter = ChannelAdapter(channels, 6) {  }
+                            adapter = ChannelAdapter(channels, 6) {
+                                Log.i("527ea0220035231", "$it")
+                                parentFragmentManager.beginTransaction()
+                                    .add(
+                                        R.id.screen_container,
+                                        ChannelFragment::class.java,
+                                        bundleOf("channelName" to it.name),
+                                        "channel"
+                                    )
+                                    .hide(this@HomeFragment)
+                                    .addToBackStack("channel")
+                                    .commit()
+                            }
                         }
                     }
                 }
@@ -82,5 +99,29 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
 
             override fun onFailure(call: Call<List<ChannelName>>, t: Throwable) {}
         })
+
+        view.findViewById<Button>(R.id.newChatButton).setOnClickListener {
+            val newChatName = "NewChatName"
+
+            channelRepository.createChannel(
+                newChatName, Message(
+                    123,
+                    "Somebody1", "Somebody2",
+                    MessageData(MessageDataText("Hello!"), null),
+                    System.currentTimeMillis()
+                )
+            )
+
+            parentFragmentManager.beginTransaction()
+                .add(
+                    R.id.screen_container,
+                    ChannelFragment::class.java,
+                    bundleOf("channelName" to newChatName),
+                    "channel"
+                )
+                .hide(this@HomeFragment)
+                .addToBackStack("channel")
+                .commit()
+        }
     }
 }

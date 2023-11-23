@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.ok.itmo.example.domain.ChannelPreview
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.math.min
 
 class ChannelAdapter(
     private val channels: List<ChannelPreview>,
@@ -33,16 +34,16 @@ class ChannelAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChannelHolder {
-        val holder = ChannelHolder(LayoutInflater.from(parent.context).inflate(R.layout.chat_card_view, parent, false))
+        val holder = ChannelHolder(LayoutInflater.from(parent.context).inflate(R.layout.channel_card_view, parent, false))
 
-//        holder.card.setOnClickListener {
-//            onClick(channels[holder.absoluteAdapterPosition])
-//        }
+        holder.card.setOnClickListener {
+            onClick(channels[holder.adapterPosition]) // absoluteAdapterPosition
+        }
 
         return holder
     }
 
     override fun onBindViewHolder(holder: ChannelHolder, position: Int) = holder.bind(channels[position])
 
-    override fun getItemCount(): Int = visibleListSize
+    override fun getItemCount(): Int = min(visibleListSize, channels.size)
 }

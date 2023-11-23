@@ -1,6 +1,7 @@
 package ru.ok.itmo.example.config
 
 import android.app.Application
+import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -15,6 +16,8 @@ class App: Application() {
     lateinit var userRepository: UserRepository
         private set
     lateinit var channelRepository: ChannelRepository
+        private set
+    lateinit var messagesDatabase: MessagesDatabase
         private set
     var token: AuthToken? = null
 
@@ -32,6 +35,7 @@ class App: Application() {
             .build()
         userRepository = retrofit.create(UserRepository::class.java)
         channelRepository = retrofit.create(ChannelRepository::class.java)
+        messagesDatabase = Room.databaseBuilder(applicationContext, MessagesDatabase::class.java, MessagesDatabase::class.simpleName).build()
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package ru.ok.itmo.example.domain
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 
 typealias ChannelName = String
@@ -28,7 +30,14 @@ data class Message(
     val from: String,
     val to: String,
     val data: MessageData,
-    private val time: Long,
-) {
-    val dateTime = Date(time)
-}
+    val time: Long,
+)
+
+@Entity(tableName = "message")
+data class MessagePreview(
+    @PrimaryKey val id: Long,
+    val from: String,
+    val text: String?,
+    val imageBase64: String?,
+    val time: Long,
+)
