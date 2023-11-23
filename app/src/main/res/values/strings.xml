@@ -15,7 +15,10 @@
     <string name="input_pwd">Введите пароль</string>
     <string name="chats">Чаты</string>
     <string name="unauthorized">Неверное имя пользователя и/или пароль</string>
-    <string name="no_internet">Нет соединения с интернетом, пожалуйста, проверьте ваше соединение</string>
     <string name="server_connection_error">Превышено время ожидания ответа от сервера, пожалуйста, повторите попытку позже</string>
     <string name="app_shared_prefs">com.pp.sharedprefs.PREFERENCES_FILE_KEY</string>
+    <string name="unknown_error">Неизвестная ошибка, пожалуйста, повторите попытку позже</string>
+    <string name="message_hint">Текст сообщения</string>
+    <string name="no_messages">Нет сообщений</string>
+    <string name="no_messages_2">Напишите первым</string>
 </resources>

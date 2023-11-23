@@ -1,26 +1,25 @@
-package ru.ok.itmo.example
+package ru.ok.itmo.example.login
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import ru.ok.itmo.example.Retrofit.MainApi
+import ru.ok.itmo.example.R
 import ru.ok.itmo.example.databinding.FragmentLoginBinding
+import ru.ok.itmo.example.models.LoginResponse
 
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var viewModel: LoginViewModel;
-
 
 
     override fun onCreateView(
@@ -36,7 +35,21 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        var loginResponse = LoginResponse("", -1)
+        val sharPref = activity?.getSharedPreferences("token_pref", MODE_PRIVATE)
+
+        if (sharPref?.getString("token", "").toString().isNotEmpty()) {
+            Log.i("token accepted", sharPref?.getString("token", "").toString())
+            findNavController().navigate(R.id.action_loginFragment_to_listFragment)
+        }
+        //Prevention of everlasting copy/paste cycle
+        binding.loginEdit.setText("LetItBeRickAstley")
+        binding.pwdEdit.setText("tHexxxDoloR")
+        viewModel.editLogin(binding.loginEdit.text.toString())
+
+
+
 
         binding.apply {
             toolbar.setNavigationOnClickListener {
@@ -45,23 +58,29 @@ class LoginFragment : Fragment() {
             enterButton.setOnClickListener {
                 viewModel.editLogin(loginEdit.text.toString())
                 viewModel.editPwd(pwdEdit.text.toString())
-                viewModel.checkInternet(checkConnection(requireContext()))
                 viewModel.auth()
+
                 viewModel.navigationLive.observe(viewLifecycleOwner) {
-                    when (it){
+                    loginResponse = it
+                    when (loginResponse.code) {
                         200 -> {
+                            sharPref!!.edit().putString("token", loginResponse.token).apply()
                             findNavController().navigate(R.id.action_loginFragment_to_listFragment)
                         }
-                        401 -> {
-                                binding.errorMessage.text = resources.getString(R.string.unauthorized)
-                        }
 
-                        402 -> {
-                                binding.errorMessage.text = resources.getString(R.string.no_internet)
+                        401 -> {
+                            binding.errorMessage.text =
+                                resources.getString(R.string.unauthorized)
                         }
 
                         403 -> {
-                                binding.errorMessage.text = resources.getString(R.string.server_connection_error)
+                            binding.errorMessage.text =
+                                resources.getString(R.string.server_connection_error)
+                        }
+
+                        -1 -> {
+                            binding.errorMessage.text =
+                                resources.getString(R.string.unknown_error)
                         }
                     }
                 }
@@ -100,21 +119,6 @@ class LoginFragment : Fragment() {
 
         }
 
-    }
-
-    private fun checkConnection(context: Context): Boolean{
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                return true;
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                return true;
-            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                return true;
-            }
-        }
-        return false
     }
 
 }
