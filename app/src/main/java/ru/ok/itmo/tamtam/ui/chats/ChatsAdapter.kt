@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.ok.itmo.tamtam.R
 import ru.ok.itmo.tamtam.domain.model.ChatsViewModel
 
-class ChatsAdapter(private val items: List<ChatsViewModel.ChatInfo>,
-                   private val byTapCellCompletion: (view: View) -> Unit
+class ChatsAdapter(
+    private val items: List<ChatsViewModel.ChatInfo>,
+    private val byTapCellCompletion: (view: View) -> Unit
 ) : RecyclerView.Adapter<ChatsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(

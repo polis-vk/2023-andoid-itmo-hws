@@ -28,7 +28,8 @@ class CommunicationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.setNavigationOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_communicationFragment_to_chatsFragment)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_communicationFragment_to_chatsFragment)
         }
     }
 }

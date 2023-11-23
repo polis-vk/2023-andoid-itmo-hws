@@ -28,9 +28,9 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="right"
+            android:layout_marginEnd="16dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_create"
-            android:layout_marginEnd="16dp" />
+            android:src="@drawable/ic_create" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -40,8 +40,7 @@
         android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/loading_panel"
@@ -59,19 +58,19 @@
         android:id="@+id/error_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:textAlignment="center"
         android:gravity="center"
-        android:textColor="@color/red" />
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/search_chats"
-        android:textAppearance="@style/text_minor_18"
-        android:textAlignment="center"
         android:gravity="center"
+        android:text="@string/search_chats"
+        android:textAlignment="center"
+        android:textAppearance="@style/text_minor_18"
         android:textColor="@color/secondary" />
 
 </FrameLayout>

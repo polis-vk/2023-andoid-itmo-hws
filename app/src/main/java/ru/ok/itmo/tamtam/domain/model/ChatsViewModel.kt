@@ -47,15 +47,15 @@ class ChatsViewModel : ViewModel() {
     @SuppressLint("SimpleDateFormat")
     private val dateFormatter = SimpleDateFormat("hh:mm")
     private suspend fun getChannelInfo(channelName: ChannelName) {
-            ChatsStorage.getChannelMessages(channelName).onSuccess {
-                val message = it.last()
-                val textMes = message.data.Text?.text ?: TextPresentObjects.image
-                val time = if (message.time != null) Date(message.time) else null
-                chatInfoList.add(ChatInfo(
-                    message.from,
-                    textMes,
-                    time?.let { it1 -> dateFormatter.format(it1) }
-                ))
-            }
+        ChatsStorage.getChannelMessages(channelName).onSuccess {
+            val message = it.last()
+            val textMes = message.data.Text?.text ?: TextPresentObjects.image
+            val time = if (message.time != null) Date(message.time) else null
+            chatInfoList.add(ChatInfo(
+                message.from,
+                textMes,
+                time?.let { it1 -> dateFormatter.format(it1) }
+            ))
+        }
     }
 }

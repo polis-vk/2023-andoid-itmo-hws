@@ -40,7 +40,8 @@ class ChatsFragment : Fragment() {
             viewModel.logout()
         }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         viewModel.chatsState.observe(viewLifecycleOwner) {
             when (val result = it) {
@@ -58,6 +59,7 @@ class ChatsFragment : Fragment() {
                     }
                     binding.loadingPanel.isInvisible = true
                 }
+
                 is ChatsState.LoadingChatsInfo -> {
                     shorOrHideError(null)
                     binding.infoText.isInvisible = true
@@ -75,7 +77,8 @@ class ChatsFragment : Fragment() {
         }
 
     }
+
     private fun shorOrHideError(error: Throwable?) {
-       ErrorPresenter.present(error, binding.errorText)
+        ErrorPresenter.present(error, binding.errorText)
     }
 }
