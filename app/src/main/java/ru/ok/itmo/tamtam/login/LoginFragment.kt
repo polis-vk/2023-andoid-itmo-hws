@@ -40,6 +40,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.window?.let { Helper.setLightStatusBar(requireContext(), it) }
+
         editTextLogin = view.findViewById(R.id.edit_text_login)
         editTextPassword = view.findViewById(R.id.edit_text_password)
         textLayoutLogin = view.findViewById(R.id.text_layout_login)

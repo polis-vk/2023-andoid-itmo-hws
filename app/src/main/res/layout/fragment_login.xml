@@ -32,7 +32,7 @@
             android:padding="12dp"
 
 
-            android:src="@drawable/arrow_left_outline_back_vk"
+            android:src="@drawable/icon_arrow_left"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -88,23 +88,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_layout_login"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
-
-                app:boxStrokeColor="@color/accent"
-                app:boxStrokeWidth="1dp"
-                app:boxStrokeWidthFocused="1dp"
-                app:counterTextColor="@color/secondary"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@null"
-                app:errorTextAppearance="@style/MyZeroSizeTextAppearance">
+                android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_text_login"
@@ -128,23 +115,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_layout_password"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp"
-
-                app:boxStrokeColor="@color/accent"
-                app:boxStrokeWidth="1dp"
-                app:boxStrokeWidthFocused="1dp"
-                app:counterTextColor="@color/secondary"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@null"
-                app:errorTextAppearance="@style/MyZeroSizeTextAppearance"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText

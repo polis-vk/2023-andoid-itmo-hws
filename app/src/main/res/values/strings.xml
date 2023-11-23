@@ -11,6 +11,12 @@
     <string name="error_unauthorized">Неправильный логин или пароль</string>
     <string name="success_auth">Вы авторизовались</string>
     <string name="forgot_password_layout_message">А зря</string>
+    <string name="login_phone_layout_message">Лучше зайди с логина</string>
     <string name="splash_fragment_stub">SplashFragment</string>
     <string name="arrow_left_back_description">arrow_left_back</string>
+
+    <string name="logo_description">logo</string>
+    <string name="privacy_policy_message">Нажимая «Войти», вы соглашаетесь с политикой конфиденциальности</string>
+    <string name="btn_login_authorization_message">Войти через логин</string>
+    <string name="btn_phone_authorization_massage">Войти через телефон</string>
 </resources>
