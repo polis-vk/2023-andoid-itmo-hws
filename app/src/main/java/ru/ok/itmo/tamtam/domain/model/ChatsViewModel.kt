@@ -15,7 +15,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class ChatsViewModel : ViewModel() {
-    data class ChatInfo(val author: String?, val lastMessage: String?, val time: String?)
+    data class ChatInfo(
+        val channelName: ChannelName,
+        val author: String?,
+        val lastMessage: String?,
+        val time: String?
+    )
 
     private val chatInfoList = mutableListOf<ChatInfo>()
 
@@ -52,10 +57,25 @@ class ChatsViewModel : ViewModel() {
             val textMes = message.data.Text?.text ?: TextPresentObjects.image
             val time = if (message.time != null) Date(message.time) else null
             chatInfoList.add(ChatInfo(
+                channelName,
                 message.from,
                 textMes,
                 time?.let { it1 -> dateFormatter.format(it1) }
             ))
         }
     }
+
+    fun addNewChannel() {
+        chatInfoList.add(mockChannel)
+        _chatsState.value = ChatsState.Success(chatInfoList)
+    }
+
+    private val mockChannel: ChatInfo
+        get() = ChatInfo(
+            "Mock name",
+            "Mock author",
+            "Mock last message",
+            "24:00"
+        )
 }
+

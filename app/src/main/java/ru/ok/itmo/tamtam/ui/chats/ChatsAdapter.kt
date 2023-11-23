@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.ok.itmo.tamtam.R
 import ru.ok.itmo.tamtam.domain.model.ChatsViewModel
+import ru.ok.itmo.tamtam.dto.ChannelName
 
 class ChatsAdapter(
     private val items: List<ChatsViewModel.ChatInfo>,
-    private val byTapCellCompletion: (view: View) -> Unit
+    private val byTapCellCompletion: (channelName: ChannelName) -> Unit
 ) : RecyclerView.Adapter<ChatsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -19,7 +20,7 @@ class ChatsAdapter(
         )
 
         view.setOnClickListener {
-            byTapCellCompletion(it)
+            byTapCellCompletion(items[0].channelName)
         }
 
         return ChatsViewHolder(view)
@@ -30,7 +31,7 @@ class ChatsAdapter(
     }
 
     override fun onBindViewHolder(holder: ChatsViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], byTapCellCompletion)
     }
 
 }

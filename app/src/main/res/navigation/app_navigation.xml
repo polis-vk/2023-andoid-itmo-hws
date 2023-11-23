@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/communicationFragment"
-        android:name="ru.ok.itmo.tamtam.ui.CommunicationFragment"
+        android:name="ru.ok.itmo.tamtam.ui.communication.CommunicationFragment"
         android:label="fragment_communication"
         tools:layout="@layout/fragment_communication">
         <action

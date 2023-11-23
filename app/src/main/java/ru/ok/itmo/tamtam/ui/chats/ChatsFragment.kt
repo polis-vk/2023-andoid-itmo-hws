@@ -1,10 +1,12 @@
 package ru.ok.itmo.tamtam.ui.chats
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -12,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.ok.itmo.tamtam.R
 import ru.ok.itmo.tamtam.databinding.FragmentChatsBinding
+import ru.ok.itmo.tamtam.domain.CommunicationStorage
 import ru.ok.itmo.tamtam.domain.state.ChatsState
 import ru.ok.itmo.tamtam.domain.model.ChatsViewModel
 import ru.ok.itmo.tamtam.util.ErrorPresenter
@@ -40,6 +43,10 @@ class ChatsFragment : Fragment() {
             viewModel.logout()
         }
 
+        binding.chatsToolbarLogo.setOnClickListener {
+            addNewChannel()
+        }
+
         binding.recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
@@ -52,10 +59,12 @@ class ChatsFragment : Fragment() {
                         binding.infoText.text = TextPresentObjects.noneChats
                     } else {
                         binding.infoText.isInvisible = true
-                        binding.recyclerView.adapter = ChatsAdapter(result.chatInfoList) { view ->
-                            Navigation.findNavController(view)
-                                .navigate(R.id.action_chatsFragment_to_communicationFragment)
-                        }
+                        binding.recyclerView.adapter =
+                            ChatsAdapter(result.chatInfoList) { channelName ->
+                                CommunicationStorage.channelName = channelName
+                                Navigation.findNavController(view)
+                                    .navigate(R.id.action_chatsFragment_to_communicationFragment)
+                            }
                     }
                     binding.loadingPanel.isInvisible = true
                 }
@@ -75,10 +84,26 @@ class ChatsFragment : Fragment() {
                 else -> {}
             }
         }
-
     }
 
     private fun shorOrHideError(error: Throwable?) {
         ErrorPresenter.present(error, binding.errorText)
+    }
+
+    private fun addNewChannel() {
+        if (this.context != null) {
+            val dialog = Dialog(this.requireContext())
+            dialog.setContentView(R.layout.new_item_dialog)
+            val noneButton = dialog.findViewById<Button>(R.id.none_btn)
+            val doneButton = dialog.findViewById<Button>(R.id.done_btn)
+
+            noneButton.setOnClickListener { dialog.hide() }
+            doneButton.setOnClickListener {
+                viewModel.addNewChannel()
+                dialog.hide()
+            }
+
+            dialog.show()
+        }
     }
 }

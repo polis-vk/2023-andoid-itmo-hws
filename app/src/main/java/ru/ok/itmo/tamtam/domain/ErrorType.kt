@@ -5,4 +5,5 @@ sealed class ErrorType : Exception() {
     class Unauthorized : ErrorType()
     class InternetConnection : ErrorType()
     class IncorrectToken : ErrorType()
+    class IncorrectCommunication : ErrorType()
 }
