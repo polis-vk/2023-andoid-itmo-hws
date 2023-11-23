@@ -35,9 +35,10 @@
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="56dp"
-        android:layout_height="match_parent"
+        android:layout_height="56dp"
         android:background="@color/white"
         android:contentDescription="@string/content_description_action_bar_button"
+        android:padding="12dp"
         android:src="@drawable/ic_action_bar_chats"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

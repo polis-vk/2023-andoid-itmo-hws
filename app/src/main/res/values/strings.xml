@@ -22,6 +22,8 @@
     <string name="action_bar_chats">Чаты</string>
 
     <string name="no_messages">Нет сообщений</string>
+    <string name="no_channels">Нет каналов</string>
+    <string name="cant_load_channels">Не получилось загрузить чаты</string>
     <string name="message_first">Напишите первым или отправьте стикер</string>
 
     <string name="content_description_back_button">Кнопка назад</string>
@@ -31,4 +33,8 @@
     <string name="content_description_attachment_button">Прикрепить</string>
     <string name="content_description_voice_button">Голосовое сообщение</string>
     <string name="content_description_sticker">Стикер</string>
+
+    <string name="error_occured">Произошла_ошибка</string>
+    <string name="empty_channel">Пустой канал</string>
+    <string name="image">Изображение</string>
 </resources>

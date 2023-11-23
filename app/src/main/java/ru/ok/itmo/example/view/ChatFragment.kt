@@ -8,7 +8,11 @@ import ru.ok.itmo.example.R
 class ChatFragment : Fragment(R.layout.fragment_chat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.simpleActionBar!!.title = requireArguments().getString(ARG_CHANNEL_NAME)!!
+        view.simpleActionBar!!.run {
+            title = this@ChatFragment.requireArguments().getString(ARG_CHANNEL_NAME)!!
+            buttonImage = R.drawable.empty_profile_picture
+        }
+
     }
 
     companion object {

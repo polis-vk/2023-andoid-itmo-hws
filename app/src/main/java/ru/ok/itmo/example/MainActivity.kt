@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         viewModel.toastMessage.observe(this) {
             if (it is Int) {
-                Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                 viewModel.toastMessage.value = null
             }
         }

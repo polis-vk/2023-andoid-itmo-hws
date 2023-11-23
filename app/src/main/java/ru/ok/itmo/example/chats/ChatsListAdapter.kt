@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.ok.itmo.example.MainViewModel
 import ru.ok.itmo.example.R
+import ru.ok.itmo.example.model.Message
 
 class ChatsListAdapter(val viewModel: MainViewModel) :
     RecyclerView.Adapter<ChatsListAdapter.ViewHolder>() {
@@ -19,9 +20,22 @@ class ChatsListAdapter(val viewModel: MainViewModel) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
+        val messagePreview: TextView
 
         init {
             textView = view.findViewById(R.id.textViewName)
+            messagePreview = view.findViewById(R.id.textViewPreview)
+        }
+
+        fun updatePreview(messages: Array<Message>?) {
+            val context = itemView.context
+            messagePreview.text = if (messages == null) {
+                context.getString(R.string.error_occured)
+            } else if (messages.size == 0){
+                context.getString(R.string.empty_channel)
+            } else {
+                messages[0].data.text ?: context.getString(R.string.image)
+            }
         }
     }
 
@@ -37,6 +51,12 @@ class ChatsListAdapter(val viewModel: MainViewModel) :
         viewHolder.itemView.setOnClickListener {
             viewModel.openChannel(channelName)
         }
+        viewModel.getChannelMessages(
+            channelName,
+            { messages -> viewHolder.updatePreview(messages)},
+            limit = 1,
+            reverse = true
+        )
     }
 
     override fun getItemCount() = data.size

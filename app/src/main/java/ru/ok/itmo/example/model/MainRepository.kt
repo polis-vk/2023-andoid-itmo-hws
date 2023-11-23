@@ -17,7 +17,14 @@ class MainRepository {
     val server = "https://faerytea.name:8008"
     var user: User? = null
 
+    enum class LOADING_STATUS {
+        LOADING,
+        LOADED,
+        ERROR
+    }
+
     val channels = MutableLiveData<Array<String>>()
+    val channelsLoadingStatus = MutableLiveData<LOADING_STATUS>()
 
     fun buildURL(vararg paths: String): URL {
         return Uri.parse(server).buildUpon().run {
@@ -26,7 +33,8 @@ class MainRepository {
         }
     }
 
-    fun updateChannels(callback: (Exception?, Long)->Unit) {
+    fun updateChannels() {
+        if (channelsLoadingStatus.value == LOADING_STATUS.LOADING) return
         val url = buildURL("channels")
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -39,20 +47,18 @@ class MainRepository {
                     launch(Dispatchers.Main) {
                         if (code == 200) {
                             val jsonArray = JSONArray(response)
-
-                            launch(Dispatchers.Main) {
-                                channels.value = Array(jsonArray.length()) {
-                                    jsonArray.getString(it).dropLast(8)
-                                }
+                            channels.value = Array(jsonArray.length()) {
+                                jsonArray.getString(it).dropLast(8)
                             }
+                            channelsLoadingStatus.value = LOADING_STATUS.LOADED
                         } else {
-                            callback(null, System.currentTimeMillis())
+                            channelsLoadingStatus.value = LOADING_STATUS.ERROR
                         }
                     }
                 }
             } catch (e: IOException) {
                 launch(Dispatchers.Main) {
-                    callback(null, System.currentTimeMillis())
+                    channelsLoadingStatus.value = LOADING_STATUS.ERROR
                 }
             }
         }
@@ -74,8 +80,10 @@ class MainRepository {
                     outputStream.write(requestBody)
 
                     val code = responseCode
-                    val token = inputStream.bufferedReader().readLine()
-
+                    var token: String = ""
+                    if (code == 200) {
+                        token = inputStream.bufferedReader().readLine()
+                    }
                     launch(Dispatchers.Main) {
                         if (code == 200) {
                             launch(Dispatchers.Main) {
@@ -93,5 +101,61 @@ class MainRepository {
                 }
             }
         }
+    }
+
+    fun getChannelMessages(
+        channel: String,
+        callback: (Array<Message>?)->Unit,
+        limit: Int = 20,
+        lastKnownId: Int = 0,
+        reverse: Boolean = false
+    ) {
+        val url = buildURL("channel", channel)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                (url.openConnection() as HttpURLConnection).run {
+                    requestMethod = "GET"
+                    addRequestProperty("limit", limit.toString())
+                    addRequestProperty("lastKnownId", lastKnownId.toString())
+                    addRequestProperty("reverse", reverse.toString())
+
+                    val code = responseCode
+                    val response = inputStream.bufferedReader().readText()
+
+                    launch(Dispatchers.Main) {
+                        if (code == 200) {
+                            val jsonArray = JSONArray(response)
+                            callback(
+                                Array(jsonArray.length()) {
+                                    Message.parseJSON(jsonArray.getJSONObject(it))
+                                }
+                            )
+                        } else {
+                            callback(null)
+                        }
+                    }
+                }
+            } catch (e: IOException) {
+                launch(Dispatchers.Main) {
+                    callback(null)
+                }
+            }
+        }
+    }
+
+    fun logout() {
+        val token = user?.token ?: return
+        val url = buildURL("logout")
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                (url.openConnection() as HttpURLConnection).run {
+                    requestMethod = "POST"
+                    addRequestProperty("X-Auth-Token", token)
+                }
+            } catch (e: IOException) {
+                // logout wasn't successful
+            }
+        }
+        user = null
     }
 }

@@ -25,5 +25,9 @@
         <item name="boxStrokeWidthFocused">0dp</item>
     </style>
 
+    <style name="ProgressBarStyle" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="color">@color/accent</item>
+    </style>
+
 
 </resources>
