@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/A"
+        android:id="@+id/menu_item_a"
         android:icon="@drawable/ic_launcher_foreground"
-        android:title="A" />
+        android:title="@string/menu_item_a" />
     <item
-        android:id="@+id/B"
+        android:id="@+id/menu_item_b"
         android:icon="@drawable/ic_launcher_foreground"
-        android:title="B" />
+        android:title="@string/menu_item_b" />
     <item
-        android:id="@+id/C"
+        android:id="@+id/menu_item_c"
         android:icon="@drawable/ic_launcher_foreground"
-        android:title="C" />
+        android:title="@string/menu_item_c" />
     <item
-        android:id="@+id/D"
+        android:id="@+id/menu_item_d"
         android:icon="@drawable/ic_launcher_foreground"
-        android:title="D" />
+        android:title="@string/menu_item_d" />
     <item
-        android:id="@+id/E"
+        android:id="@+id/menu_item_e"
         android:icon="@drawable/ic_launcher_foreground"
-        android:title="E" />
+        android:title="@string/menu_item_e" />
 </menu>

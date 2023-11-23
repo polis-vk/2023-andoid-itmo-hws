@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="go_button">Go</string>
+    <string name="next_button">Next</string>
+    <string name="menu_item_a">A</string>
+    <string name="menu_item_b">B</string>
+    <string name="menu_item_c">C</string>
+    <string name="menu_item_d">D</string>
+    <string name="menu_item_e">E</string>
 </resources>

@@ -1,6 +1,7 @@
 package ru.ok.itmo.example
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.navigation.NavigationBarView
 
@@ -18,41 +19,49 @@ class NavigationActivity : FragmentActivity(R.layout.activity_navigation) {
         stack += FragmentInfo("A", 1)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.screen_container, ComponentFragment("A", 1, ::navigate), "${stack.last()}")
+            .add(R.id.screen_container,
+                ComponentFragment::class.java,
+                bundleOf(
+                    "name" to "A",
+                    "backstack" to 1
+                ),
+                "${stack.last()}")
             .commit()
 
         navigation = findViewById(R.id.navigation_bar)
 
         navigation.setOnItemSelectedListener {
-            createOrRollback(when (it.itemId) {
-                R.id.A -> "A"
-                R.id.B -> "B"
-                R.id.C -> "C"
-                R.id.D -> "D"
-                R.id.E -> "E"
-                else -> return@setOnItemSelectedListener false
-            })
+            createOrRollback(
+                when (it.itemId) {
+                    R.id.menu_item_a -> "A"
+                    R.id.menu_item_b -> "B"
+                    R.id.menu_item_c -> "C"
+                    R.id.menu_item_d -> "D"
+                    R.id.menu_item_e -> "E"
+                    else -> return@setOnItemSelectedListener false
+                }
+            )
 
             true
         }
 
         navigation.menu.run {
-            val count = (3..5).random()
-            if (count < 5) {
-                removeItem(R.id.E)
+            val count = (SMALL_NAV_BAR_LENGTH..LARGE_NAV_BAR_LENGTH).random()
+            if (count < LARGE_NAV_BAR_LENGTH) {
+                removeItem(R.id.menu_item_e)
             }
             if (count < 4) {
-                removeItem(R.id.D)
+                removeItem(R.id.menu_item_d)
             }
         }
     }
 
     private fun menuIndex(name: String) = when (name) {
-        "A" -> R.id.A
-        "B" -> R.id.B
-        "C" -> R.id.C
-        "D" -> R.id.D
-        "E" -> R.id.E
+        "A" -> R.id.menu_item_a
+        "B" -> R.id.menu_item_b
+        "C" -> R.id.menu_item_c
+        "D" -> R.id.menu_item_d
+        "E" -> R.id.menu_item_e
         else -> throw IllegalArgumentException("Unknown menu item $name")
     }
 
@@ -67,16 +76,24 @@ class NavigationActivity : FragmentActivity(R.layout.activity_navigation) {
         }
     }
 
-    private fun navigate(name: String) {
+    fun navigate(name: String) {
         val backstack = stack.count { it.name == name }
 
         val info = FragmentInfo(name, backstack + 1)
-        val new = ComponentFragment(info.name, info.backstack, ::navigate)
+
         val prev = supportFragmentManager.findFragmentByTag("${stack.last()}")
             ?: throw IllegalArgumentException("Fragment not found ${stack.last()}")
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.screen_container, new, "$info")
+            .add(
+                R.id.screen_container,
+                ComponentFragment::class.java,
+                bundleOf(
+                    "name" to info.name,
+                    "backstack" to backstack + 1
+                ),
+                "$info"
+            )
             .hide(prev)
             .addToBackStack("$info")
             .commit()
@@ -93,5 +110,10 @@ class NavigationActivity : FragmentActivity(R.layout.activity_navigation) {
         supportFragmentManager.popBackStack()
         stack.removeLast()
         navigation.selectedItemId = menuIndex(stack.last().name)
+    }
+
+    companion object {
+        const val SMALL_NAV_BAR_LENGTH = 3
+        const val LARGE_NAV_BAR_LENGTH = 5
     }
 }
