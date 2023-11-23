@@ -18,7 +18,6 @@ class UseCase(private val api: regApi) {
         }
     }
 
-
     fun logout(token: String){
         api.logout(token)
     }

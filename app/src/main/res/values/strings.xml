@@ -8,4 +8,8 @@
     <string name="enter">Введите логин</string>
     <string name="enter_button">Войти</string>
     <string name="password">Введите пароль</string>
+
+    <string name="channel_title">Чат</string>
+    <string name="channel_preview">Сообщение</string>
+    <string name="channel_time">12:00</string>
 </resources>

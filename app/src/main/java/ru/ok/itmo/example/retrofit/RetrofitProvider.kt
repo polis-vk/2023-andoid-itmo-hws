@@ -15,7 +15,7 @@ object RetrofitProvider {
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor)
-            .connectTimeout(5, TimeUnit.SECONDS)
+            //.connectTimeout(5, TimeUnit.SECONDS)
             .build()
 
         val gson = GsonBuilder()
