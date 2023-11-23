@@ -7,22 +7,27 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import ru.ok.itmo.tamtam.data.AuthRepository
+import kotlinx.coroutines.withContext
+import ru.ok.itmo.tamtam.data.repository.AuthRepository
 import ru.ok.itmo.tamtam.utils.OnBackPressed
+import ru.ok.itmo.tamtam.utils.orFalse
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), OnBackPressed {
+class MainActivity : AppCompatActivity(), OnBackPressed {
     @Inject
     lateinit var authRepository: AuthRepository
-    private var navController: NavController? = null
+
+    private val navController: NavController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment).navController
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
-        navController = navHostFragment.navController
+        setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             checkAuth()
         }
@@ -30,24 +35,27 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), OnBackPressed {
     }
 
     private fun checkAuth() {
-        lifecycleScope.launch {
-            if (authRepository.isAuth.first()) {
-                navController
-                    ?.navigate(AppNavigationDirections.actionToChatsFragment())
-            }
+        if (authRepository.isAuth) {
+            navController
+                .navigate(AppNavigationDirections.actionFromUnauthorizedGraphToChatsFragment())
         }
     }
 
     private suspend fun hasFragmentInNavBackStack(name: String): Boolean =
-        navController?.currentBackStack?.first()?.map { it.destination.label }?.contains(name)
-            ?: false
+        navController.currentBackStack
+            .first()
+            .map { it.destination.label }
+            .contains(name)
+            .orFalse()
 
     private fun observeAuth() {
-        lifecycleScope.launch {
-            authRepository.isAuth.collect {
-                if (!it && !hasFragmentInNavBackStack("LaunchFragment")) {
-                    navController
-                        ?.navigate(AppNavigationDirections.actionToLaunchFragment())
+        lifecycleScope.launch(Dispatchers.IO) {
+            authRepository.isAuthAsFlow.collect { isAuth ->
+                withContext(Dispatchers.Main) {
+                    if (!isAuth && !hasFragmentInNavBackStack("LaunchFragment")) {
+                        navController
+                            .navigate(AppNavigationDirections.actionFromAuthorizedGraphToLaunchFragment())
+                    }
                 }
             }
         }

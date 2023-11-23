@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TextAppearance.TamTam" parent="TextAppearance.AppCompat"/>
+
+    <style name="TextAppearance.TamTam" parent="TextAppearance.AppCompat" />
 
     <style name="TextAppearance.TamTam.LogoTitle" parent="TextAppearance.TamTam">
         <item name="font">@font/roboto_medium</item>

@@ -10,23 +10,30 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import ru.ok.itmo.tamtam.App
 import ru.ok.itmo.tamtam.R
 import ru.ok.itmo.tamtam.data.AccountStorage
 import ru.ok.itmo.tamtam.data.AvatarGenerator
 import ru.ok.itmo.tamtam.databinding.FragmentChatBinding
-import ru.ok.itmo.tamtam.presentation.rv.adapter.FooterAdapter
+import ru.ok.itmo.tamtam.presentation.rv.adapter.HeaderFooterAdapter
 import ru.ok.itmo.tamtam.presentation.rv.adapter.MessageAdapter
 import ru.ok.itmo.tamtam.presentation.stateholder.ChatState
 import ru.ok.itmo.tamtam.presentation.stateholder.ChatViewModel
 import ru.ok.itmo.tamtam.utils.FragmentWithBinding
+import ru.ok.itmo.tamtam.utils.getThemeColor
+import ru.ok.itmo.tamtam.utils.observeNotifications
+import ru.ok.itmo.tamtam.utils.setStatusBarTextDark
 import java.io.File
 import javax.inject.Inject
 
@@ -36,21 +43,20 @@ class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBindin
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var chatViewModel: ChatViewModel
+    private val chatViewModel: ChatViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[ChatViewModel::class.java]
+    }
 
     @Inject
     lateinit var accountStorage: AccountStorage
 
-    lateinit var messageAdapter: MessageAdapter
+    private val messageAdapter: MessageAdapter by lazy { MessageAdapter(accountStorage.login!!) }
 
     private val args: ChatFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as App).appComponent.inject(this)
-        messageAdapter = MessageAdapter(accountStorage.login!!)
-        chatViewModel =
-            ViewModelProvider(this, viewModelFactory)[ChatViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,64 +68,60 @@ class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupStatusBar()
         setupListeners()
         setupRecyclerView()
-        observePaging()
         observeState()
+        this.requireContext()
+            .observeNotifications(viewLifecycleOwner.lifecycleScope, chatViewModel.notifications)
     }
 
-    private fun observeState() {
-        lifecycleScope.launch {
-            chatViewModel.chatState.collect {
-                when (val state = it) {
-                    is ChatState.Idle -> {
-                        binding.toolbar.title = state.chat.name
-                        setupAvatar(state.chat.name)
-                    }
-
-                    ChatState.Init -> {}
-                }
-            }
-        }
+    private fun parseParams() {
+        chatViewModel.init(args.chatName)
     }
 
+
+    private val pagingMutex = Mutex()
     private fun observePaging() {
-        lifecycleScope.launch {
-            if (chatViewModel.chatState.value !is ChatState.Init) {
-                chatViewModel.getPagingMessages().collect {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (pagingMutex.isLocked) return@launch
+            pagingMutex.withLock {
+                chatViewModel.pagingData?.collect {
                     messageAdapter.submitData(it)
                 }
             }
         }
     }
 
-    private fun parseParams() {
-        lifecycleScope.launch {
-            chatViewModel.init(args.chatId)
-        }
-    }
+    private fun observeState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            chatViewModel.chatState.collect {
+                when (val state = it) {
+                    is ChatState.Idle -> {
+                        binding.toolbar.title = state.chat.name
+                        setupAvatar(state.chat.name)
+                        binding.loadingPB.visibility = View.INVISIBLE
+                        binding.messageInputLL.visibility = View.VISIBLE
+                        if (state.chat.lastMessageId == 0) {
+                            binding.messagesRV.visibility = View.INVISIBLE
+                            binding.noMessageI.noMessageLL.visibility = View.VISIBLE
 
-    private fun setupRecyclerView() {
-        val footerAdapter = FooterAdapter({ messageAdapter.retry() })
-        binding.messagesRV.adapter =
-            messageAdapter.withLoadStateHeaderAndFooter(footerAdapter, footerAdapter)
-        messageAdapter.onLoadImageByGlide = { imageView, path ->
-            Glide.with(this.requireActivity())
-                .load(path.toUri())
-                .override(600, Target.SIZE_ORIGINAL)
-                .centerInside()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(imageView)
-        }
+                        } else {
+                            binding.noMessageI.noMessageLL.visibility = View.INVISIBLE
+                            binding.messagesRV.visibility = View.VISIBLE
+                            observePaging()
+                            messageAdapter.refresh()
+                        }
+                    }
 
-        binding.messagesRV.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-            if (messageAdapter.itemCount == 0) {
-                binding.messagesRV.visibility = View.INVISIBLE
-            } else {
-                binding.messagesRV.visibility = View.VISIBLE
+                    ChatState.Loading -> {
+                        binding.loadingPB.visibility = View.VISIBLE
+                        binding.messageInputLL.visibility = View.INVISIBLE
+                        binding.messagesRV.visibility = View.INVISIBLE
+                    }
+                }
             }
         }
-
     }
 
     private fun setupAvatar(name: String) {
@@ -130,6 +132,9 @@ class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBindin
                     avatarGenerator.getPathToAvatarForName(name)
                 )
             )
+            .apply(RequestOptions().placeholder(R.drawable.placeholder))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(object : CustomTarget<Drawable>() {
                 override fun onResourceReady(
                     resource: Drawable,
@@ -142,6 +147,34 @@ class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBindin
 
                 }
             })
+        binding.toolbar.menu.findItem(R.id.face).isVisible = true
+    }
+
+    private fun setupRecyclerView() {
+        binding.messagesRV.adapter = messageAdapter.withLoadStateHeaderAndFooter(
+            HeaderFooterAdapter({ messageAdapter.retry() }),
+            HeaderFooterAdapter({ messageAdapter.retry() })
+        )
+        messageAdapter.onLoadImageByGlide = { imageView, path ->
+            Glide.with(this.requireActivity())
+                .load(path.toUri())
+                .apply(RequestOptions().placeholder(R.drawable.placeholder))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .override(600, Target.SIZE_ORIGINAL)
+                .centerInside()
+                .into(imageView)
+        }
+        messageAdapter.addLoadStateListener {
+        }
+        binding.messagesRV.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            val layoutManager = binding.messagesRV.layoutManager as LinearLayoutManager
+            val totalItemCount = layoutManager.itemCount
+            val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+            if (lastVisibleItem > totalItemCount - 3) {
+                binding.messagesRV.smoothScrollToPosition(binding.messagesRV.getBottom());
+            }
+        }
     }
 
     private fun setupListeners() {
@@ -167,12 +200,14 @@ class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBindin
                 val textValue = binding.messageET.text.toString()
                 binding.messageET.text.clear()
                 chatViewModel.sendMessage(textValue)
-                delay(200)
-                messageAdapter.refresh()
-                delay(100)
                 binding.messagesRV.smoothScrollToPosition(messageAdapter.itemCount)
             }
-
         }
+    }
+
+    private fun setupStatusBar() {
+        requireActivity().window.statusBarColor =
+            requireContext().getThemeColor(androidx.appcompat.R.attr.colorPrimary)
+        requireActivity().setStatusBarTextDark(true)
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="4dp"
     android:orientation="horizontal">
@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            tools:text="Иван Петров"
             android:textFontWeight="800"
             app:layout_constraintEnd_toStartOf="@+id/timeLastMessageTW"
             app:layout_constraintStart_toEndOf="@+id/avatarIW"
-            app:layout_constraintTop_toTopOf="@+id/avatarIW" />
+            app:layout_constraintTop_toTopOf="@+id/avatarIW"
+            tools:text="Иван Петров" />
 
         <TextView
             android:id="@+id/messageTW"
@@ -40,11 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minWidth="100dp"
-            tools:text="Привет, Андрей! Пожалуйста, отправь резюме, мы передадим его коллегам "
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintEnd_toStartOf="@+id/timeLastMessageTW"
             app:layout_constraintStart_toEndOf="@+id/avatarIW"
-            app:layout_constraintTop_toTopOf="@+id/avatarIW" />
+            app:layout_constraintTop_toTopOf="@+id/avatarIW"
+            tools:text="Привет, Андрей! Пожалуйста, отправь резюме, мы передадим его коллегам " />
 
         <ImageView
             android:id="@+id/imageIW"
@@ -57,11 +57,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            tools:text="17:05"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintEnd_toStartOf="@+id/timeLastMessageTW"
             app:layout_constraintStart_toEndOf="@+id/avatarIW"
-            app:layout_constraintTop_toTopOf="@+id/avatarIW" />
+            app:layout_constraintTop_toTopOf="@+id/avatarIW"
+            tools:text="17:05" />
 
     </LinearLayout>
 

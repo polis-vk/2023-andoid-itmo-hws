@@ -47,23 +47,21 @@ class ChatAdapter : ListAdapter<Chat, ViewHolder>(ChatDiffCallback()) {
                 }
 
                 if (chat.typingUsers.isEmpty()) {
-                    binding.lastMessageTW.text = chat.lastMessage!!.messageText
+                    binding.lastMessageTW.text = chat.lastMessage.messageText
                     onLoadImageByGlide?.invoke(binding.avatarLastMessageIW, chat.lastMessage.from)
                     if (chat.isChannel) {
                         binding.avatarLastMessageIW.visibility = View.VISIBLE
                     }
                 } else {
                     binding.lastMessageTW.text = "${chat.typingUsers[0]} печатает.."
-
                 }
 
                 onLoadImageByGlide?.invoke(binding.avatarIW, chat.name)
 
                 binding.chatCL.setOnClickListener {
-                    onClick?.invoke(chat.id)
+                    onClick?.invoke(chat.name)
                 }
                 binding.chatCL.setOnLongClickListener {
-                    // TODO attach chat
                     true
                 }
             }

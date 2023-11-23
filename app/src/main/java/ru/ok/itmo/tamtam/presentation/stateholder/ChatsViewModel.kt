@@ -3,42 +3,36 @@ package ru.ok.itmo.tamtam.presentation.stateholder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import ru.ok.itmo.tamtam.data.MessageRepository
+import ru.ok.itmo.tamtam.data.repository.MessageRepository
+import ru.ok.itmo.tamtam.domain.model.Chat
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 class ChatsViewModel @Inject constructor(
     private val messageRepository: MessageRepository
 ) : ViewModel() {
-    val chats
-        get() = messageRepository.chats
-            .flowOn(Dispatchers.IO)
-    val notifications = messageRepository.notifications
-
-    private val _chatsState: MutableStateFlow<ChatsState> = MutableStateFlow(ChatsState.Init)
-    val chatsState: StateFlow<ChatsState> get() = _chatsState
-
-    fun startLoading() {
-        viewModelScope.launch {
-            _chatsState.emit(ChatsState.Loading)
-        }
-    }
-
-    fun setIdle() {
-        viewModelScope.launch {
-            _chatsState.emit(ChatsState.Idle)
-        }
-    }
+    private val _chatsState: MutableStateFlow<ChatsState> = MutableStateFlow(ChatsState.Loading)
+    val chatsState: Flow<ChatsState> get() = _chatsState
+    val notifications get() = messageRepository.notifications
 
     init {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                messageRepository.runTracking()
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            messageRepository.startTracking()
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            messageRepository.chats.drop(1)
+                .debounce(300)
+                .collect {
+                    _chatsState.emit(
+                        ChatsState.Idle(chats = it)
+                    )
+                }
         }
     }
 
@@ -49,7 +43,8 @@ class ChatsViewModel @Inject constructor(
 }
 
 sealed class ChatsState {
-    object Init : ChatsState()
     object Loading : ChatsState()
-    object Idle : ChatsState()
+    data class Idle(
+        val chats: List<Chat>
+    ) : ChatsState()
 }

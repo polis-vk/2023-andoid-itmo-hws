@@ -9,8 +9,8 @@ data class Message(
     @PrimaryKey
     @ColumnInfo(name = "id")
     override val id: Int,
-    @ColumnInfo(name = "chat_id")
-    val chatId: String,
+    @ColumnInfo(name = "chat_name")
+    val chatName: String,
     @ColumnInfo(name = "from")
     override val from: String,
     @ColumnInfo(name = "to")
@@ -23,7 +23,7 @@ data class Message(
     override val imageLink: String?,
     @ColumnInfo(name = "is_sent")
     override val isSent: Boolean
-): IMessage {
+) : IMessage {
     companion object {
         val UNDEFINED_ID = -1
     }

@@ -13,6 +13,7 @@ import ru.ok.itmo.tamtam.ioc.module.ViewModelModule
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
 import ru.ok.itmo.tamtam.presentation.fragment.ChatFragment
 import ru.ok.itmo.tamtam.presentation.fragment.ChatsFragment
+import ru.ok.itmo.tamtam.presentation.fragment.ContactsFragment
 import ru.ok.itmo.tamtam.presentation.fragment.LoginFragment
 import ru.ok.itmo.tamtam.utils.ApplicationContext
 
@@ -25,6 +26,7 @@ interface AppComponent {
     fun inject(chatsFragment: ChatsFragment)
     fun inject(chatFragment: ChatFragment)
     fun inject(loginFragment: LoginFragment)
+    fun inject(loginFragment: ContactsFragment)
 
     fun getMessageApi(): MessageApi
 

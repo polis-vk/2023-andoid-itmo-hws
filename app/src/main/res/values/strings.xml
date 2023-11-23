@@ -11,7 +11,7 @@
     <string name="login_page">Логин</string>
     <string name="helper_login">Введите ваш логин и пароль</string>
     <string name="input_login">Введите логин</string>
-    <string name="input_password">Введите логин</string>
+    <string name="input_password">Введите пароль</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="login">Войти</string>
     <string name="chats_page">Чаты</string>
@@ -21,4 +21,8 @@
     <string name="message_none">Нет сообщений</string>
     <string name="please_send_message">Напишите первым\nили отправьте стикер</string>
     <string name="avatar">Аватар</string>
+    <string name="invalid_login_or_password">Неверный логин или пароль</string>
+    <string name="empty_string"></string>
+    <string name="no_contact">Нет контактов</string>
+    <string name="contacts">Контакты</string>
 </resources>

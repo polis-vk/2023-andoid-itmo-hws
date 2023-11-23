@@ -8,6 +8,7 @@ import dagger.multibindings.IntoMap
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
 import ru.ok.itmo.tamtam.presentation.stateholder.ChatViewModel
 import ru.ok.itmo.tamtam.presentation.stateholder.ChatsViewModel
+import ru.ok.itmo.tamtam.presentation.stateholder.ContactsViewModel
 import ru.ok.itmo.tamtam.presentation.stateholder.LoginViewModel
 import ru.ok.itmo.tamtam.utils.ViewModelFactory
 import ru.ok.itmo.tamtam.utils.ViewModelKey
@@ -25,6 +26,10 @@ interface ViewModelModule {
     @Binds
     @[IntoMap ViewModelKey(ChatViewModel::class)]
     fun bindChatViewModel(chatViewModel: ChatViewModel): ViewModel
+
+    @Binds
+    @[IntoMap ViewModelKey(ContactsViewModel::class)]
+    fun bindContactsViewModel(contactsViewModel: ContactsViewModel): ViewModel
 
     @AppComponentScope
     @Binds

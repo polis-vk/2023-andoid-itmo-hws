@@ -3,6 +3,7 @@ package ru.ok.itmo.tamtam.data
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.util.Base64
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
 import ru.ok.itmo.tamtam.utils.ApplicationContext
 import java.io.File
@@ -15,52 +16,41 @@ class AvatarGenerator @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private val colorsHex = listOf(
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF",
-        "#FF5733",
-        "#33FF57",
-        "#5733FF"
+        "#bc6c25",
+        "#283618",
+        "#606c38",
+        "#2a9d8f",
+        "#f4a261",
+        "#a2d2ff",
+        "#003566",
+        "#ffd60a",
+        "#780000",
+        "#8338ec",
+        "#06d6a0",
+        "#ff70a6",
     )
 
     fun getPathToAvatarForName(name: String): String {
-        val targetPath = "$CACHE_DIR/name.png"
+        val encodedBytes = Base64.encode(name.toByteArray(), Base64.DEFAULT)
+        val encodedName = String(encodedBytes, Charsets.UTF_8)
+
+        val targetPath = "$CACHE_DIR/$encodedName.png"
         val targetFile = File(context.cacheDir, targetPath)
-        return if (targetFile.exists()) targetPath else generateAvatar(
-            name = name
+
+        if (!targetFile.exists()) generateAvatar(
+            name = name,
+            file = targetFile
         )
+        return targetPath
     }
 
     private fun generateAvatar(
         name: String,
+        file: File,
         avatarSize: Int = 120,
         textSize: Int = 26,
         backgroundColor: Int? = null
-    ): String {
+    ) {
         val avatarBitmapDrawable =
             com.avatarfirst.avatargenlib.AvatarGenerator.AvatarBuilder(context)
                 .setLabel(name)
@@ -71,16 +61,14 @@ class AvatarGenerator @Inject constructor(
                 .setBackgroundColor(backgroundColor ?: Color.parseColor(colorsHex.random()))
                 .build()
 
-        return saveBitmapToDisk(avatarBitmapDrawable.bitmap, name)
+        saveBitmapToDisk(avatarBitmapDrawable.bitmap, file)
     }
 
-    private fun saveBitmapToDisk(bitmap: Bitmap, fileName: String): String {
+    private fun saveBitmapToDisk(bitmap: Bitmap, file: File) {
         val directory = File(context.cacheDir, "$CACHE_DIR")
         if (!directory.exists()) {
             directory.mkdirs()
         }
-
-        val file = File(directory, "$fileName.png")
 
         try {
             val fileOutputStream = FileOutputStream(file)
@@ -90,7 +78,13 @@ class AvatarGenerator @Inject constructor(
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return "$CACHE_DIR/$fileName.png"
+    }
+
+    fun clearImageCache() {
+        val cacheDir = File(context.cacheDir, CACHE_DIR)
+        if (cacheDir.exists() && cacheDir.isDirectory) {
+            cacheDir.deleteRecursively()
+        }
     }
 
     companion object {

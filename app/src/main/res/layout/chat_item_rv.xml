@@ -25,11 +25,11 @@
         android:ellipsize="end"
         android:paddingHorizontal="12dp"
         android:singleLine="true"
-        tools:text="Иван Петров"
         android:textFontWeight="500"
         app:layout_constraintEnd_toStartOf="@+id/timeLastMessageTW"
         app:layout_constraintStart_toEndOf="@+id/avatarIW"
-        app:layout_constraintTop_toTopOf="@+id/avatarIW" />
+        app:layout_constraintTop_toTopOf="@+id/avatarIW"
+        tools:text="Иван Петров" />
 
 
     <LinearLayout
@@ -57,8 +57,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            tools:text="Пришли макеты"
-            android:textColor="?attr/colorOnSecondary" />
+            android:textColor="?attr/colorOnSecondary"
+            tools:text="Пришли макеты" />
     </LinearLayout>
 
     <TextView
@@ -67,10 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
-        tools:text="12:24"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/avatarIW" />
+        app:layout_constraintTop_toTopOf="@+id/avatarIW"
+        tools:text="12:24" />
 
     <!--    <ImageView-->
     <!--        android:id="@+id/imageView2"-->
@@ -98,9 +98,9 @@
             android:background="@drawable/badge_background"
             android:paddingHorizontal="8dp"
             android:paddingVertical="3dp"
-            tools:text="2"
             android:textAlignment="center"
-            android:textColor="?attr/colorPrimary" />
+            android:textColor="?attr/colorPrimary"
+            tools:text="2" />
     </LinearLayout>
 
 

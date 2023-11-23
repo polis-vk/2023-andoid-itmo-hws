@@ -10,7 +10,6 @@ import ru.ok.itmo.tamtam.domain.model.Chat
 import ru.ok.itmo.tamtam.domain.model.IMessage
 import ru.ok.itmo.tamtam.domain.model.Message
 import ru.ok.itmo.tamtam.utils.getChatName
-import java.util.UUID
 
 @Dao
 interface MessageDao {
@@ -35,11 +34,9 @@ interface MessageDao {
     fun insertOrReplace(chat: Chat)
 
     @Transaction
-    fun updateChat(name: String, lastMessageId: Int): String {
-        val chatId = UUID.randomUUID().toString()
+    fun updateLastMessageIdForChat(name: String, lastMessageId: Int) {
         val chat =
             getChatByName(name) ?: Chat(
-                id = chatId,
                 name = name,
                 isAttach = false,
                 lastViewedMessageId = lastMessageId,
@@ -47,12 +44,11 @@ interface MessageDao {
                 isChannel = name.endsWith("@channel")
             )
         insertOrReplace(chat.copy(lastMessageId = lastMessageId))
-        return chat.id
     }
 
     @Transaction
-    fun updateLastViewedForChat(chatId: String, lastViewedMessageId: Int) {
-        val chat = getChatById(chatId)
+    fun updateLastViewedForChat(chatName: String, lastViewedMessageId: Int) {
+        val chat = getChatByName(chatName) ?: return
         insertOrReplace(
             chat.copy(
                 lastViewedMessageId = maxOf(
@@ -72,11 +68,11 @@ interface MessageDao {
             getChatName(login, it.from, it.to)
         }.map { (chatName, messages) ->
             val maxId = messages.maxBy { it.id }.id
-            val chatId = updateChat(chatName, maxId)
+            updateLastMessageIdForChat(chatName, maxId)
             messages.map {
                 Message(
                     id = it.id,
-                    chatId = chatId,
+                    chatName = chatName,
                     from = it.from,
                     to = it.to,
                     time = it.time,
@@ -92,33 +88,42 @@ interface MessageDao {
     @Query("SELECT * FROM Message WHERE id = :id")
     fun getMessageById(id: Int): Message
 
-    @Query("SELECT COUNT(*) FROM Message WHERE chat_id = :chatId AND id BETWEEN :startId AND :endId")
-    fun getCountMessageBetweenIdsForChat(chatId: String, startId: Int, endId: Int): Int
+    @Query("SELECT COUNT(*) FROM Message WHERE chat_name = :chatName AND id BETWEEN :startId AND :endId")
+    fun getCountMessageBetweenIdsForChat(chatName: String, startId: Int, endId: Int): Int
 
     @Query(
-        "SELECT * FROM Message WHERE chat_id = :chatId " +
+        "SELECT * FROM Message WHERE chat_name = :chatName " +
                 "AND (id > :lastKnownId) " +
                 "ORDER BY id ASC " +
                 "LIMIT :count"
     )
     fun getMessagesAfter(
-        chatId: String,
+        chatName: String,
         lastKnownId: Int,
         count: Int,
     ): List<Message>
 
     @Query(
-        "SELECT * FROM Message WHERE chat_id = :chatId " +
+        "SELECT * FROM Message WHERE chat_name = :chatName " +
                 "AND (id <= :lastKnownId) " +
                 "ORDER BY id DESC " +
                 "LIMIT :count"
     )
     fun getMessagesBefore(
-        chatId: String,
+        chatName: String,
         lastKnownId: Int,
         count: Int,
     ): List<Message>
 
-    @Query("SELECT * FROM Chat WHERE id = :chatId")
-    fun getChatById(chatId: String): Chat
+    @Query("DELETE FROM Chat")
+    fun clearChats()
+
+    @Query("DELETE FROM Chat")
+    fun clearMessages()
+
+    @Transaction
+    fun clear() {
+        clearChats()
+        clearMessages()
+    }
 }

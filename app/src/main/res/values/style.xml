@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Widget.TamTam.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>
@@ -11,7 +12,8 @@
         <item name="android:textColorHint">?attr/colorOnSecondary</item>
         <item name="hintTextColor">?attr/colorOnSecondary</item>
         <item name="hintTextAppearance">@style/TextAppearance.TamTam.Description</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.Signal.TextInputEditText.FilledBox</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Signal.TextInputEditText.FilledBox
+        </item>
     </style>
 
     <style name="ThemeOverlay.Signal.TextInputEditText.FilledBox" parent="ThemeOverlay.MaterialComponents.TextInputEditText.FilledBox">

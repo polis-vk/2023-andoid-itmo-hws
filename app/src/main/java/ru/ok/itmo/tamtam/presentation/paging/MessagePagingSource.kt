@@ -5,13 +5,13 @@ import androidx.paging.PagingState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.ok.itmo.tamtam.data.MessageRepository
+import ru.ok.itmo.tamtam.data.repository.MessageRepository
 import ru.ok.itmo.tamtam.domain.model.Message
 import ru.ok.itmo.tamtam.utils.Resource
 
 class MessagePagingSource(
     private val messageRepository: MessageRepository,
-    private val chatId: String,
+    private val chatName: String,
     private val initialKey: Int,
     private val pageSize: Int,
     private val isLocal: Boolean
@@ -23,7 +23,7 @@ class MessagePagingSource(
                 val key = params.key ?: initialKey
                 val isAfter = params is LoadParams.Append
                 val messagesResource = messageRepository.getMessages(
-                    chatId = chatId,
+                    chatName = chatName,
                     lastKnownId = key,
                     count = pageSize,
                     isAfter = isAfter,
@@ -36,13 +36,13 @@ class MessagePagingSource(
 
 
                 val prevKey = if (isAfter) {
-                    key
+                    key - 1
                 } else {
                     messages.firstOrNull()?.id?.let { it - 1 }
                 }
 
                 val nextKey = if (isAfter) {
-                    messages.lastOrNull()?.id?.let { it + 1 }
+                    messages.lastOrNull()?.id
                 } else {
                     key
                 }
@@ -50,7 +50,7 @@ class MessagePagingSource(
                 if (last != null) {
                     launch {
                         messageRepository.updateLastViewedForChat(
-                            chatId = chatId,
+                            chatId = chatName,
                             lastViewedMessageId = last
                         )
                     }

@@ -1,4 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+
     <style name="Theme.TamTam" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorAccent">@color/blue_500</item>
         <item name="colorPrimary">@color/white</item>
@@ -7,5 +8,6 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorOnSecondary">@color/gray_500</item>
         <item name="android:statusBarColor">?attr/colorAccent</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

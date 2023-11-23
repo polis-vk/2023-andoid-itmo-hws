@@ -20,6 +20,7 @@ fun convertTimestampForChat(timestamp: Long): String {
                 else -> "MMM"
             }
         }
+
         else -> "yyyy"
     }
 
@@ -41,6 +42,7 @@ fun convertTimestampForMessage(timestamp: Long): String {
                 else -> "d MMMM"
             }
         }
+
         else -> "yyyy"
     }
 

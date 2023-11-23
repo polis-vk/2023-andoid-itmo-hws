@@ -30,17 +30,18 @@
         android:layout_marginBottom="8dp"
         android:text="@string/helper_login"
         android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/loginTextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
+        android:id="@+id/loginTextInputLayout"
         style="@style/Widget.TamTam.TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
+        app:errorEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
@@ -60,14 +61,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
+        android:id="@+id/passwordTextInputLayout"
         style="@style/Widget.TamTam.TextInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+        app:errorEnabled="false"
+        app:layout_constraintEnd_toEndOf="@+id/loginTextInputLayout"
+        app:layout_constraintStart_toStartOf="@+id/loginTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/loginTextInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordTe"
@@ -89,8 +91,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/forgot_password"
         android:textColor="?attr/colorAccent"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintStart_toStartOf="@+id/passwordTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginBtn"

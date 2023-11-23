@@ -5,7 +5,7 @@ import ru.ok.itmo.tamtam.domain.model.Chat
 
 class ChatDiffCallback : DiffUtil.ItemCallback<Chat>() {
     override fun areItemsTheSame(oldItem: Chat, newItem: Chat): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.name == newItem.name
     }
 
     override fun areContentsTheSame(oldItem: Chat, newItem: Chat): Boolean {

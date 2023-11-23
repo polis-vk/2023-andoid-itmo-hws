@@ -1,4 +1,4 @@
-package ru.ok.itmo.tamtam.data
+package ru.ok.itmo.tamtam.data.repository
 
 import android.content.Context
 import androidx.core.math.MathUtils
@@ -18,6 +18,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import ru.ok.itmo.tamtam.App
+import ru.ok.itmo.tamtam.data.AccountStorage
 import ru.ok.itmo.tamtam.data.retrofit.MessageService
 import ru.ok.itmo.tamtam.data.retrofit.model.MessageDto
 import ru.ok.itmo.tamtam.data.retrofit.model.TextDataDto
@@ -31,6 +32,7 @@ import ru.ok.itmo.tamtam.data.scarlet.model.NewMessageRequest
 import ru.ok.itmo.tamtam.data.scarlet.model.StartTypingRequest
 import ru.ok.itmo.tamtam.data.scarlet.model.TextMessageGPart
 import ru.ok.itmo.tamtam.domain.model.Chat
+import ru.ok.itmo.tamtam.domain.model.Contact
 import ru.ok.itmo.tamtam.domain.model.Message
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
 import ru.ok.itmo.tamtam.utils.ApplicationContext
@@ -47,6 +49,8 @@ class MessageRepository @Inject constructor(
     private val accountStorage: AccountStorage,
     @ApplicationContext private val context: Context
 ) {
+    val notifications: Channel<NotificationType> = Channel()
+
     private val _typing = MutableStateFlow(mapOf<String, List<String>>())
     private val typing: StateFlow<Map<String, List<String>>> get() = _typing
 
@@ -62,7 +66,7 @@ class MessageRepository @Inject constructor(
                     countNewMessage = MathUtils.clamp(
                         messageDao
                             .getCountMessageBetweenIdsForChat(
-                                chatId = chat.id,
+                                chatName = chat.name,
                                 startId = chat.lastViewedMessageId,
                                 endId = chat.lastMessageId
                             ) - 1, 0, Int.MAX_VALUE
@@ -72,11 +76,9 @@ class MessageRepository @Inject constructor(
         }
             .flowOn(Dispatchers.IO)
 
-    val notifications: Channel<NotificationType> = Channel()
-
     private var trackingJob: Job? = null
 
-    suspend fun runTracking() {
+    suspend fun startTracking() {
         messageApi = (context as App).appComponent.getMessageApi()
         trackingJob = coroutineScope {
             launch {
@@ -134,7 +136,7 @@ class MessageRepository @Inject constructor(
                             listOf(
                                 Message(
                                     id = it.id,
-                                    chatId = "",
+                                    chatName = "",
                                     from = it.from,
                                     to = it.to,
                                     time = it.time,
@@ -158,6 +160,7 @@ class MessageRepository @Inject constructor(
     private var synchronizeMutex: Mutex = Mutex(false)
 
     private suspend fun synchronize(): Resource<Unit> {
+        val login = accountStorage.login!!
         if (synchronizeMutex.isLocked) return Resource.Success(Unit)
         synchronizeMutex.withLock {
             val messageListFromChannels = runCatching {
@@ -184,7 +187,7 @@ class MessageRepository @Inject constructor(
             val lastKnownId = messageDao.getMaxLastMessageIdForNotChannel() ?: 0
             val messageListForUser = runCatching {
                 messageService.listOfMessagesForUser(
-                    userName = accountStorage.login!!,
+                    userName = login,
                     queryMap = mapOf(
                         "limit" to "${Int.MAX_VALUE}",
                         "lastKnownId" to "$lastKnownId",
@@ -197,7 +200,7 @@ class MessageRepository @Inject constructor(
             messageDao.addMessages(messages.map {
                 Message(
                     id = it.id,
-                    chatId = "",
+                    chatName = "",
                     from = it.from,
                     to = it.to,
                     time = it.time,
@@ -205,7 +208,7 @@ class MessageRepository @Inject constructor(
                     imageLink = it.data.image?.link,
                     isSent = true
                 )
-            }, accountStorage.login!!)
+            }, login)
             return messagesResource.mapIfSuccess {}
         }
     }
@@ -235,7 +238,7 @@ class MessageRepository @Inject constructor(
                     }
                 val sentMessage = Message(
                     id = newIdResource.toInt(),
-                    chatId = chat.id,
+                    chatName = chat.name,
                     from = accountStorage.login!!,
                     to = chat.name,
                     time = System.currentTimeMillis(),
@@ -278,13 +281,22 @@ class MessageRepository @Inject constructor(
         }
     }
 
-    suspend fun getChat(chatId: String): Resource<Chat> {
-        val chat = messageDao.getChatById(chatId)
+    suspend fun getChatByName(chatName: String): Resource<Chat> {
+        val chat = messageDao.getChatByName(chatName) ?: Chat(
+            name = chatName,
+            isAttach = false,
+            lastViewedMessageId = 0,
+            lastMessageId = 0,
+            lastMessage = null,
+            isChannel = false,
+            typingUsers = emptyList(),
+            countNewMessage = 0
+        )
         return Resource.Success(chat)
     }
 
     suspend fun getMessages(
-        chatId: String,
+        chatName: String,
         lastKnownId: Int,
         count: Int,
         isAfter: Boolean,
@@ -294,20 +306,20 @@ class MessageRepository @Inject constructor(
         if (isLocal) {
             val localMessages = if (isAfter) {
                 messageDao.getMessagesAfter(
-                    chatId = chatId,
+                    chatName = chatName,
                     lastKnownId = lastKnownId,
                     count = count,
                 )
             } else {
                 messageDao.getMessagesBefore(
-                    chatId = chatId,
+                    chatName = chatName,
                     lastKnownId = lastKnownId,
                     count = count,
                 )
             }
             return Resource.Success(localMessages)
         } else {
-            val channelName = messageDao.getChatById(chatId).name
+            val channelName = messageDao.getChatByName(chatName)!!.name
             val remoteMessages = if (isAfter) {
                 runCatching {
                     messageService.listOfMessagesFromChannel(
@@ -323,7 +335,7 @@ class MessageRepository @Inject constructor(
                         it.map {
                             Message(
                                 id = it.id,
-                                chatId = chatId,
+                                chatName = chatName,
                                 from = it.from,
                                 to = it.to,
                                 time = it.time,
@@ -349,7 +361,7 @@ class MessageRepository @Inject constructor(
                         it.map {
                             Message(
                                 id = it.id,
-                                chatId = chatId,
+                                chatName = chatName,
                                 from = it.from,
                                 to = it.to,
                                 time = it.time,
@@ -369,5 +381,11 @@ class MessageRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             messageDao.updateLastViewedForChat(chatId, lastViewedMessageId)
         }
+    }
+
+    suspend fun getContacts(): Resource<List<Contact>> {
+        return runCatching {
+            messageService.users()
+        }.handleResult().mapIfSuccess { it.map { Contact(name = it) } }
     }
 }

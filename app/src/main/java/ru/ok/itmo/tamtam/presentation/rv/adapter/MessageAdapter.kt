@@ -31,7 +31,7 @@ class MessageAdapter(
         when (holder) {
             is MyMessageViewHolder -> {
                 val binding = holder.binding
-                val item = getItem(position)!!
+                val item = getItem(position) ?: return
                 binding.messageTW.text = item.messageText
                 binding.messageTimeTW.text = convertTimestampForMessage(item.time)
 
@@ -45,7 +45,7 @@ class MessageAdapter(
 
             is ForeignMessageViewHolder -> {
                 val binding = holder.binding
-                val item = getItem(position)!!
+                val item = getItem(position) ?: return
                 binding.messageTW.text = item.messageText
                 binding.messageTimeTW.text = convertTimestampForMessage(item.time)
                 item.imageLink?.let {

@@ -8,11 +8,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Chat(
-    @PrimaryKey
-    @ColumnInfo(name = "id")
-    val id: String,
     @ColumnInfo(name = "is_attach")
     val isAttach: Boolean,
+    @PrimaryKey
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "last_message_id")
@@ -29,11 +27,10 @@ data class Chat(
     val countNewMessage: Int
 ) {
     constructor(
-        id: String,
         isAttach: Boolean,
         name: String,
         lastMessageId: Int,
         lastViewedMessageId: Int,
         isChannel: Boolean
-    ) : this(id, isAttach, name, lastMessageId, lastViewedMessageId, isChannel, listOf(), null, 0)
+    ) : this(isAttach, name, lastMessageId, lastViewedMessageId, isChannel, listOf(), null, 0)
 }
