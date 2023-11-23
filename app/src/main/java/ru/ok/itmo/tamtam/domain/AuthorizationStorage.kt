@@ -1,11 +1,12 @@
 package ru.ok.itmo.tamtam.domain
 
-import ru.ok.itmo.tamtam.client.AuthorizationProvider
+import ru.ok.itmo.tamtam.client.provider.AuthorizationProvider
+import ru.ok.itmo.tamtam.dto.AuthToken
 import ru.ok.itmo.tamtam.dto.UserAuthorization
 
 object AuthorizationStorage {
     private val authorizationProvider = AuthorizationProvider()
-    private var token: String? = null
+    private var token: AuthToken? = null
 
     suspend fun login(userAuthorization: UserAuthorization): Result<String?> {
         val result = authorizationProvider.login(userAuthorization)

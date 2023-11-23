@@ -8,28 +8,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import ru.ok.itmo.tamtam.R
-import ru.ok.itmo.tamtam.databinding.FragmentChatsBinding
-import ru.ok.itmo.tamtam.domain.ChatsViewModel
+import ru.ok.itmo.tamtam.databinding.FragmentCommunicationBinding
+import ru.ok.itmo.tamtam.domain.model.CommunicationViewModel
 
-class ChatsFragment : Fragment() {
-    private val viewModel by viewModels<ChatsViewModel>()
-    private lateinit var binding: FragmentChatsBinding
+class CommunicationFragment : Fragment() {
+    private val viewModel by viewModels<CommunicationViewModel>()
+    private lateinit var binding: FragmentCommunicationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        binding = FragmentChatsBinding.inflate(inflater, container, false)
+        binding = FragmentCommunicationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_chatsFragment_to_startFragment)
-            viewModel.logout()
+        binding.toolbar.setNavigationOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_communicationFragment_to_chatsFragment)
         }
     }
 }

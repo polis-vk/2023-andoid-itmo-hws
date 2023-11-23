@@ -16,6 +16,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name_rus"
+        android:textAlignment="center"
+        android:textAppearance="@style/text_app_name"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
     <Button
         android:id="@+id/login_with_phone"
         android:layout_width="match_parent"
@@ -49,7 +58,6 @@
         app:layout_constraintBottom_toTopOf="@id/info"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <TextView
         android:id="@+id/info"
         android:layout_width="match_parent"
@@ -63,6 +71,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

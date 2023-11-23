@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context=".ui.ChatsFragment">
-
+    tools:context=".ui.chats.ChatsFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -17,10 +16,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/back"
-        app:title="@string/info_chat_fragment"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/black"
+        app:title="@string/chats"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/text_login"
-        app:titleTextColor="@color/black" />
+        app:titleTextAppearance="@style/text_title"
+        app:titleTextColor="@color/black">
+
+        <ImageView
+            android:id="@+id/chats_toolbar_logo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="right"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_create"
+            android:layout_marginEnd="16dp" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <RelativeLayout
+        android:id="@+id/loading_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/red" />
+
+    <TextView
+        android:id="@+id/info_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/search_chats"
+        android:textAppearance="@style/text_minor_18"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/secondary" />
 
 </FrameLayout>

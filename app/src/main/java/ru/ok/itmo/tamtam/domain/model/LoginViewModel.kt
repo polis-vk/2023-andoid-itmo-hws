@@ -1,10 +1,12 @@
-package ru.ok.itmo.tamtam.domain
+package ru.ok.itmo.tamtam.domain.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.ok.itmo.tamtam.domain.AuthorizationStorage
+import ru.ok.itmo.tamtam.domain.state.LoginState
 import ru.ok.itmo.tamtam.dto.UserAuthorization
 
 class LoginViewModel : ViewModel() {

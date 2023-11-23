@@ -36,11 +36,23 @@
 
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="ru.ok.itmo.tamtam.ui.ChatsFragment"
+        android:name="ru.ok.itmo.tamtam.ui.chats.ChatsFragment"
         android:label="fragment_chats"
         tools:layout="@layout/fragment_chats" >
         <action
             android:id="@+id/action_chatsFragment_to_startFragment"
             app:destination="@id/startFragment" />
+        <action
+            android:id="@+id/action_chatsFragment_to_communicationFragment"
+            app:destination="@id/communicationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/communicationFragment"
+        android:name="ru.ok.itmo.tamtam.ui.CommunicationFragment"
+        android:label="fragment_communication"
+        tools:layout="@layout/fragment_communication" >
+        <action
+            android:id="@+id/action_communicationFragment_to_chatsFragment"
+            app:destination="@id/chatsFragment" />
     </fragment>
 </navigation>

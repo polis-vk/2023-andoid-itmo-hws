@@ -1,10 +1,13 @@
-package ru.ok.itmo.tamtam.client
+package ru.ok.itmo.tamtam.client.provider
 
+import ru.ok.itmo.tamtam.client.RetrofitProvider
+import ru.ok.itmo.tamtam.client.api.LoginApi
 import ru.ok.itmo.tamtam.domain.ErrorType
+import ru.ok.itmo.tamtam.dto.AuthToken
 import ru.ok.itmo.tamtam.dto.UserAuthorization
 
 class AuthorizationProvider {
-    private fun client() = LoginApi.provideLoginApi(RetrofitProvider.retrofit(""))
+    private fun client() = LoginApi.provideLoginApi(RetrofitProvider.retrofit())
 
     suspend fun login(userAuthorization: UserAuthorization): Result<String?> {
         return try {
@@ -22,9 +25,12 @@ class AuthorizationProvider {
         }
     }
 
-    suspend fun logout(token: String?) {
-        runCatching {
-            client().logout()
+    suspend fun logout(token: AuthToken?) {
+        if (token != null) {
+            runCatching {
+                client().logout(token)
+            }
         }
+
     }
 }

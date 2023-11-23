@@ -11,27 +11,26 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 object RetrofitProvider {
     private const val BASE_URL = "https://faerytea.name:8008"
 
-    private fun interceptor(token: String) = Interceptor { chain ->
+    private fun interceptor() = Interceptor { chain ->
         val request: Request =
             chain.request()
                 .newBuilder()
-                .addHeader("X-Auth-Token", token)
                 .build()
         chain.proceed(request)
     }
 
-    private fun client(token: String) = OkHttpClient.Builder()
-        .addInterceptor(interceptor(token))
+    private fun client() = OkHttpClient.Builder()
+        .addInterceptor(interceptor())
         .build()
 
     private val gson = GsonBuilder()
         .setLenient()
         .create()
 
-    fun retrofit(token: String): Retrofit = Retrofit.Builder()
+    fun retrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(client(token))
+        .client(client())
         .build()
 }
