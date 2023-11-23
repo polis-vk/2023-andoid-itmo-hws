@@ -19,4 +19,6 @@
     <string name="privacy_policy_message">Нажимая «Войти», вы соглашаетесь с политикой конфиденциальности</string>
     <string name="btn_login_authorization_message">Войти через логин</string>
     <string name="btn_phone_authorization_massage">Войти через телефон</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -32,7 +32,7 @@
             android:padding="12dp"
 
 
-            android:src="@drawable/icon_arrow_left"
+            android:src="@drawable/icon_arrow_left_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

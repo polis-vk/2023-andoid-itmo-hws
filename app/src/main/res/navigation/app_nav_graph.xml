@@ -8,5 +8,18 @@
         android:id="@+id/fragmentBack"
         android:name="ru.ok.itmo.tamtam.BackFragment"
         android:label="fragment_back"
-        tools:layout="@layout/fragment_back" />
+        tools:layout="@layout/fragment_back" >
+        <action
+            android:id="@+id/action_fragmentBack_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="ru.ok.itmo.tamtam.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
 </navigation>

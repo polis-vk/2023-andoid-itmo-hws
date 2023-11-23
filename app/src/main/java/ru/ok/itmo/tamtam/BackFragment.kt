@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 
 class BackFragment : Fragment(R.layout.fragment_back) {
 
@@ -15,21 +16,24 @@ class BackFragment : Fragment(R.layout.fragment_back) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        actionBarLogic()
+
+        findNavController().navigate(BackFragmentDirections.actionFragmentBackToChatFragment("Default chat"))
+
+//        actionBarLogic()
     }
 
-    private fun actionBarLogic() {
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.title = getString(R.string.action_bar_back_title)
-        actionBar?.setBackgroundDrawable(
-            ColorDrawable(
-                Helper.getColor(
-                    requireContext(), R.color.white
-                )
-            )
-        )
-        actionBar?.elevation = 0f
-    }
+//    private fun actionBarLogic() {
+//        val actionBar = (activity as AppCompatActivity).supportActionBar
+//        actionBar?.title = getString(R.string.action_bar_back_title)
+//        actionBar?.setBackgroundDrawable(
+//            ColorDrawable(
+//                Helper.getColor(
+//                    requireContext(), R.color.white
+//                )
+//            )
+//        )
+//        actionBar?.elevation = 0f
+//    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

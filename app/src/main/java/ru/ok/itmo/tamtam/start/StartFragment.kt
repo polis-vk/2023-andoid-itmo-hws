@@ -1,10 +1,12 @@
-package ru.ok.itmo.tamtam
+package ru.ok.itmo.tamtam.start
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import ru.ok.itmo.tamtam.Helper
+import ru.ok.itmo.tamtam.R
 
 class StartFragment : Fragment(R.layout.fragment_start) {
 

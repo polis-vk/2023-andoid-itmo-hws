@@ -24,5 +24,15 @@ class ServerWorker {
             Log.d("ServerWorker", "$e")
             throw e
         }
+
+        fun getMessages(token: String): Flow<String> = flow {
+            val responseBody = RetrofitClient.apiService.getMessages(token)
+            val result = responseBody.string()
+            emit(result)
+        }.flowOn(Dispatchers.IO).catch { e ->
+            if (e is HttpException && e.code() == 401) throw ServerException.Unauthorized
+            Log.d("ServerWorker", "$e")
+            throw e
+        }
     }
 }

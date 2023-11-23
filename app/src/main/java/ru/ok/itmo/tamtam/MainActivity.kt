@@ -5,6 +5,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
+import ru.ok.itmo.tamtam.model.Model
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val sharedViewModel: SharedViewModel by viewModels()
@@ -12,6 +16,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        startKoin {
+            androidContext(this@MainActivity)
+            modules(appModule)
+        }
+
         sharedViewModel.navController =
             (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
@@ -25,4 +35,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onRestoreInstanceState(savedInstanceState)
         sharedViewModel.navController.restoreState(savedInstanceState.getBundle("nav_state"))
     }
+}
+
+val appModule = module {
+    single { Model() }
 }

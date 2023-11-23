@@ -31,12 +31,12 @@
     <include app:graph="@navigation/app_nav_graph" />
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="ru.ok.itmo.tamtam.ForgotPasswordFragment"
+        android:name="ru.ok.itmo.tamtam.login.other_fragments.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
         android:id="@+id/startFragment"
-        android:name="ru.ok.itmo.tamtam.StartFragment"
+        android:name="ru.ok.itmo.tamtam.start.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginPhoneFragment"
-        android:name="ru.ok.itmo.tamtam.LoginPhoneFragment"
+        android:name="ru.ok.itmo.tamtam.login.other_fragments.LoginPhoneFragment"
         android:label="fragment_login_phone"
         tools:layout="@layout/fragment_login_phone" />
 </navigation>
