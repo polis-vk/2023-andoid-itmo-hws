@@ -6,48 +6,67 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="24dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_title"/>
-        <EditText
-            android:id="@+id/login"
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:autofillHints="emailAddress"
-            android:hint="@string/login"
-            android:imeOptions="flagNavigateNext"
-            android:inputType="textEmailAddress"
-            android:textDirection="locale" />
+            android:layout_gravity="start"
+            android:layout_marginBottom="16dp"
+            android:text="@string/login_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="256dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:autofillHints="password"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/login"
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:imeOptions="flagNavigateNext"
+                android:inputType="textEmailAddress"
+                android:textDirection="locale" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:hint="@string/password"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:textDirection="locale" />
+            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Medium">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:textDirection="locale" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
 
+        android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="16dp"
         android:text="@string/authorize"
         app:layout_constraintBottom_toBottomOf="parent"
