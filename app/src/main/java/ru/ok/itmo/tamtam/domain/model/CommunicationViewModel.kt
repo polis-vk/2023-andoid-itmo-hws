@@ -24,7 +24,8 @@ class CommunicationViewModel : ViewModel() {
         viewModelScope.launch {
             CommunicationStorage.getMessages().onSuccess { messages ->
                 _chatsState.value = CommunicationState.LoadingMessages
-                _chatsState.value = CommunicationState.Success(messages.map {convertToMessageView(it)})
+                _chatsState.value =
+                    CommunicationState.Success(messages.map { convertToMessageView(it) })
 
             }.onFailure {
                 _chatsState.value = CommunicationState.Failure(it)

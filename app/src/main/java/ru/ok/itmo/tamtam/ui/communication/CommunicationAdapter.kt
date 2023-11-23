@@ -9,7 +9,10 @@ import ru.ok.itmo.tamtam.domain.model.CommunicationViewModel
 class CommunicationAdapter(
     private val items: List<CommunicationViewModel.MessageInfo>
 ) : RecyclerView.Adapter<ActiveCommunicationViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActiveCommunicationViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ActiveCommunicationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
             R.layout.cell_message,
             parent,

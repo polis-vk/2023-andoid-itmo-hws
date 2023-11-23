@@ -6,5 +6,5 @@ sealed interface CommunicationState {
     data class Success(val messages: List<CommunicationViewModel.MessageInfo>) : CommunicationState
     data class Failure(val throwable: Throwable) : CommunicationState
     data object Unknown : CommunicationState
-    data object LoadingMessages: CommunicationState
+    data object LoadingMessages : CommunicationState
 }
