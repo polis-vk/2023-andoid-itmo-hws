@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
+import ru.ok.itmo.example.view.ChatFragment
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -26,6 +28,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             if (it is Int) {
                 Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
                 viewModel.toastMessage.value = null
+            }
+        }
+
+        viewModel.openChannel.observe(this) {
+            if (it is String) {
+                Navigation.findNavController(this, R.id.navHostFragment)
+                    .navigate(
+                        R.id.action_chatsFragment_to_chatFragment,
+                        bundleOf(ChatFragment.ARG_CHANNEL_NAME to it)
+                    )
+                viewModel.openChannel.value = null
             }
         }
     }

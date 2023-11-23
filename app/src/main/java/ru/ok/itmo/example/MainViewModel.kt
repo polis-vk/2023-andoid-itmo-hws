@@ -3,54 +3,40 @@ package ru.ok.itmo.example
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
+import androidx.navigation.Navigation
+import ru.ok.itmo.example.model.MainRepository
+import java.lang.Exception
 
 class MainViewModel: ViewModel() {
 
+    private val repository = MainRepository()
+    val channels = repository.channels
+
     val signIn = MutableLiveData<Boolean>()
+    val openChannel = MutableLiveData<String?>()
     val toastMessage = MutableLiveData<Int?>()
 
-    val server = "https://faerytea.name:8008"
+    val DEBUG_LOGIN = "name"
+    val DEBUG_PASSWORD = "JOStatiCmAiNqUeUe"
+
 
     fun verifyAndLogin(login: String, password: String) {
-        val requestBody = "{ \"name\": \"$login\",  \"pwd\": \"$password\" }".toByteArray()
-        val url = URL("${server}/login")
-
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                (url.openConnection() as HttpURLConnection)!!.run {
-                    requestMethod = "POST"
-                    outputStream.write(requestBody)
-
-                    val code = responseCode
-
-                    launch(Dispatchers.Main) {
-                        if (code == 200 || password=="asd") { // TODO: remove debug password
-                            launch(Dispatchers.Main) {
-                                signIn.value = true
-                            }
-                        } else {
-                            showErrorMessage(code)
-                        }
-                    }
-                }
-            } catch (e: IOException) {
-                launch(Dispatchers.Main) {
-                    toastMessage.value = R.string.login_error_cant_connect
-                }
+        val login = DEBUG_LOGIN
+        val password = DEBUG_PASSWORD
+        repository.verifyAndLogin(login, password, signIn) { code, exception ->
+            toastMessage.value = when (code) {
+                null -> R.string.login_error_cant_connect
+                401 -> R.string.login_error_unauthorized
+                else -> R.string.login_error
             }
         }
     }
 
-    fun showErrorMessage(responseCode: Int) {
-        toastMessage.value = when (responseCode) {
-            401 -> R.string.login_error_unauthorized
-            else -> R.string.login_error
-        }
+    fun updateChannels(callback: (Exception?, Long)->Unit) {
+        repository.updateChannels(callback)
+    }
+
+    fun openChannel(name: String) {
+        openChannel.value = name
     }
 }

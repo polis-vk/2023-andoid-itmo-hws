@@ -7,12 +7,24 @@
     android:background="@color/white">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/action_bar_container"
-        android:name="ru.ok.itmo.example.SimpleActionBar"
-        android:layout_width="match_parent"
+        android:id="@+id/actionBarContainer"
+        android:name="ru.ok.itmo.example.view.SimpleActionBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/action_bar_simple" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actionBarContainer" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

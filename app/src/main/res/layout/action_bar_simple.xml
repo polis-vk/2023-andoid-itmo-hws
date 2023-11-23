@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="56dp"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:id="@+id/constraintLayout">
+    android:layout_height="56dp"
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/buttonBack"
@@ -26,8 +27,18 @@
         android:textColor="@color/black"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:contentDescription="@string/content_description_action_bar_button"
+        android:src="@drawable/ic_action_bar_chats"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

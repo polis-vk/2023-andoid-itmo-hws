@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startedFragment"
-        android:name="ru.ok.itmo.example.StartedFragment"
+        android:name="ru.ok.itmo.example.view.StartedFragment"
         android:label="fragment_started"
         tools:layout="@layout/fragment_started" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ru.ok.itmo.example.LoginFragment"
+        android:name="ru.ok.itmo.example.view.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_chatsFragment"
@@ -28,6 +28,18 @@
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="ru.ok.itmo.example.ChatsFragment"
-        android:label="ChatsFragment" />
+        android:name="ru.ok.itmo.example.view.ChatsFragment"
+        android:label="ChatsFragment" >
+        <action
+            android:id="@+id/action_chatsFragment_to_chatFragment"
+            app:destination="@id/chatFragment">
+        </action>
+        <argument
+            android:name="channel_name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="ru.ok.itmo.example.view.ChatFragment"
+        android:label="ChatFragment" />
 </navigation>
