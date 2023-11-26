@@ -5,4 +5,9 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
     <string name="night">Night</string>
+    <string name="login_empty">Login filed is empty</string>
+    <string name="login_incorrect">Login uncorrected</string>
+    <string name="password_empty">Password filed is empty</string>
+    <string name="password_incorrect">Password uncorrected</string>
+    <string name="completed">Completed</string>
 </resources>

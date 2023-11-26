@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#40407A"
+        android:background="@color/background"
         android:orientation="vertical"
         tools:context=".MainActivity">
 
@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:layout_gravity="center"
             android:textStyle="bold"
@@ -20,19 +20,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="10dp"
-            android:id="@+id/test_register" />
+            android:id="@+id/text_register" />
 
     <EditText
-            android:layout_width="220dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/user_login"
-            app:layout_constraintTop_toBottomOf="@+id/test_register"
+            app:layout_constraintTop_toBottomOf="@+id/text_register"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/login"
-            android:textColor="#EBEBEB"
+            android:textColor="@color/text_login"
             android:autofillHints=""
             android:minHeight="48dp" />
 
@@ -48,7 +48,7 @@
             android:id="@+id/textInputLayout">
 
         <EditText
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
@@ -68,13 +68,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
             android:text="@string/night"
             android:layout_width="89dp"
             android:layout_height="48dp"
             android:id="@+id/switch_theme"
-            tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml"
-            android:textColor="#FEFEFE"
+            android:textColor="@color/text_switch"
             app:layout_constraintBottom_toTopOf="@+id/button_enter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

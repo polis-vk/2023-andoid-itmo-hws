@@ -1,15 +1,14 @@
 package ru.ok.itmo.hw2
 
 import android.os.Bundle
-import android.view.KeyEvent
+import android.util.Patterns
 import android.view.KeyEvent.KEYCODE_ENTER
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 
 class MainActivity() : AppCompatActivity(R.layout.activity_main) {
@@ -19,22 +18,19 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
         val userLogin: EditText = findViewById(R.id.user_login)
         val userPassword: EditText = findViewById(R.id.user_password)
         val buttonEnter: Button = findViewById(R.id.button_enter)
-        val switchTheme: Switch = findViewById(R.id.switch_theme)
+        val switchTheme: SwitchMaterial = findViewById(R.id.switch_theme)
 
         buttonEnter.setOnClickListener {
-            signIn(userLogin.text.toString().trim(), userPassword.text.toString().trim())
+            tryToSignIn(userLogin.text.toString().trim(), userPassword.text.toString().trim())
         }
 
-        userPassword.setOnKeyListener(
-            fun(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
-                var consumed = false
-                if (keyCode == KEYCODE_ENTER) {
-                    signIn(userLogin.text.toString().trim(), userPassword.text.toString().trim())
-                    consumed = true
-                }
-                return consumed
+        userPassword.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KEYCODE_ENTER) {
+                tryToSignIn(userLogin.text.toString().trim(), userPassword.text.toString().trim())
+                return@setOnKeyListener true
             }
-        )
+            false
+        }
 
         switchTheme.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -43,36 +39,38 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-
-
     }
 
-    private fun signIn(login: String, password: String) {
-        if (login == "") {
-            printMessage("Login filed is empty")
-        } else if (password == "") {
-            printMessage("Password filed is empty")
-        } else if (!loginIsCorrect(login)) {
-            printMessage("Login uncorrected")
-        } else if (!passwordIsCorrect(password)) {
-            printMessage("Password uncorrected")
-        } else {
-            printMessage("Completed")
+    private fun tryToSignIn(login: String, password: String) {
+        when {
+            login.isEmpty() -> printMessage(getString(R.string.login_empty))
+            password.isEmpty() -> printMessage(getString(R.string.password_empty))
+            !isLoginCorrect(login) -> printMessage(getString(R.string.login_incorrect))
+            !isPasswordCorrect(password) -> printMessage(getString(R.string.password_incorrect))
+            else -> printMessage(getString(R.string.completed))
         }
+//        if (login.isEmpty()) {
+//            printMessage("Login filed is empty")
+//        } else if (password.isEmpty()) {
+//            printMessage("Password filed is empty")
+//        } else if (!isLoginCorrect(login)) {
+//            printMessage("Login uncorrected")
+//        } else if (!isPasswordCorrect(password)) {
+//            printMessage("Password uncorrected")
+//        } else {
+//            printMessage("Completed")
+//        }
     }
 
     private fun printMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun loginIsCorrect(login: String): Boolean {
-        val indexPoint = login.indexOf('.')
-        val indexDog = login.indexOf('@')
-        return login != "" && indexDog != -1 && indexPoint != 1
-                && indexDog > 1 && indexPoint > indexDog + 1
+    private fun isLoginCorrect(login: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(login).matches()
     }
 
-    private fun passwordIsCorrect(password: String): Boolean {
+    private fun isPasswordCorrect(password: String): Boolean {
         return password.length > 6 && password.lowercase() != password
                 && password.uppercase() != password
     }

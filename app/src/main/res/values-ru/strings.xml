@@ -5,4 +5,9 @@
     <string name="password">Пароль</string>
     <string name="sign_in">Вход</string>
     <string name="night">Ночь</string>
+    <string name="login_empty">Логин не может быть пустым</string>
+    <string name="login_incorrect">Логин некорректен</string>
+    <string name="password_empty">Пароль не может быть пустой</string>
+    <string name="password_incorrect">Пароль некорректен</string>
+    <string name="completed">Выполенено</string>
 </resources>

@@ -5,4 +5,9 @@
     <string name="password">كلمة المرور</string>
     <string name="sign_in">مدخل</string>
     <string name="night">ليلة</string>
+    <string name="login_empty">لا يمكن أن يكون تسجيل الدخول فارغا</string>
+    <string name="login_incorrect">تسجيل الدخول غير صحيح</string>
+    <string name="password_empty">لا يمكن أن تكون كلمة المرور فارغة</string>
+    <string name="password_incorrect">كلمة المرور غير صحيحة</string>
+    <string name="completed">تم</string>
 </resources>
