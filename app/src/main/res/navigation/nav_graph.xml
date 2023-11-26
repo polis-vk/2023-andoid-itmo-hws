@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ru.ok.itmo.example.LoginFragment"
+        android:name="ru.ok.itmo.example.login.LoginFragment"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_listFragment"
@@ -28,10 +28,23 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="ru.ok.itmo.example.ListFragment"
+        android:name="ru.ok.itmo.example.list.ListFragment"
         tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_startFragment"
             app:destination="@id/startFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="ru.ok.itmo.example.chat.ChatFragment"
+        tools:layout="@layout/fragment_chat">
+
+        <action
+            android:id="@+id/action_chatFragment_to_listFragment"
+            app:destination="@id/listFragment" />
     </fragment>
 </navigation>

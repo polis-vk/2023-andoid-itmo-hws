@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.Retrofit
+package ru.ok.itmo.example.models
 
 data class LoginRequest(
     val name: String?,

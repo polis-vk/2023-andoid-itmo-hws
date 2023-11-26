@@ -1,33 +1,20 @@
-package ru.ok.itmo.example
+package ru.ok.itmo.example.list
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import ru.ok.itmo.example.Retrofit.LoginRequest
-import ru.ok.itmo.example.Retrofit.MainApi
+import ru.ok.itmo.example.R
 import ru.ok.itmo.example.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: ListViewModel
 
 
     override fun onCreateView(
@@ -43,11 +30,16 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ListViewModel::class.java]
 
         binding.toolbar.setNavigationOnClickListener {
-            viewModel.logout()
+            val shar = activity?.getSharedPreferences("token_pref", Context.MODE_PRIVATE)!!
+            viewModel.logout(shar.getString("token", "").toString())
+            shar.edit().remove("token").putString("token", "").apply()
             findNavController().navigate(R.id.action_listFragment_to_startFragment)
+        }
+        binding.enterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_chatFragment)
         }
     }
 
