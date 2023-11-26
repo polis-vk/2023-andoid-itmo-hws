@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/start_fragment">
+    app:startDestination="@+id/startFragment">
+
 
     <fragment
-        android:id="@+id/start_fragment"
-        android:name="ru.ok.itmo.example.StartFragment" >
+        android:id="@+id/startFragment"
+        android:name="ru.ok.itmo.example.StartFragment"
+        android:label="StartFragment" >
         <action
-            android:id="@+id/action_start_fragment_to_login_fragment"
-            app:destination="@id/login_fragment" />
+            android:id="@+id/action_startFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
-
     <fragment
-        android:id="@+id/login_fragment"
-        android:name="ru.ok.itmo.example.login.LoginFragment" >
+        android:id="@+id/loginFragment"
+        android:name="ru.ok.itmo.example.login.LoginFragment"
+        android:label="LoginFragment" >
         <action
-            android:id="@+id/action_login_fragment_to_chats_fragment"
+            android:id="@+id/action_loginFragment_to_chatsFragment"
             app:destination="@id/chatsFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
         android:name="ru.ok.itmo.example.chats.ChatsFragment"
-        android:label="fragment_chats"
+        android:label="chats_fragment"
         tools:layout="@layout/chats_fragment" />
-
 </navigation>

@@ -10,4 +10,13 @@ class RealLoginRepository : LoginRepository {
             Result.failure(e)
         }
     }
+
+    override suspend fun logout(userXAuthToken: UserXAuthToken): Result<UserXAuthToken> {
+        return try {
+            LoginService.loginService.logout(userXAuthToken)
+            Result.success(userXAuthToken)
+        } catch (e: Throwable) {
+            Result.failure(e)
+        }
+    }
 }

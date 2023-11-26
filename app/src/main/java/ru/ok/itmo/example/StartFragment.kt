@@ -10,7 +10,7 @@ class StartFragment : Fragment(R.layout.start_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val loginButton = view.findViewById<Button>(R.id.start_button)
         loginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_start_fragment_to_login_fragment)
+            findNavController().navigate(R.id.action_startFragment_to_loginFragment)
         }
         super.onViewCreated(view, savedInstanceState)
     }

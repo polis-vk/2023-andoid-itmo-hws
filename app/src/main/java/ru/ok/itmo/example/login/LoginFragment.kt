@@ -10,10 +10,6 @@ import androidx.fragment.app.Fragment
 import ru.ok.itmo.example.R
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.onEach
@@ -27,7 +23,9 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginViewModel.logout()
+        if (loginViewModel.isLogin()) {
+            loginViewModel.logout()
+        }
 
         val loginField = view.findViewById<TextInputEditText>(R.id.loginInputEdit)
         val passwordField = view.findViewById<TextInputEditText>(R.id.passwordInputEdit)
@@ -45,17 +43,13 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             loginViewModel.status.onEach {
                 Log.d(TAG, "New status: $it")
                 if (it is LoginState.Success) {
-                    findNavController().navigate(R.id.action_login_fragment_to_chats_fragment)
+                    Log.d(TAG, "NAVIGATE")
+                    findNavController().navigate(R.id.action_loginFragment_to_chatsFragment)
                 } else if (it is LoginState.Failure) {
                     Toast.makeText(context, R.string.login_failure_toast, Toast.LENGTH_SHORT).show()
                 }
             }.stateIn(this)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        loginViewModel.logout()
     }
 
     companion object {
