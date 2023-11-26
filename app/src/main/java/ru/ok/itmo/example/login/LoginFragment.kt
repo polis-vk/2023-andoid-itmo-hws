@@ -23,14 +23,11 @@ import ru.ok.itmo.example.login.repository.LoginState
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
     private val loginViewModel by viewModels<LoginViewModel>()
-    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         loginViewModel.logout()
-
-        navController = view.findNavController()
 
         val loginField = view.findViewById<TextInputEditText>(R.id.loginInputEdit)
         val passwordField = view.findViewById<TextInputEditText>(R.id.passwordInputEdit)
@@ -48,7 +45,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             loginViewModel.status.onEach {
                 Log.d(TAG, "New status: $it")
                 if (it is LoginState.Success) {
-                    navController.navigate(R.id.action_login_fragment_to_chats_fragment)
+                    findNavController().navigate(R.id.action_login_fragment_to_chats_fragment)
                 } else if (it is LoginState.Failure) {
                     Toast.makeText(context, R.string.login_failure_toast, Toast.LENGTH_SHORT).show()
                 }
@@ -59,7 +56,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     override fun onResume() {
         super.onResume()
         loginViewModel.logout()
-
     }
 
     companion object {
