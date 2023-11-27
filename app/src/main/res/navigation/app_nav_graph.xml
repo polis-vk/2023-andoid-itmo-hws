@@ -3,23 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav_graph"
-    app:startDestination="@id/fragmentBack">
-    <fragment
-        android:id="@+id/fragmentBack"
-        android:name="ru.ok.itmo.tamtam.BackFragment"
-        android:label="fragment_back"
-        tools:layout="@layout/fragment_back" >
-        <action
-            android:id="@+id/action_fragmentBack_to_chatFragment"
-            app:destination="@id/chatFragment" />
-    </fragment>
+    app:startDestination="@id/chatListFragment">
     <fragment
         android:id="@+id/chatFragment"
-        android:name="ru.ok.itmo.tamtam.ChatFragment"
+        android:name="ru.ok.itmo.tamtam.chat.ChatFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" >
+        tools:layout="@layout/fragment_chat">
         <argument
             android:name="name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="ru.ok.itmo.tamtam.chat_list.ChatListFragment"
+        android:label="fragment_chat_list"
+        tools:layout="@layout/fragment_chat_list">
+        <action
+            android:id="@+id/action_chatListFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <argument
+            android:name="channels"
             app:argType="string" />
     </fragment>
 </navigation>

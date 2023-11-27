@@ -1,7 +1,10 @@
-package ru.ok.itmo.tamtam.login
+package ru.ok.itmo.tamtam.login.login_fragment
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     var readyForAuthorization: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -12,14 +15,30 @@ class LoginViewModel : ViewModel() {
     private var login: String = ""
     private var password: String = ""
 
-    var token: MutableLiveData<String> = MutableLiveData()
+    sealed class State {
+        data class Error(val e: Exception) : State()
+        data object Success : State()
+        data object Wait : State()
+    }
 
-    suspend fun authorization() {
-        model.authorization(login, password, object : OnDataReadyCallback {
-            override fun onDataReady(data: String) {
-                token.postValue(data)
+    var state: MutableLiveData<State> = MutableLiveData()
+
+    fun authorization() {
+        state.value = State.Wait
+
+        viewModelScope.launch {
+            try {
+                model.authorization(login, password) {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        state.value = State.Success
+                    }
+                }
+            } catch (e: Exception) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    state.value = State.Error(e)
+                }
             }
-        })
+        }
     }
 
     fun changeLogin(newLogin: String) {

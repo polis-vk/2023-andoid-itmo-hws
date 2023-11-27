@@ -1,31 +1,31 @@
-package ru.ok.itmo.tamtam
+package ru.ok.itmo.tamtam.chat
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import ru.ok.itmo.tamtam.login.OnDataReadyCallback
-import ru.ok.itmo.tamtam.model.Model
-import ru.ok.itmo.tamtam.model.OnDataReadyCallbackString
-
-data class MyJsonObject(val from: String, val data: String)
+import ru.ok.itmo.tamtam.R
+import ru.ok.itmo.tamtam.helper.Helper
+import ru.ok.itmo.tamtam.shared_model.SharedViewModel
 
 class ChatFragment : Fragment(R.layout.fragment_chat) {
     private lateinit var name: String
 
-    private val modelInstance: Model by inject()
     private val sharedViewModel: SharedViewModel by viewModels(ownerProducer = { requireActivity() })
-
+    private val modelInstance: ChatModel = ChatModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.window?.let { Helper.setLightStatusBar(requireContext(), it) }
 
         arguments?.let {
             name =
@@ -36,8 +36,12 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         val textView = view.findViewById<TextView>(R.id.my_chat_text)
         textView.text = "$name get data? wait"
 
+        view.findViewById<ImageView>(R.id.arrow_left_back).setOnClickListener {
+            sharedViewModel.closeAll()
+        }
+
         lifecycleScope.launch {
-            modelInstance.getMessage(sharedViewModel.token, object : OnDataReadyCallbackString {
+            modelInstance.getMessage(object : OnDataReadyCallbackString {
                 override fun onDataReady(jsonString: String) {
                     val gson = Gson()
                     val jsonArray = gson.fromJson(jsonString, Array<JsonObject>::class.java)
@@ -56,6 +60,17 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     }
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                sharedViewModel.closeAll()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
 
     companion object {
         private const val ARG_NAME = "name"

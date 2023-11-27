@@ -50,4 +50,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation "io.insert-koin:koin-androidx-compose:3.2.0"
+    implementation "androidx.security:security-crypto:1.1.0-alpha06"
 }

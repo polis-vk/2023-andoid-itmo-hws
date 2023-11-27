@@ -1,4 +1,4 @@
-package ru.ok.itmo.tamtam.login
+package ru.ok.itmo.tamtam.login.login_fragment
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -14,19 +14,15 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.launch
-import ru.ok.itmo.tamtam.Helper
+import ru.ok.itmo.tamtam.helper.Helper
 import ru.ok.itmo.tamtam.R
-import ru.ok.itmo.tamtam.SharedViewModel
 import ru.ok.itmo.tamtam.server.ServerException
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private val viewModel: LoginViewModel by viewModels()
-    private val sharedViewModel: SharedViewModel by viewModels(ownerProducer = { requireActivity() })
 
     private lateinit var editTextLogin: TextInputEditText
     private lateinit var editTextPassword: TextInputEditText
@@ -68,10 +64,26 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun authorizationLogic() {
-        val tokenObserver = Observer<String> { token ->
-            successAuth(token)
+        viewModel.state.observe(
+            viewLifecycleOwner
+        ) {
+            when (it) {
+                LoginViewModel.State.Wait -> showLoading()
+                LoginViewModel.State.Success -> successAuth()
+                is LoginViewModel.State.Error -> {
+                    val error = it.e
+                    if (error is ServerException) {
+                        when (error) {
+                            ServerException.Unauthorized -> errorUnauthorized()
+                        }
+                    } else {
+                        showToastInFragment(error.message ?: "Unknown error", Toast.LENGTH_LONG)
+                        hideLoading()
+                    }
+                    hideLoading()
+                }
+            }
         }
-        viewModel.token.observe(viewLifecycleOwner, tokenObserver)
     }
 
     private fun btnChangeState(state: Boolean) {
@@ -88,19 +100,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewModel.readyForAuthorization.observe(viewLifecycleOwner, enableObserver)
 
         btnLogin.setOnClickListener {
-            showLoading()
-            lifecycleScope.launch {
-                try {
-                    viewModel.authorization()
-                } catch (e: ServerException) {
-                    when (e) {
-                        ServerException.Unauthorized -> errorUnauthorized()
-                    }
-                } catch (e: Exception) {
-                    showToastInFragment(e.message ?: "Unknown error")
-                    hideLoading()
-                }
-            }
+            viewModel.authorization()
         }
     }
 
@@ -115,23 +115,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun errorUnauthorized() {
-        showToastInFragment(getString(R.string.error_unauthorized))
+        showToastInFragment(getString(R.string.error_unauthorized), Toast.LENGTH_LONG)
         textLayoutLogin.error = getString(R.string.error_unauthorized)
         textLayoutPassword.error = getString(R.string.error_unauthorized)
         hideLoading()
     }
 
-    private fun successAuth(token: String) {
-        sharedViewModel.login(token)
-        showToastInFragment(getString(R.string.success_auth))
+    private fun successAuth() {
+        showToastInFragment(getString(R.string.success_auth), Toast.LENGTH_SHORT)
         findNavController().navigate(LoginFragmentDirections.actionFragmentLoginToAppNavGraph())
-        hideLoading()
     }
 
-    private fun showToastInFragment(message: String) {
-        requireActivity().runOnUiThread {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        }
+    private fun showToastInFragment(message: String, duration: Int) {
+        Toast.makeText(requireContext(), message, duration).show()
     }
 
     private fun keyboardLogic() {

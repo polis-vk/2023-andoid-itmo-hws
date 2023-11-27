@@ -8,7 +8,9 @@ import androidx.navigation.fragment.NavHostFragment
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import ru.ok.itmo.tamtam.model.Model
+import ru.ok.itmo.tamtam.shared_model.SharedViewModel
+import ru.ok.itmo.tamtam.token.TokenModel
+import ru.ok.itmo.tamtam.token.TokenRepository
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val sharedViewModel: SharedViewModel by viewModels()
@@ -17,9 +19,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        startKoin {
-            androidContext(this@MainActivity)
-            modules(appModule)
+        if (savedInstanceState == null) {
+            val koinApp = startKoin {
+                androidContext(this@MainActivity)
+                modules(appModule)
+            }.koin
+
+            val tokenRepository: TokenRepository by koinApp.inject()
+
+            tokenRepository.init(this)
         }
 
         sharedViewModel.navController =
@@ -38,5 +46,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 }
 
 val appModule = module {
-    single { Model() }
+    single { TokenRepository() }
+    single<TokenModel> {
+        get<TokenRepository>()
+    }
 }
