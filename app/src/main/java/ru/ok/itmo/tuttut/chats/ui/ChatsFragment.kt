@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,14 +24,18 @@ class ChatsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentChatsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ChatsAdapter {}
+        val adapter = ChatsAdapter {
+            findNavController().navigate(
+                ChatsFragmentDirections.actionChatsFragmentToMessengerFragment(it.name)
+            )
+        }
         val recyclerView = binding.chatsRecycler
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -50,6 +55,7 @@ class ChatsFragment : Fragment() {
                         .show()
 
                     is ChatsState.Success -> adapter.submitList(it.chats)
+                    is ChatsState.FromCache -> adapter.submitList(it.chats)
                 }
             }
         }

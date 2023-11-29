@@ -11,7 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import ru.ok.itmo.tuttut.LOGIN
+import ru.ok.itmo.tuttut.PASSWORD
+import ru.ok.itmo.tuttut.dataStore
 import ru.ok.itmo.tuttut.databinding.FragmentLoginBinding
 import ru.ok.itmo.tuttut.login.domain.LoginState
 
@@ -29,8 +33,15 @@ class LoginFragment : Fragment() {
             loginViewModel.login(binding.login.text.toString(), binding.password.text.toString())
         }
         viewLifecycleOwner.lifecycleScope.launch {
+            context?.dataStore?.data?.first().let {
+                binding.login.setText(it?.get(LOGIN))
+                binding.password.setText(it?.get(PASSWORD))
+            }
             loginViewModel.loginState.collect {
                 Log.d("TAG", it.toString())
+                if (it is LoginState.Loading) {
+                    Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
+                }
                 if (it is LoginState.Success || it is LoginState.Failure) {
                     Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                 }

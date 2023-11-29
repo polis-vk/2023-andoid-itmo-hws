@@ -45,8 +45,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _loginState.emit(LoginState.Unknown)
             dataStore.edit { prefs ->
-                prefs[LOGIN] = ""
-                prefs[PASSWORD] = ""
                 prefs[TOKEN] = ""
             }
         }

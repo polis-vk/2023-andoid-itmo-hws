@@ -17,5 +17,22 @@
         android:id="@+id/chatsFragment"
         android:name="ru.ok.itmo.tuttut.chats.ui.ChatsFragment"
         android:label="fragment_chats"
-        tools:layout="@layout/fragment_chats"></fragment>
+        tools:layout="@layout/fragment_chats">
+        <action
+            android:id="@+id/action_chatsFragment_to_messengerFragment"
+            app:destination="@id/messengerFragment">
+            <argument
+                android:name="chat"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/messengerFragment"
+        android:name="ru.ok.itmo.tuttut.messenger.ui.MessengerFragment"
+        android:label="fragment_messenger"
+        tools:layout="@layout/fragment_messenger">
+        <argument
+            android:name="chat"
+            app:argType="string" />
+    </fragment>
 </navigation>
