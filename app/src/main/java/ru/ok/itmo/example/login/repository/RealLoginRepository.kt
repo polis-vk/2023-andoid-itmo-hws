@@ -1,9 +1,10 @@
 package ru.ok.itmo.example.login.repository
 
 import ru.ok.itmo.example.login.retrofit.LoginService
+import ru.ok.itmo.example.login.retrofit.models.UserCredentials
 
-class RealLoginRepository : LoginRepository {
-    override suspend fun login(userCredentials: UserCredentials): Result<UserXAuthToken> {
+class LoginRepository {
+    suspend fun login(userCredentials: UserCredentials): Result<UserXAuthToken> {
         return try {
             Result.success(LoginService.loginService.login(userCredentials).string())
         } catch(e: Throwable) {
@@ -11,7 +12,7 @@ class RealLoginRepository : LoginRepository {
         }
     }
 
-    override suspend fun logout(userXAuthToken: UserXAuthToken): Result<UserXAuthToken> {
+    suspend fun logout(userXAuthToken: UserXAuthToken): Result<UserXAuthToken> {
         return try {
             LoginService.loginService.logout(userXAuthToken)
             Result.success(userXAuthToken)
@@ -20,3 +21,5 @@ class RealLoginRepository : LoginRepository {
         }
     }
 }
+
+typealias UserXAuthToken = String

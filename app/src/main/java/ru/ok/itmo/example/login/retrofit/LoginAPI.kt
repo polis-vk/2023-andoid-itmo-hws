@@ -4,7 +4,7 @@ import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
-import ru.ok.itmo.example.login.repository.UserCredentials
+import ru.ok.itmo.example.login.retrofit.models.UserCredentials
 import ru.ok.itmo.example.login.repository.UserXAuthToken
 
 interface LoginAPI {

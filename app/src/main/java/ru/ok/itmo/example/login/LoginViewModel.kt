@@ -3,17 +3,18 @@ package ru.ok.itmo.example.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.ok.itmo.example.login.repository.LoginRepository
 import ru.ok.itmo.example.login.repository.LoginState
-import ru.ok.itmo.example.login.repository.RealLoginRepository
-import ru.ok.itmo.example.login.repository.UserCredentials
+import ru.ok.itmo.example.login.retrofit.models.UserCredentials
 import ru.ok.itmo.example.login.repository.UserXAuthToken
 import java.lang.IllegalStateException
 
 class LoginViewModel : ViewModel() {
-    private val loginRepository = RealLoginRepository();
+    private val repository = LoginRepository();
     private var xAuthToken: UserXAuthToken? = null
     private var isLogin: Boolean = false
 
@@ -23,9 +24,9 @@ class LoginViewModel : ViewModel() {
 
     fun login(login: String, password: String) {
         Log.d(LoginFragment.TAG, "login: $login, password: $password")
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _status.emit(LoginState.Loading)
-            loginRepository.login(UserCredentials(login, password)).onSuccess {
+            repository.login(UserCredentials(login, password)).onSuccess {
                 isLogin = true
                 xAuthToken = it
                 Log.i(LoginFragment.TAG, "AccessToken: $it")
@@ -40,11 +41,10 @@ class LoginViewModel : ViewModel() {
     fun logout() {
         viewModelScope.launch {
             _status.emit(LoginState.Started)
-
             if (xAuthToken == null) {
                 throw IllegalStateException("X-Auth-Token is null")
             }
-            loginRepository.logout(xAuthToken!!).onSuccess {
+            repository.logout(xAuthToken!!).onSuccess {
                 Log.i(LoginFragment.TAG, "Logout with token: $xAuthToken")
                 isLogin = false
             }.onFailure {
@@ -56,5 +56,9 @@ class LoginViewModel : ViewModel() {
 
     fun isLogin(): Boolean {
         return isLogin
+    }
+
+    fun getAuthToken(): UserXAuthToken? {
+        return xAuthToken
     }
 }

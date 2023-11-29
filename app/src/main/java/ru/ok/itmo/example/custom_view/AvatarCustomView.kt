@@ -2,17 +2,13 @@ package ru.ok.itmo.example.custom_view
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import androidx.annotation.ColorRes
-import androidx.core.graphics.drawable.toBitmap
 import ru.ok.itmo.example.R
 
 class AvatarCustomView @JvmOverloads constructor(
@@ -38,7 +34,7 @@ class AvatarCustomView @JvmOverloads constructor(
     private val clipPath = Path()
 
     init {
-        setText("GG")
+        setText("")
         if (attr != null) {
             val a = context.obtainStyledAttributes(attr, R.styleable.AvatarCustomView)
 
@@ -78,7 +74,6 @@ class AvatarCustomView @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         setupPaint()
-//        prepareShader(w, h)
     }
 
     private fun setupPaint() {
@@ -86,8 +81,6 @@ class AvatarCustomView @JvmOverloads constructor(
     }
 
     fun setText(text: String?) {
-        if (this.text == text) return
-
         this.text = text
 
         if (!text.isNullOrBlank()) {

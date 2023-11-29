@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.login.repository
+package ru.ok.itmo.example.login.retrofit.models
 
 import com.google.gson.annotations.SerializedName
 
