@@ -13,14 +13,15 @@ import ru.ok.itmo.tamtam.data.retrofit.MessageService
 import ru.ok.itmo.tamtam.data.retrofit.TokenInterceptor
 import ru.ok.itmo.tamtam.ioc.scope.AppComponentScope
 import java.util.concurrent.TimeUnit
+import ru.ok.itmo.tamtam.Constants.API_BASE_URL
+import ru.ok.itmo.tamtam.Constants.CONNECT_TIMEOUT
+import ru.ok.itmo.tamtam.Constants.READ_TIMEOUT
+import ru.ok.itmo.tamtam.Constants.WRITE_TIMEOUT
+
 
 @Module
 interface RetrofitModule {
     companion object {
-        private const val API_BASE_URL = "https://faerytea.name:8008/"
-        private const val CONNECT_TIMEOUT = 20L
-        private const val READ_TIMEOUT = 40L
-        private const val WRITE_TIMEOUT = 40L
 
         @AppComponentScope
         @Provides

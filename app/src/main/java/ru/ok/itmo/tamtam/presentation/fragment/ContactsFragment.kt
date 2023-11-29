@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.ok.itmo.tamtam.App
-import ru.ok.itmo.tamtam.data.AvatarGenerator
 import ru.ok.itmo.tamtam.databinding.FragmentContactsBinding
 import ru.ok.itmo.tamtam.presentation.rv.adapter.ContactAdapter
 import ru.ok.itmo.tamtam.presentation.stateholder.ContactsState
@@ -19,8 +18,8 @@ import ru.ok.itmo.tamtam.utils.FragmentWithBinding
 import ru.ok.itmo.tamtam.utils.getThemeColor
 import ru.ok.itmo.tamtam.utils.observeNotifications
 import ru.ok.itmo.tamtam.utils.setStatusBarTextDark
-import java.io.File
 import javax.inject.Inject
+import ru.ok.itmo.tamtam.Constants.API_AVATAR_URL
 
 class ContactsFragment :
     FragmentWithBinding<FragmentContactsBinding>(FragmentContactsBinding::inflate) {
@@ -30,9 +29,6 @@ class ContactsFragment :
         ViewModelProvider(this, viewModelFactory)[ContactsViewModel::class.java]
     }
     private val contactAdapter: ContactAdapter by lazy { ContactAdapter() }
-
-    @Inject
-    lateinit var avatarGenerator: AvatarGenerator
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -91,12 +87,9 @@ class ContactsFragment :
         binding.contactsRV.adapter = contactAdapter
         contactAdapter.onLoadImageByGlide = { imageView, name ->
             Glide.with(this.requireActivity())
-                .load(
-                    File(
-                        this.requireContext().cacheDir,
-                        avatarGenerator.getPathToAvatarForName(name)
-                    )
-                )
+                .load(String.format(API_AVATAR_URL, name))
+                .placeholder(imageView.drawable)
+                .centerCrop()
                 .into(imageView)
         }
         contactAdapter.onClick = { chatId ->

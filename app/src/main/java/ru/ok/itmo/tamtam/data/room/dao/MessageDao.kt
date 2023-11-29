@@ -10,6 +10,8 @@ import ru.ok.itmo.tamtam.domain.model.Chat
 import ru.ok.itmo.tamtam.domain.model.IMessage
 import ru.ok.itmo.tamtam.domain.model.Message
 import ru.ok.itmo.tamtam.utils.getChatName
+import ru.ok.itmo.tamtam.Constants
+import ru.ok.itmo.tamtam.Constants.CHANNEL_SUFFIX
 
 @Dao
 interface MessageDao {
@@ -41,7 +43,7 @@ interface MessageDao {
                 isAttach = false,
                 lastViewedMessageId = lastMessageId,
                 lastMessageId = lastMessageId,
-                isChannel = name.endsWith("@channel")
+                isChannel = name.endsWith(CHANNEL_SUFFIX)
             )
         insertOrReplace(chat.copy(lastMessageId = lastMessageId))
     }

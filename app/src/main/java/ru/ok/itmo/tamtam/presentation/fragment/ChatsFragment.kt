@@ -7,13 +7,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.ok.itmo.tamtam.App
-import ru.ok.itmo.tamtam.data.AvatarGenerator
 import ru.ok.itmo.tamtam.data.repository.AuthRepository
 import ru.ok.itmo.tamtam.databinding.FragmentChatsBinding
 import ru.ok.itmo.tamtam.presentation.rv.adapter.ChatAdapter
@@ -24,8 +22,8 @@ import ru.ok.itmo.tamtam.utils.OnBackPressed
 import ru.ok.itmo.tamtam.utils.getThemeColor
 import ru.ok.itmo.tamtam.utils.observeNotifications
 import ru.ok.itmo.tamtam.utils.setStatusBarTextDark
-import java.io.File
 import javax.inject.Inject
+import ru.ok.itmo.tamtam.Constants.API_AVATAR_URL
 
 class ChatsFragment : FragmentWithBinding<FragmentChatsBinding>(FragmentChatsBinding::inflate) {
     @Inject
@@ -38,8 +36,6 @@ class ChatsFragment : FragmentWithBinding<FragmentChatsBinding>(FragmentChatsBin
     }
     private val chatAdapter: ChatAdapter by lazy { ChatAdapter() }
 
-    @Inject
-    lateinit var avatarGenerator: AvatarGenerator
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -91,13 +87,9 @@ class ChatsFragment : FragmentWithBinding<FragmentChatsBinding>(FragmentChatsBin
         binding.chatsRV.adapter = chatAdapter
         chatAdapter.onLoadImageByGlide = { imageView, name ->
             Glide.with(this.requireActivity())
-                .load(
-                    File(
-                        this.requireContext().cacheDir,
-                        avatarGenerator.getPathToAvatarForName(name)
-                    )
-                )
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .load(String.format(API_AVATAR_URL, name))
+                .placeholder(imageView.drawable)
+                .centerCrop()
                 .into(imageView)
         }
         chatAdapter.onClick = { chatId ->

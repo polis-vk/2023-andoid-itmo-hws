@@ -4,7 +4,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.ok.itmo.tamtam.data.AccountStorage
-import ru.ok.itmo.tamtam.data.AvatarGenerator
 import ru.ok.itmo.tamtam.data.retrofit.AuthService
 import ru.ok.itmo.tamtam.data.retrofit.model.UserRequest
 import ru.ok.itmo.tamtam.data.room.dao.MessageDao
@@ -18,8 +17,7 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val accountStorage: AccountStorage,
     private val authService: AuthService,
-    private val messageDao: MessageDao,
-    private val avatarGenerator: AvatarGenerator
+    private val messageDao: MessageDao
 ) {
 
     val notifications: Channel<NotificationType> = Channel()
@@ -61,7 +59,6 @@ class AuthRepository @Inject constructor(
         }
         accountStorage.clear()
         messageDao.clear()
-        avatarGenerator.clearImageCache()
         _isAuth.emit(false)
         return Resource.Success(Unit)
     }

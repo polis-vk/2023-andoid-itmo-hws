@@ -51,11 +51,12 @@ class ChatAdapter : ListAdapter<Chat, ViewHolder>(ChatDiffCallback()) {
                     onLoadImageByGlide?.invoke(binding.avatarLastMessageIW, chat.lastMessage.from)
                     if (chat.isChannel) {
                         binding.avatarLastMessageIW.visibility = View.VISIBLE
+                        binding.avatarLastMessageIW.setText(chat.name)
                     }
                 } else {
                     binding.lastMessageTW.text = "${chat.typingUsers[0]} печатает.."
                 }
-
+                binding.avatarIW.setText(chat.name)
                 onLoadImageByGlide?.invoke(binding.avatarIW, chat.name)
 
                 binding.chatCL.setOnClickListener {

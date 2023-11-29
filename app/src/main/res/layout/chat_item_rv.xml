@@ -8,14 +8,16 @@
     android:background="@drawable/chat_ripple"
     android:orientation="vertical">
 
-    <ImageView
+    <ru.ok.itmo.tamtam.presentation.view.AvatarImageView
         android:id="@+id/avatarIW"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="12dp"
+        app:civ_backgroundColor="?attr/colorAccent"
+        app:civ_textColor="@color/white"
+        app:civ_textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nameTW"
@@ -42,13 +44,16 @@
         app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
         app:layout_constraintStart_toEndOf="@+id/avatarIW">
 
-        <ImageView
+
+        <ru.ok.itmo.tamtam.presentation.view.AvatarImageView
             android:id="@+id/avatarLastMessageIW"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="4dp"
             android:visibility="gone"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:civ_backgroundColor="?attr/colorAccent"
+            app:civ_textColor="@color/white"
+            app:civ_textSize="10dp" />
 
         <TextView
             android:id="@+id/lastMessageTW"
@@ -71,15 +76,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/avatarIW"
         tools:text="12:24" />
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView2"-->
-    <!--        android:layout_width="12dp"-->
-    <!--        android:layout_height="12dp"-->
-    <!--        android:layout_marginRight="12dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        tools:srcCompat="@drawable/ic_star" />-->
 
     <LinearLayout
         android:id="@+id/linearLayout4"

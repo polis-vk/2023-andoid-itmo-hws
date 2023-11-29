@@ -20,3 +20,7 @@ fun Activity.setStatusBarTextDark(isDark: Boolean) {
         decor.systemUiVisibility = 0
     }
 }
+
+fun Context.convertDpToPx(dp: Float): Float {
+    return dp * this.resources.displayMetrics.density
+}

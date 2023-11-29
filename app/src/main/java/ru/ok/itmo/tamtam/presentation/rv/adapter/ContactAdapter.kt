@@ -34,6 +34,7 @@ class ContactAdapter : ListAdapter<Contact, ViewHolder>(ContactDiffCallback()) {
                 val contact = getItem(position)
                 val binding = holder.binding
                 binding.nameTW.text = contact.name
+                binding.avatarIW.setText(contact.name)
                 onLoadImageByGlide?.invoke(binding.avatarIW, contact.name)
 
                 binding.chatCL.setOnClickListener {

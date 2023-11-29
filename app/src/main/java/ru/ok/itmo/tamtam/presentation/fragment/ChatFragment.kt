@@ -1,9 +1,9 @@
 package ru.ok.itmo.tamtam.presentation.fragment
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.net.toUri
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
@@ -12,35 +12,29 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ru.ok.itmo.tamtam.App
 import ru.ok.itmo.tamtam.R
 import ru.ok.itmo.tamtam.data.AccountStorage
-import ru.ok.itmo.tamtam.data.AvatarGenerator
 import ru.ok.itmo.tamtam.databinding.FragmentChatBinding
 import ru.ok.itmo.tamtam.presentation.rv.adapter.HeaderFooterAdapter
 import ru.ok.itmo.tamtam.presentation.rv.adapter.MessageAdapter
 import ru.ok.itmo.tamtam.presentation.stateholder.ChatState
 import ru.ok.itmo.tamtam.presentation.stateholder.ChatViewModel
+import ru.ok.itmo.tamtam.presentation.view.AvatarImageView
 import ru.ok.itmo.tamtam.utils.FragmentWithBinding
 import ru.ok.itmo.tamtam.utils.getThemeColor
 import ru.ok.itmo.tamtam.utils.observeNotifications
 import ru.ok.itmo.tamtam.utils.setStatusBarTextDark
-import java.io.File
 import javax.inject.Inject
+import ru.ok.itmo.tamtam.Constants.API_AVATAR_URL
 
 class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBinding::inflate) {
-    @Inject
-    lateinit var avatarGenerator: AvatarGenerator
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val chatViewModel: ChatViewModel by lazy {
@@ -125,28 +119,15 @@ class ChatFragment : FragmentWithBinding<FragmentChatBinding>(FragmentChatBindin
     }
 
     private fun setupAvatar(name: String) {
+        val linearLayout = binding.toolbar.menu.findItem(R.id.face).actionView as LinearLayout
+        val avatarImageView = linearLayout.findViewById<AvatarImageView>(R.id.avatarIW)
+        avatarImageView.setText(name)
         Glide.with(this.requireActivity())
-            .load(
-                File(
-                    this.requireContext().cacheDir,
-                    avatarGenerator.getPathToAvatarForName(name)
-                )
-            )
-            .apply(RequestOptions().placeholder(R.drawable.placeholder))
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .into(object : CustomTarget<Drawable>() {
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    binding.toolbar.menu.findItem(R.id.face).icon = resource
-                }
+            .load(String.format(API_AVATAR_URL, name))
+            .placeholder(avatarImageView.drawable)
+            .centerCrop()
+            .into(avatarImageView)
 
-                override fun onLoadCleared(placeholder: Drawable?) {
-
-                }
-            })
         binding.toolbar.menu.findItem(R.id.face).isVisible = true
     }
 

@@ -14,18 +14,17 @@ import ru.ok.itmo.tamtam.data.scarlet.adapter.FlowStreamAdapter
 import ru.ok.itmo.tamtam.data.scarlet.api.MessageApi
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
+import ru.ok.itmo.tamtam.Constants.API_BASE_URL
+import ru.ok.itmo.tamtam.Constants.CONNECT_TIMEOUT
+import ru.ok.itmo.tamtam.Constants.RECONNECT_TIME
+import ru.ok.itmo.tamtam.Constants.WRITE_TIMEOUT
+import ru.ok.itmo.tamtam.Constants.READ_TIMEOUT
+import ru.ok.itmo.tamtam.Constants.WS_BASE_URL
 
 
 @Module
 interface ScarletModule {
     companion object {
-        private const val CONNECT_TIMEOUT = 20L
-        private const val READ_TIMEOUT = 40L
-        private const val WRITE_TIMEOUT = 40L
-
-        private const val RECONNECT_TIME = 5000L
-        private const val WS_BASE_URL = "wss://faerytea.name:8008/ws/%s?token=%s"
-
         @ScarletQualifier
         @Provides
         fun provideOkHttpClient(

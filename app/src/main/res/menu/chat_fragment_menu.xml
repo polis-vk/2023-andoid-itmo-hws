@@ -6,5 +6,6 @@
         android:icon="@drawable/ic_settings"
         android:title="@string/avatar"
         android:visible="false"
+        app:actionLayout="@layout/menu_avatar"
         app:showAsAction="always" />
 </menu>
