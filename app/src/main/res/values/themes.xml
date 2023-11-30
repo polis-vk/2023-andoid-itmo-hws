@@ -47,4 +47,9 @@
         <item name="iconTint">@color/active</item>
         <item name="background">@drawable/button_inverse</item>
     </style>
+
+    <declare-styleable name="AvatarView">
+        <attr name="backgroundColor" format="color|reference" />
+        <attr name="textColor" format="color|reference" />
+    </declare-styleable>
 </resources>
