@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvatarImageView">
+        <attr name="crl_backgroundColor" format="color" />
+        <attr name="crl_textColor" format="color" />
+        <attr name="crl_textSize" format="float" />
+    </declare-styleable>
+</resources>

@@ -18,14 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <ru.ok.itmo.tamtam.ui.custom.AvatarImageView
             android:id="@+id/channel_avatar"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@color/accent"
+            app:crl_textSize="100"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/channel_author"
