@@ -14,7 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.ok.itmo.tuttut.LOGIN
+import ru.ok.itmo.tuttut.MainActivity
 import ru.ok.itmo.tuttut.PASSWORD
+import ru.ok.itmo.tuttut.R
 import ru.ok.itmo.tuttut.dataStore
 import ru.ok.itmo.tuttut.databinding.FragmentLoginBinding
 import ru.ok.itmo.tuttut.login.domain.LoginState
@@ -26,9 +28,15 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModels()
 
+    private fun actionBar() = (activity as MainActivity?)?.supportActionBar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loginViewModel.logout()
+        actionBar()?.apply {
+            setTitle(R.string.log_in)
+            setDisplayHomeAsUpEnabled(false)
+        }
         binding.loginButton.setOnClickListener {
             loginViewModel.login(binding.login.text.toString(), binding.password.text.toString())
         }
@@ -40,9 +48,9 @@ class LoginFragment : Fragment() {
             loginViewModel.loginState.collect {
                 Log.d("TAG", it.toString())
                 if (it is LoginState.Loading) {
-                    Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
+                    actionBar()?.setTitle(R.string.loading)
                 }
-                if (it is LoginState.Success || it is LoginState.Failure) {
+                if (it is LoginState.Failure) {
                     Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
                 }
                 if (it is LoginState.Success) {
@@ -50,6 +58,7 @@ class LoginFragment : Fragment() {
                     navController.navigate(
                         LoginFragmentDirections.actionLoginFragmentToChatsFragment()
                     )
+                    actionBar()?.setDisplayHomeAsUpEnabled(true)
                 }
             }
         }
@@ -64,8 +73,6 @@ class LoginFragment : Fragment() {
     }
 
     companion object {
-        const val TAG: String = "login_fragment"
-
         @JvmStatic
         fun newInstance() = LoginFragment()
     }

@@ -13,14 +13,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import ru.ok.itmo.tuttut.MainActivity
+import ru.ok.itmo.tuttut.R
 import ru.ok.itmo.tuttut.chats.domain.ChatsState
 import ru.ok.itmo.tuttut.databinding.FragmentChatsBinding
 
 @AndroidEntryPoint
 class ChatsFragment : Fragment() {
-    val viewModel: ChatsViewModel by viewModels()
+    private val viewModel: ChatsViewModel by viewModels()
 
     private lateinit var binding: FragmentChatsBinding
+
+    private fun actionBar() = (activity as MainActivity?)?.supportActionBar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,17 +50,26 @@ class ChatsFragment : Fragment() {
             viewModel.chatsState.collect {
                 Log.d("CHATS", it.toString())
                 when (it) {
-                    is ChatsState.Failure -> Toast.makeText(
-                        context,
-                        it.errorMessage,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    is ChatsState.Failure -> {
+                        actionBar()?.setTitle(R.string.chats)
+                        Toast.makeText(
+                            context,
+                            it.errorMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
-                    ChatsState.Loading -> Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT)
-                        .show()
+                    ChatsState.Loading -> actionBar()?.setTitle(R.string.loading)
 
-                    is ChatsState.Success -> adapter.submitList(it.chats)
-                    is ChatsState.FromCache -> adapter.submitList(it.chats)
+                    is ChatsState.Success -> {
+                        actionBar()?.setTitle(R.string.chats)
+                        adapter.submitList(it.chats)
+                    }
+
+                    is ChatsState.FromCache -> {
+                        actionBar()?.setTitle(R.string.loading)
+                        adapter.submitList(it.chats)
+                    }
                 }
             }
         }

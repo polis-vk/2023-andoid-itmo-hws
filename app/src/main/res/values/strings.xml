@@ -5,4 +5,7 @@
     <string name="app_name" translatable="false">TutTut</string>
     <string name="login_title">Enter your login and password</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="chats">Chats</string>
+    <string name="loading">Loading…</string>
+    <string name="log_in">Log in</string>
 </resources>

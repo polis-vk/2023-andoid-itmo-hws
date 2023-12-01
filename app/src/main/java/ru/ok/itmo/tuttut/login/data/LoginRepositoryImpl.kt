@@ -14,4 +14,8 @@ class LoginRepositoryImpl @Inject constructor(
     override suspend fun login(userCredentials: UserCredentials): Result<UserXAuthToken> {
         return client.safeRequest { api.login(userCredentials).string() }
     }
+
+    override suspend fun logout(token: UserXAuthToken) {
+        client.safeRequest { api.logout(token) }
+    }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import ru.ok.itmo.tuttut.MainActivity
 import ru.ok.itmo.tuttut.R
 
 @AndroidEntryPoint
@@ -29,5 +30,6 @@ class MessengerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val name = MessengerFragmentArgs.fromBundle(requireArguments()).chat
         viewModel.inbox(name)
+        (activity as MainActivity?)?.supportActionBar?.title = name
     }
 }

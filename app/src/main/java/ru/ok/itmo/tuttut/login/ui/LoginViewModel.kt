@@ -23,8 +23,9 @@ class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository,
     private val dataStore: DataStore<Preferences>
 ) : ViewModel() {
-    private val _loginState = MutableStateFlow<LoginState>(LoginState.Unknown)
+    private val _loginState = MutableStateFlow<LoginState>(LoginState.Unauthorized)
     val loginState: StateFlow<LoginState> = _loginState.asStateFlow()
+
     fun login(login: String, password: String) {
         viewModelScope.launch {
             _loginState.emit(LoginState.Loading)
@@ -43,9 +44,12 @@ class LoginViewModel @Inject constructor(
 
     fun logout() {
         viewModelScope.launch {
-            _loginState.emit(LoginState.Unknown)
-            dataStore.edit { prefs ->
-                prefs[TOKEN] = ""
+            _loginState.emit(LoginState.Unauthorized)
+            dataStore.edit {
+                it[TOKEN]?.let { token ->
+                    it[TOKEN] = ""
+                    loginRepository.logout(token)
+                }
             }
         }
     }
