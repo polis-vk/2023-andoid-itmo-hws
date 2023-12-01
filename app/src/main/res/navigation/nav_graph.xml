@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/unloginScreen">
+    app:startDestination="@id/homePageScreen">
 
     <fragment
         android:id="@+id/unloginScreen"
-        android:name="ru.ok.itmo.example.screens.UnloginScreen"
+        android:name="ru.ok.itmo.example.unLoginPart.UnloginScreen"
         android:label="fragment_unlogin_screen"
         tools:layout="@layout/fragment_unlogin_screen" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/authScreen"
-        android:name="ru.ok.itmo.example.screens.AuthScreen"
+        android:name="ru.ok.itmo.example.authPart.AuthScreen"
         android:label="AuthScreen" >
         <action
             android:id="@+id/action_authScreen_to_unloginScreen"
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/homePageScreen"
-        android:name="ru.ok.itmo.example.screens.HomePageScreen"
+        android:name="ru.ok.itmo.example.channelListPart.HomePageScreen"
         android:label="fragment_home_page_screen"
         tools:layout="@layout/fragment_home_page_screen" >
         <action

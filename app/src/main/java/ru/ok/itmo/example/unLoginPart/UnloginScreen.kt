@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.screens
+package ru.ok.itmo.example.unLoginPart
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import ru.ok.itmo.example.MainActivity
 import ru.ok.itmo.example.R
 import ru.ok.itmo.example.databinding.FragmentUnloginScreenBinding
 
