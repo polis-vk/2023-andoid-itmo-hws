@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.ok.itmo.example.Storage
+import ru.ok.itmo.example.channelListPart.states.GetChannelListState
 
-class ChannelListViewModel: ViewModel() {
-    private val getChannelListStateMutable = MutableLiveData<GetChannelListState>(GetChannelListState.Empty)
+class ChannelListViewModel(private val model: ChannelListModel): ViewModel() {
+    private val getChannelListStateMutable = MutableLiveData<GetChannelListState>(
+        GetChannelListState.Empty)
     val getChannelListState : LiveData<GetChannelListState>
         get() = getChannelListStateMutable
 
@@ -18,9 +20,11 @@ class ChannelListViewModel: ViewModel() {
         }
     }
 
-    fun getChannels(){
+    fun getChannelList(){
         viewModelScope.launch {
-            getChannelListStateMutable.value = ChannelListModel.getChannels()
+            getChannelListStateMutable.value = GetChannelListState.Loading
+            val result = model.getChannelList()
+            getChannelListStateMutable.value = result
         }
     }
 }

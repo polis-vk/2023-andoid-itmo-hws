@@ -8,10 +8,10 @@ import ru.ok.itmo.example.api_logic.api_models.messageJSON.MessageJSONModel
 
 interface ChanChatAPI {
     @GET("/channels")
-    suspend fun getChannels(): Response<List<String>>
+    suspend fun getChannelNames(): Response<List<String>>
 
     @GET("/channel/{channelName}")
-    fun getChannelMessages(
+    fun getOneChannelMessages(
         @Path("channelName") channelName: String,
         @QueryMap queryMap: Map<String, String> = mapOf(
             "limit" to "20",
