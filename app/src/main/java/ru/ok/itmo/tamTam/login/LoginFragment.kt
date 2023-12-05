@@ -49,13 +49,13 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         errorInfo = view.findViewById(R.id.error_info)
 
         loginViewModel.loginResult.observe(viewLifecycleOwner) { result ->
-            updateLoadingVisibility(false)
             val exception = result.exceptionOrNull()
             if (result.isSuccess) {
                 AuthInfo.token = result.getOrNull()!!
                 controller.navigate(R.id.chatsFragment)
                 resetUi()
             } else if (exception != null && exception !is CustomException) {
+                updateLoadingVisibility(false)
                 errorInfo.text = getString(
                     when (exception) {
                         is SocketTimeoutException -> R.string.no_internet
