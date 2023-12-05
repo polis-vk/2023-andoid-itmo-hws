@@ -8,9 +8,10 @@
     <string name="password">Введите пароль</string>
     <string name="submit">Войти</string>
     <string name="chats">Чаты</string>
-    <string name="incorrect_input">Неправильный пароль или логин</string>
+    <string name="invalid_input">Неправильный пароль или логин</string>
     <string name="success">Вы успешно залогинились</string>
-    <string name="homepage">HomePage</string>
+    <string name="no_internet">Нет интернет соединения</string>
+    <string name="external_error">Сервер временно не доступен</string>
     <string name="forgotten">Забыли пароль?</string>
     <string name="login_info">Введите ваш логин и пароль</string>
 </resources>

@@ -6,7 +6,7 @@
     app:startDestination="@id/startFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="ru.ok.itmo.TamTam.LoginFragment"
+        android:name="ru.ok.itmo.tamTam.login.LoginFragment"
         tools:layout="@layout/login_fragment" >
         <action
             android:id="@+id/action_loginFragment_to_chatsFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/startFragment"
-        android:name="ru.ok.itmo.TamTam.StartFragment"
+        android:name="ru.ok.itmo.tamTam.StartFragment"
         tools:layout="@layout/start_fragment" >
         <action
             android:id="@+id/action_startFragment_to_loginFragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatsFragment"
-        android:name="ru.ok.itmo.TamTam.ChatsFragment"
+        android:name="ru.ok.itmo.tamTam.chats.ChatsFragment"
         android:label="chats_fragment"
         tools:layout="@layout/chats_fragment" />
 </navigation>

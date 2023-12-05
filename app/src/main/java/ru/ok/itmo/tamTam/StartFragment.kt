@@ -1,10 +1,9 @@
-package ru.ok.itmo.TamTam
+package ru.ok.itmo.tamTam
 
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -24,10 +23,6 @@ class StartFragment : Fragment(R.layout.start_fragment) {
 
         view.findViewById<TextView>(R.id.enterByLogin).setOnClickListener {
             controller.navigate(R.id.loginFragment)
-        }
-
-        view.findViewById<TextView>(R.id.enterByPhone).setOnClickListener {
-            Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show()
         }
     }
 

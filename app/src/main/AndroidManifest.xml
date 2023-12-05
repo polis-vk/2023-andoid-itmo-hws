@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ru.ok.itmo.TamTam">
+    package="ru.ok.itmo.tamTam">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -21,7 +21,7 @@
         android:theme="@style/Theme.Itmoexample"
         tools:targetApi="31">
         <activity
-            android:name="ru.ok.itmo.TamTam.MainActivity"
+            android:name="ru.ok.itmo.tamTam.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>

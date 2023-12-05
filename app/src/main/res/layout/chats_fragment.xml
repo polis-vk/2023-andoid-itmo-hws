@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/white"
-    tools:context=".ChatsFragment">
+    tools:context=".chats.ChatsFragment">
 
 
     <com.google.android.material.appbar.MaterialToolbar
