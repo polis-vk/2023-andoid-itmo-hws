@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.ok.itmo.tamTam.AuthInfo
 import ru.ok.itmo.tamTam.CustomException
 
 
@@ -21,7 +22,15 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun reset() {
-        _loginResult.value = Result.failure(CustomException)
+    fun logout() {
+        if (AuthInfo.isAuthorized()) {
+            _loginResult.value = Result.failure(CustomException)
+            val token = AuthInfo.token
+            AuthInfo.reset()
+            viewModelScope.launch(Dispatchers.IO) {
+                LoginRepository.logout(token)
+            }
+        }
+
     }
 }

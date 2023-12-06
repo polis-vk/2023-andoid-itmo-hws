@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.Retrofit
+import retrofit2.http.Header
 import ru.ok.itmo.tamTam.login.LoginRequest
 
 
@@ -20,4 +21,7 @@ interface ServerApi {
     @POST("/login")
     @Headers("Content-Type: application/json")
     suspend fun login(@Body loginRequest: LoginRequest): ResponseBody
+
+    @POST("logout")
+    suspend fun logout(@Header("X-Auth-Token") token: String)
 }

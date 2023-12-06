@@ -32,7 +32,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onStart() {
-        loginViewModel.reset(); AuthInfo.reset()
+        loginViewModel.logout()
         super.onStart()
     }
 

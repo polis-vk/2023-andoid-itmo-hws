@@ -12,4 +12,8 @@ object LoginRepository {
             Result.failure(e)
         }
     }
+
+    suspend fun logout(token : String) {
+        serverService.logout(token)
+    }
 }
