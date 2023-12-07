@@ -14,15 +14,4 @@ class TaskViewModel : ViewModel() {
     init {
         _progress.value = 0
     }
-
-    fun startWork() {
-        viewModelScope.launch(Dispatchers.IO) {
-            for (i in 0..100) {
-                withContext(Dispatchers.Main) {
-                    _progress.value = i
-                }
-                delay(100)
-            }
-        }
-    }
 }
