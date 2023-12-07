@@ -1,7 +1,6 @@
 package ru.ok.itmo.tamTam.chats.collector
 
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import ru.ok.itmo.tamTam.AuthInfo
 import ru.ok.itmo.tamTam.chats.models.ChatPreview
 import ru.ok.itmo.tamTam.chats.models.Message
@@ -9,7 +8,7 @@ import java.util.Date
 import java.util.Locale
 
 object Collector {
-    fun dialogue(messages: MutableList<Message>): MutableList<ChatPreview> {
+    fun toDialogue(messages: MutableList<Message>): MutableList<ChatPreview> {
         val chatMap = mutableMapOf<String, MutableList<Message>>()
 
         for (message in messages) {

@@ -9,10 +9,6 @@ import kotlinx.coroutines.launch
 import ru.ok.itmo.tamTam.chats.collector.Collector
 import ru.ok.itmo.tamTam.chats.models.ChatPreview
 
-import ru.ok.itmo.tamTam.chats.models.Message
-import ru.ok.itmo.tamTam.login.LoginRepository
-import ru.ok.itmo.tamTam.login.User
-
 class ChatsViewModel : ViewModel() {
     private var _chats = MutableLiveData<Result<MutableList<ChatPreview>>>()
     val chats: LiveData<Result<MutableList<ChatPreview>>> get() = _chats
@@ -23,9 +19,8 @@ class ChatsViewModel : ViewModel() {
             if (result.isFailure) {
                 _chats.postValue(Result.failure(result.exceptionOrNull()!!))
             } else {
-                _chats.postValue(Result.success(Collector.dialogue(result.getOrNull()!!)))
+                _chats.postValue(Result.success(Collector.toDialogue(result.getOrNull()!!)))
             }
-
         }
     }
 }

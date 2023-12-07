@@ -96,11 +96,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         login.addTextChangedListener(textWatcher)
         password.addTextChangedListener(textWatcher)
 
-
-        val button = view.findViewById<Button>(R.id.button)
-        button.setOnClickListener {
-            controller.navigate(R.id.chatsFragment)
-        }
     }
 
     private fun updateLoadingVisibility(isVisible: Boolean) {

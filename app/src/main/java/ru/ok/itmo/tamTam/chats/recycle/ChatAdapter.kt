@@ -2,7 +2,6 @@ package ru.ok.itmo.tamTam.chats.recycle
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.ok.itmo.tamTam.R
 import ru.ok.itmo.tamTam.chats.models.ChatPreview
@@ -22,10 +21,5 @@ class ChatAdapter( private val items: MutableList<ChatPreview>) :
         holder.bind( items[position])
     }
     override fun getItemCount () = items.size
-
-    fun addItem() {
-        notifyItemInserted(0)
-    }
-
 
 }
