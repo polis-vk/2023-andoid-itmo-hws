@@ -43,10 +43,10 @@ class AvatarView @JvmOverloads constructor(
 
         for (word in words) {
             if (word.isNotEmpty()) {
-                val firstLetter = word[0].toUpperCase()
+                val firstLetter = word[0].uppercaseChar()
                 initials.append(firstLetter)
                 if (word.length > 1) {
-                    val secondLetter = word[1].toUpperCase()
+                    val secondLetter = word[1].uppercaseChar()
                     initials.append(secondLetter)
                 }
                 break;

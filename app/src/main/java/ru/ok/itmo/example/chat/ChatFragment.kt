@@ -115,7 +115,7 @@ CoroutineScope(Dispatchers.IO).launch {
         }
 
         pagingAdapter.addLoadStateListener { loadState ->
-            binding.LoadingChat.isVisible = loadState.refresh is LoadState.Loading
+            binding.loadingChat.isVisible = loadState.refresh is LoadState.Loading
         }
 
     }
