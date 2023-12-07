@@ -1,6 +1,7 @@
 package ru.ok.itmo.example
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -9,11 +10,13 @@ import kotlinx.coroutines.launch
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.withContext
 
 
 class Task4Fragment : BaseTaskFragment() {
 
-    private val viewModel: TaskViewModel by viewModels()
+    private val viewModel: Task4ViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,16 +30,5 @@ class Task4Fragment : BaseTaskFragment() {
         task.text = getString(R.string.task_4)
     }
 
-    override fun startWork() {
-        MainScope().launch(Dispatchers.IO) {
-            for (i in 0..100) {
-                launch(Dispatchers.Main) {
-                    updateUi(i)
-                }
-                delay(100)
-            }
-        }
-    }
-
-
+    override fun startWork() = viewModel.startWork()
 }
