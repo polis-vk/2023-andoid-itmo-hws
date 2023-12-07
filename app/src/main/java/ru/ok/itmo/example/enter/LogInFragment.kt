@@ -98,6 +98,8 @@ class LogInFragment : Fragment(R.layout.fragment_enter) {
                     val errorMessage = LoginState.errorMap[loginState.error] ?: "Unknown Error"
                     binding.errorMessage.text = errorMessage
                 }
+
+                else -> {}
             }
         } catch (e: Exception) {
             e.printStackTrace()

@@ -4,30 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import ru.ok.itmo.example.R
-import ru.ok.itmo.example.chatsPackage.Adapter
 import ru.ok.itmo.example.chatsPackage.Channel
+import ru.ok.itmo.example.chatsPackage.ChatPagingSource
 import ru.ok.itmo.example.chatsPackage.ChatUseCase
-import ru.ok.itmo.example.chatsPackage.Message
+import ru.ok.itmo.example.chatsPackage.PagingAdapter
 import ru.ok.itmo.example.chatsPackage.chatApi
+import ru.ok.itmo.example.dataBase.MainDb
 import ru.ok.itmo.example.databinding.FragmentChatBinding
+import ru.ok.itmo.example.messages.ChannelFragment
+import ru.ok.itmo.example.messages.OnChatClickListener
 import ru.ok.itmo.example.retrofit.RetrofitProvider
-import java.io.IOException
 
 
-class ChatFragment : Fragment(R.layout.fragment_chat)  {
-    private var _binding: FragmentChatBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var adapter: Adapter
-    private val viewModel: ChatViewModel by viewModels()
+class ChatFragment : Fragment(R.layout.fragment_chat), OnChatClickListener {
+    private var _bindingFragment: FragmentChatBinding? = null
+    private val binding get() = _bindingFragment!!
+   // private lateinit var adapterFragment: Adapter
+    private lateinit var database: MainDb
+    private lateinit var pagingAdapter: PagingAdapter
 
     private val chatUseCase by lazy {
         val retrofit = RetrofitProvider.retrofit
@@ -35,76 +40,101 @@ class ChatFragment : Fragment(R.layout.fragment_chat)  {
         ChatUseCase(chatApiInter)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChatBinding.inflate(inflater, container, false)
+        _bindingFragment = FragmentChatBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        adapter = Adapter()
+        database = MainDb.getDatabase(requireContext())
+      //  adapterFragment = Adapter(this)
         binding.rcView.layoutManager = LinearLayoutManager(context)
-        binding.rcView.adapter = adapter
+       // binding.rcView.adapter = adapterFragment
 
-        val allChannels = mutableListOf<Channel>()
-
-        val call = chatUseCase.myGetAllChannels()
-        call.enqueue(object : Callback<List<String>> {
-            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
-                if (response.isSuccessful) {
-                    val channels = response.body()
-
-                    channels?.forEach { channelId ->
-                        val messageCall = chatUseCase.myGetChannelMessages(channelId)
-                        messageCall.enqueue(object : Callback<List<Message>> {
-                            override fun onResponse(call: Call<List<Message>>, response: Response<List<Message>>) {
-                                if (response.isSuccessful) {
-                                    val lastMessage = response.body()!!.last()
-                                    val text = lastMessage.data.Text?.text ?: ""
-                                    allChannels += Channel(channelId, text)
-                                    if (allChannels.size == channels.size) {
-                                        adapter.submitList(allChannels)
-                                    }
-                                } else {
-                                    val errorBody = response.errorBody()
-                                    throw IOException("$errorBody")
+/*
+так я пытался загружать чаты до попытки сделать подгрузку через пагинацию
+CoroutineScope(Dispatchers.IO).launch {
+            val chatState = chatUseCase.myGetAllChannels()
+            withContext(Dispatchers.Main) {
+                when (chatState) {
+                    is ChatState.Success -> {
+                        chatState.chats.forEach {
+                            val list = chatUseCase.myGetChannelAllMessages(it.name)
+                            val messageEntityList = if (!list.isNullOrEmpty()) {
+                                list.map { message ->
+                                    MessageEntity(
+                                        id = message.id.toInt(),
+                                        chatName = it.name,
+                                        from = message.from,
+                                        to = message.to,
+                                        time = message.time,
+                                        messageText = message.data.Text?.text
+                                    )
                                 }
+                            } else {
+                                // здесь можно прописать картинку с анимациями
+                                emptyList()
                             }
 
-                            override fun onFailure(call: Call<List<Message>>, t: Throwable) {
-                                throw t
+                            CoroutineScope(Dispatchers.IO).launch {
+                                database.dao().insertListMessages(messageEntityList)
                             }
-                        })
+                        }
+                        view.findViewById<ProgressBar>(R.id.LoadingChat).isVisible = false
+                        adapterFragment.submitList(chatState.chats)
                     }
-                } else {
-                    val errorBody = response.errorBody()
-                    throw IOException("$errorBody")
+                    is ChatState.Error -> {
+                        val a = 5
+                    }
+                    else -> {}
                 }
             }
+        }*/
 
-            override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                throw t
-            }
-        })
+        pagingAdapter = PagingAdapter(this)
+
+        binding.rcView.layoutManager = LinearLayoutManager(context)
+        binding.rcView.adapter = pagingAdapter
 
 
+        val pager = Pager(
+            config = PagingConfig(pageSize = 6, enablePlaceholders = true),
+            pagingSourceFactory = { ChatPagingSource(chatUseCase) }
+        ).flow
+            .cachedIn(lifecycleScope)
 
-        binding.toolbar.setOnClickListener {
-            try {
-                MainScope().launch {
-                    viewModel.logout(viewModel.token.toString())
-                }
-            } catch (e: Exception) {
-                println(e.message)
+        lifecycleScope.launch {
+            pager.collectLatest { pagingData ->
+                pagingAdapter.submitData(pagingData)
             }
         }
+
+        pagingAdapter.addLoadStateListener { loadState ->
+            binding.LoadingChat.isVisible = loadState.refresh is LoadState.Loading
+        }
+
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _bindingFragment = null
+    }
+
+    override fun onChatClicked(chat: Channel) {
+        replaceFragmentWithNewLayout(chat)
+    }
+
+    private fun replaceFragmentWithNewLayout(chat: Channel) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        val newFragment = ChannelFragment(chat)
+        transaction.replace(R.id.fragment_container, newFragment)
+        transaction.commit()
+    }
 }
 

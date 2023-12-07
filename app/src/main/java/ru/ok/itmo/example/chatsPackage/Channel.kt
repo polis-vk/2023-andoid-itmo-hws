@@ -1,10 +1,9 @@
 package ru.ok.itmo.example.chatsPackage
 
-import java.util.Date
-
 data class Channel(
     val name: String,
-    val lastMessageText :String
+    val lastMessageText: MessageDataText?,
+    val image_link : MessageDataImage?
 )
 
 data class MessageDataText(
@@ -26,5 +25,5 @@ data class Message(
     val from: String,
     val to: String,
     val data: MessageData,
-    private val time: Long,
+    val time: Long,
 )

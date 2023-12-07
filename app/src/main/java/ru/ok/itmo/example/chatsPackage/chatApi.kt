@@ -9,10 +9,10 @@ import retrofit2.http.Path
 
 interface chatApi {
     @GET("/channels")
-    fun getAllChannels(): Call<List<String>>
+    suspend fun getAllChannels(): Response<List<String>>
 
     @GET("/channel/{channelName}")
-    fun getChannelMessages(@Path("channelName") name: String): Call<List<Message>>
+    suspend fun getChannelMessages(@Path("channelName") name: String): Response<List<Message>>
 
     companion object {
         fun provideRequestApi(retrofit: Retrofit): chatApi {

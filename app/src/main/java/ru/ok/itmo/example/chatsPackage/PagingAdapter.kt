@@ -1,20 +1,19 @@
 package ru.ok.itmo.example.chatsPackage
 
-import ru.ok.itmo.example.CustomView.AvatarView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.ok.itmo.example.CustomView.AvatarView
 import ru.ok.itmo.example.R
 import ru.ok.itmo.example.databinding.ChatCardBinding
 import ru.ok.itmo.example.messages.OnChatClickListener
 
-class Adapter(val chatClickListener: OnChatClickListener) : ListAdapter<Channel, Adapter.Holder>(MyDiffUtils()) {
+class PagingAdapter(val chatClickListener: OnChatClickListener) : PagingDataAdapter<Channel, PagingAdapter.Holder>(MyDiffUtils()) {
 
-    class MyDiffUtils : DiffUtil.ItemCallback<Channel>(){
-
+    class MyDiffUtils : DiffUtil.ItemCallback<Channel>() {
         override fun areItemsTheSame(oldItem: Channel, newItem: Channel): Boolean {
             return oldItem.name == newItem.name
         }
@@ -22,7 +21,6 @@ class Adapter(val chatClickListener: OnChatClickListener) : ListAdapter<Channel,
         override fun areContentsTheSame(oldItem: Channel, newItem: Channel): Boolean {
             return oldItem == newItem
         }
-
     }
 
     inner class Holder(view: View) : RecyclerView.ViewHolder(view){
@@ -48,6 +46,6 @@ class Adapter(val chatClickListener: OnChatClickListener) : ListAdapter<Channel,
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 }
