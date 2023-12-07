@@ -1,17 +1,10 @@
 package ru.ok.itmo.example
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.withContext
+
 
 
 class Task4Fragment : BaseTaskFragment() {
