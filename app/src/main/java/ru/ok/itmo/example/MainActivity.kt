@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val button4 = findViewById<Button>(R.id.button4)
         button4.setOnClickListener {
-            Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show()
+            replaceFragment(Task4Fragment())
         }
     }
 
