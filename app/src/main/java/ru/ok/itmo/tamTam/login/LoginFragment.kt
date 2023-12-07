@@ -52,6 +52,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             val exception = result.exceptionOrNull()
             if (result.isSuccess) {
                 AuthInfo.token = result.getOrNull()!!
+                AuthInfo.login = login.text.toString()
                 controller.navigate(R.id.chatsFragment)
                 resetUi()
             } else if (exception != null && exception !is CustomException) {
@@ -94,6 +95,12 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
         login.addTextChangedListener(textWatcher)
         password.addTextChangedListener(textWatcher)
+
+
+        val button = view.findViewById<Button>(R.id.button)
+        button.setOnClickListener {
+            controller.navigate(R.id.chatsFragment)
+        }
     }
 
     private fun updateLoadingVisibility(isVisible: Boolean) {

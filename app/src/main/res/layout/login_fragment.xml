@@ -148,4 +148,13 @@
         app:layout_constraintEnd_toStartOf="@id/vertLineRight"
         app:layout_constraintTop_toBottomOf="@id/password_layout" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintTop_toBottomOf="@id/forgot_password"
+        tools:layout_editor_absoluteX="156dp"
+        tools:layout_editor_absoluteY="391dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
