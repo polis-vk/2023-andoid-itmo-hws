@@ -23,7 +23,7 @@ class FragmentWithButton : Fragment(R.layout.fragment_with_button) {
         { _, bundle ->
             val result =
                 bundle.getInt(FragmentWithNavigation.Companion.ResultTags.COUNT_FRAGMENTS, 0)
-                    .takeIf { it != 0 } ?: throw IllegalArgumentException("Incorrect result")
+                    .takeIf { it > 0 } ?: throw IllegalArgumentException("Incorrect result")
 
             textView.text = result.toString()
         }
@@ -36,7 +36,7 @@ class FragmentWithButton : Fragment(R.layout.fragment_with_button) {
         button.setOnClickListener {
             val fragment = FragmentWithNavigation.newInstance((3..5).random())
             parentFragmentManager.commit {
-                setPrimaryNavigationFragment(fragment)
+                setPrimaryNavigationFragment(fragment)      /// For handleOnBackPressed in FragmentSection
                 replace(
                     R.id.fragment_main_container,
                     fragment

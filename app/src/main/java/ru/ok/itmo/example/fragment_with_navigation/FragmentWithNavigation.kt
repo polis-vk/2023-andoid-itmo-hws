@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import ru.ok.itmo.example.fragment_section.FragmentSection
 import ru.ok.itmo.example.R
 
@@ -17,8 +16,7 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
     companion object {
         object TAGS {
             const val NUMBER_OF_SECTIONS = "numberOfSections"
-            const val SELECTED_ITEM_ID = "selectedItemId"
-            const val MENU_DATA = "menuData"
+            const val INIT_BACK_STACK_TAG = "initSection"
         }
 
         object ResultTags {
@@ -31,45 +29,8 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
                 TAGS.NUMBER_OF_SECTIONS to numberOfSections
             )
         }
-
-        class FragmentWithNavigationViewModel(private val savedStateHandle: SavedStateHandle) :
-            ViewModel() {
-            val fragmentMap = mutableMapOf<String, Fragment>()
-
-            fun countFragments(): Int {
-                var sum = 0
-                for (fragment in fragmentMap.values) {
-                    sum += (fragment as FragmentSection).arguments?.getInt(
-                        FragmentSection.Companion.TAGS.PAGE_COUNT,
-                        0
-                    ).takeIf { it != 0 }
-                        ?: throw java.lang.IllegalArgumentException("Incorrect fragment count")
-                }
-                return sum
-            }
-
-            fun isStoresSavedState(): Boolean {
-                return savedStateHandle.contains(TAGS.MENU_DATA)
-                        && savedStateHandle.contains(TAGS.SELECTED_ITEM_ID)
-            }
-
-            var menuData: MenuData
-                get() = savedStateHandle[TAGS.MENU_DATA]
-                    ?: throw IllegalArgumentException("${TAGS.MENU_DATA} is missing from savedStateHandle")
-                set(value) {
-                    savedStateHandle[TAGS.MENU_DATA] = value
-                }
-
-            var selectedItemId: Int
-                get() = savedStateHandle[TAGS.SELECTED_ITEM_ID]
-                    ?: throw IllegalArgumentException("${TAGS.SELECTED_ITEM_ID} is missing from savedStateHandle")
-                set(value) {
-                    savedStateHandle[TAGS.SELECTED_ITEM_ID] = value
-                }
-        }
     }
 
-    private val viewModel: FragmentWithNavigationViewModel by viewModels()
     private lateinit var navigationView: NavigationViewInterface
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,19 +41,15 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         val numberOfSections = arguments?.getInt(TAGS.NUMBER_OF_SECTIONS)
             ?: throw IllegalArgumentException("I don't know how many sections are needed")
 
-        if (viewModel.isStoresSavedState()) {
-            drawMenu()
-            navigationView.selectedItemId = viewModel.selectedItemId
+        if (savedInstanceState != null) {
+            trimMenu(numberOfSections)
         } else {
-            viewModel.menuData = MenuData(numberOfSections)
-            drawMenu()
-            val firstItem = navigationView.menu.getItem(0)
-            firstItem.isChecked = true
-            addNewSection(firstItem.title.toString(), firstItem.itemId.toString())
+            trimMenu(numberOfSections)
+            initSections()
         }
 
         navigationView.setOnItemSelectedListener { item ->
-            replaceSection(title = item.title.toString(), tag = item.itemId.toString())
+            replaceSection(title = item.title.toString())
             true
         }
     }
@@ -103,17 +60,31 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 childFragmentManager.run {
-                    if (backStackEntryCount <= 1) {
+                    if (backStackEntryCount <= 1 + navigationView.menu.size()) {
+                        setResult()
+                        childFragmentManager.popBackStack(
+                            TAGS.INIT_BACK_STACK_TAG, POP_BACK_STACK_INCLUSIVE
+                        )
                         parentFragmentManager.popBackStack()
-                        exit()
                     } else {
-                        val lastFragmentTag =
+                        val lastFragmentBackStackTag =
                             getBackStackEntryAt(backStackEntryCount - 2).name
-                                ?: throw IllegalArgumentException("Unknown Fragment in BackStack")
 
-                        navigationView.menu.findItem(lastFragmentTag.toInt()).isChecked = true
+                        navigationView.menu.getItem(
+                            when (lastFragmentBackStackTag) {
+                                getString(R.string.sec_1) -> 0
+                                getString(R.string.sec_2) -> 1
+                                getString(R.string.sec_3) -> 2
+                                getString(R.string.sec_4) -> 3
+                                getString(R.string.sec_5) -> 4
+                                else -> throw IllegalArgumentException(
+                                    "Unknown Fragment in BackStack: $lastFragmentBackStackTag"
+                                )
+                            }
+                        ).isChecked = true
+
+                        popBackStack()
                     }
-                    popBackStack()
                 }
             }
         }
@@ -121,41 +92,61 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    private fun exit() {
+    private fun setResult() {
+        var result = 0
+
+        for (index in 0 until navigationView.menu.size()) {
+            result += (childFragmentManager.findFragmentByTag(
+                navigationView.menu[index].title.toString()
+            ) as FragmentSection).getPageCountOrZero()
+        }
+
         parentFragmentManager.setFragmentResult(
             ResultTags.RESULT, bundleOf(
-                ResultTags.COUNT_FRAGMENTS to viewModel.countFragments()
+                ResultTags.COUNT_FRAGMENTS to result
             )
         )
     }
 
-    private fun replaceSection(title: String, tag: String) {
-        childFragmentManager.findFragmentByTag(tag)?.let {
-            childFragmentManager.popBackStack(tag, 0)
-        } ?: addNewSection(title, tag)
+    private fun replaceSection(title: String) {
+        childFragmentManager.popBackStack(title, POP_BACK_STACK_INCLUSIVE)
+        addSection(
+            childFragmentManager.findFragmentByTag(title)
+                ?: throw IllegalArgumentException("I can't find fragment: \"$title\""), title, title
+        )
     }
 
-    private fun addNewSection(title: String, tag: String) {
+    private fun addSection(fragment: Fragment, fragmentTag: String, backStackTag: String) {
         childFragmentManager.commit {
             setReorderingAllowed(true)
             replace(
-                R.id.fragment_with_navigation_container,
-                viewModel.fragmentMap.getOrPut(tag) { FragmentSection.newInstance(title) },
-                tag
+                R.id.fragment_with_navigation_container, fragment, fragmentTag
             )
-            addToBackStack(tag)
+            addToBackStack(backStackTag)
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.selectedItemId = navigationView.selectedItemId
+    private fun trimMenu(numberOfSections: Int) {
+        for (index in navigationView.menu.size() - 1 downTo numberOfSections) {
+            navigationView.menu.removeItem(navigationView.menu.getItem(index).itemId)
+        }
     }
 
-    private fun drawMenu() {
-        for (section in viewModel.menuData.sectionsData) {
-            navigationView.menu.add(section.groupId, section.itemId, section.order, section.title)
-                .setIcon(section.iconRes)
+    private fun initSections() {
+        for (index in navigationView.menu.size() - 1 downTo 1) {
+            val title = navigationView.menu.getItem(index).title.toString()
+            addSection(
+                FragmentSection.newInstance(title), title, backStackTag = TAGS.INIT_BACK_STACK_TAG
+            )
         }
+
+        val firstItem = navigationView.menu.getItem(0)
+        firstItem.isChecked = true
+        val title = firstItem.title.toString()
+        val firstFragment = FragmentSection.newInstance(title)
+        addSection(
+            FragmentSection.newInstance(title), title, backStackTag = TAGS.INIT_BACK_STACK_TAG
+        )
+        addSection(firstFragment, title, title)
     }
 }

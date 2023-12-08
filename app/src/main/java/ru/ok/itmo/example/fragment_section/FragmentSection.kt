@@ -120,6 +120,11 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
         return argumentsNotNull.getInt(TAGS.PAGE_COUNT, 0)
     }
 
+    fun getPageCountOrZero(): Int {
+        val arguments = arguments ?: return 0
+        return arguments.getInt(TAGS.PAGE_COUNT, 0)
+    }
+
     private fun getAndIncPageCount(): Int {
         return (getPageCount() + 1).also { argumentsNotNull.putInt(TAGS.PAGE_COUNT, it) }
     }

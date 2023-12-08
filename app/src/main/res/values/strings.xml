@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">itmo-example</string>
+    <string name="sec_1">Sec: 1</string>
+    <string name="sec_2">Sec: 2</string>
+    <string name="sec_3">Sec: 3</string>
+    <string name="sec_4">Sec: 4</string>
+    <string name="sec_5">Sec: 5</string>
 </resources>
