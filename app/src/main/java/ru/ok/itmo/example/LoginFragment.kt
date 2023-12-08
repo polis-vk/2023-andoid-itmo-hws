@@ -14,9 +14,9 @@ import com.google.android.material.textfield.TextInputEditText
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private val viewModel: MainViewModel by activityViewModels()
-    lateinit var button: Button
-    lateinit var loginField : TextInputEditText
-    lateinit var passwordField: EditText
+    private var button: Button? = null
+    private var loginField : TextInputEditText? = null
+    private var passwordField: EditText? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,25 +27,33 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         button = view.findViewById<Button?>(R.id.buttonSignIn).apply {
             setOnClickListener {
                 viewModel.verifyAndLogin(
-                    loginField.text.toString(),
-                    passwordField.text.toString())
+                    loginField?.text.toString(),
+                    passwordField?.text.toString())
             }
             isEnabled = false
         }
 
         loginField = view.findViewById<TextInputEditText?>(R.id.editTextLogin).apply {
-            doOnTextChanged { text, start, before, count ->
+            doOnTextChanged { _, _, _, _ ->
                enableButtonIfNeed()
             }
         }
         passwordField = view.findViewById<EditText?>(R.id.editTextPassword).apply {
-            doOnTextChanged { text, start, before, count ->
+            doOnTextChanged { _, _, _, _ ->
                 enableButtonIfNeed()
             }
         }
     }
 
-    fun enableButtonIfNeed() {
-        button.isEnabled = (loginField.text!!.isNotEmpty() && passwordField.text!!.isNotEmpty())
+    private fun enableButtonIfNeed() {
+        button?.isEnabled = ((loginField?.text?.isNotEmpty() ?: false) &&
+                (passwordField?.text?.isNotEmpty() ?: false))
+    }
+
+    override fun onDestroyView() {
+        button = null
+        loginField = null
+        passwordField = null
+        super.onDestroyView()
     }
 }

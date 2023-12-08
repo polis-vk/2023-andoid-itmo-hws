@@ -23,14 +23,14 @@ class MainViewModel: ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                (url.openConnection() as HttpURLConnection)!!.run {
+                (url.openConnection() as HttpURLConnection).run {
                     requestMethod = "POST"
                     outputStream.write(requestBody)
 
                     val code = responseCode
 
                     launch(Dispatchers.Main) {
-                        if (code == 200 || password=="asd") { // TODO: remove debug password
+                        if (code == 200) {
                             launch(Dispatchers.Main) {
                                 signIn.value = true
                             }
