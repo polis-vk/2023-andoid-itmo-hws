@@ -8,10 +8,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.viewModels
 import ru.ok.itmo.example.FragmentPage
 import ru.ok.itmo.example.R
-import ru.ok.itmo.example.SharedViewModel
 
 class FragmentSection : Fragment(R.layout.fragment_section) {
     companion object {
@@ -28,28 +26,16 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
         }
     }
 
-    private lateinit var argumentsNotNull: Bundle
     private lateinit var callback: OnBackPressedCallback
-    private val viewModel: SharedViewModel by viewModels (
-        ownerProducer = { requireParentFragment() }
-    )
-    private lateinit var sectionData: SectionData
     private lateinit var sectionTitle: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        argumentsNotNull = arguments
-            ?: throw IllegalArgumentException("Please, use newInstance for create Fragment")
-
-        sectionTitle = argumentsNotNull.getCharSequence(TAGS.SECTION_TITLE)?.toString()
+        sectionTitle = requireArguments().getCharSequence(TAGS.SECTION_TITLE)?.toString()
             ?: throw IllegalArgumentException("I don't know section title")
 
-        sectionData = viewModel.sectionDataMap.getOrPut(sectionTitle) {
-            SectionData()
-        }
-
-        if (sectionData.backStack.isEmpty()) {
+        if (getPageCount() == 0) {
             createNewPage()
         } else {
             viewCurrentPage()
@@ -67,10 +53,9 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
         callback = object : OnBackPressedCallback(false) {
             override fun handleOnBackPressed() {
                 childFragmentManager.run {
-                    if (sectionData.backStack.size > 1) {
-                        sectionData.backStack.pop()
-                        viewCurrentPage()
-                        popBackStack()
+                    popBackStack()
+                    if (backStackEntryCount <= 2) {
+                        disableCallback()
                     }
                 }
             }
@@ -80,28 +65,25 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
     }
 
     private fun createNewPage() {
-        sectionData.backStack.push(getAndIncPageCount())
-
+        getAndIncPageCount()
         viewCurrentPage()
     }
 
     private fun viewCurrentPage() {
-        val pageNumber = sectionData.backStack.last()
+        val pageNumber = getPageCount()
 
         childFragmentManager.commit {
             setReorderingAllowed(true)
             replace(
                 R.id.fragment_section_container,
-                sectionData.fragmentMap.getOrPut(pageNumber) {
-                    FragmentPage.newInstance(
-                        sectionTitle,
-                        pageNumber
-                    )
-                }
+                childFragmentManager.findFragmentByTag("$sectionTitle - $pageNumber")
+                    ?: FragmentPage.newInstance(sectionTitle, pageNumber),
+                "$sectionTitle - $pageNumber"
             )
+            addToBackStack(null)
         }
 
-        if (sectionData.backStack.size <= 1) {
+        if (childFragmentManager.backStackEntryCount < 1) {
             disableCallback()
         } else {
             enableCallback()
@@ -117,7 +99,7 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
     }
 
     private fun getPageCount(): Int {
-        return argumentsNotNull.getInt(TAGS.PAGE_COUNT, 0)
+        return requireArguments().getInt(TAGS.PAGE_COUNT, 0)
     }
 
     fun getPageCountOrZero(): Int {
@@ -126,6 +108,6 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
     }
 
     private fun getAndIncPageCount(): Int {
-        return (getPageCount() + 1).also { argumentsNotNull.putInt(TAGS.PAGE_COUNT, it) }
+        return (getPageCount() + 1).also { requireArguments().putInt(TAGS.PAGE_COUNT, it) }
     }
 }
