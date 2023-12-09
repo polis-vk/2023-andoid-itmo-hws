@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light">
+    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/active</item>
         <item name="colorPrimaryVariant">@color/disabled</item>
         <item name="colorOnPrimary">@color/white</item>

@@ -53,10 +53,10 @@
             android:background="@drawable/button_active"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/confidentialityWarning" />
+            app:layout_constraintBottom_toTopOf="@id/warning" />
 
     <TextView
-            android:id="@+id/confidentialityWarning"
+            android:id="@+id/warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/confidentiality_info"

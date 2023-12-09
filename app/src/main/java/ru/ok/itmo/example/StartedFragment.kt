@@ -12,7 +12,6 @@ class StartedFragment: Fragment(R.layout.started_fragment) {
         view.findViewById<TextView>(R.id.enterByLogin).setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, LoginFragment())
-                .addToBackStack("login")
                 .commit()
         }
     }

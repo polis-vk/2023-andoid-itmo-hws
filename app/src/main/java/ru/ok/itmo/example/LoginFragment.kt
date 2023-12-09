@@ -7,8 +7,19 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import ru.ok.itmo.example.login.LoginData
+import ru.ok.itmo.example.login.LoginState
+import ru.ok.itmo.example.login.LoginViewModel
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
+
+    private val viewModel by viewModels<LoginViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val password = view.findViewById<EditText>(R.id.password)
@@ -23,16 +34,24 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         button.setOnClickListener {
             val passwordText: String  = password.text.toString()
             val loginText: String  = login.text.toString()
-            if (correctCheck(loginText, passwordText) && loginIn(loginText, passwordText)) {
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .hide(this)
-                    .add(R.id.fragment_container, MainFragment())
-                    .commit()
+            if (correctCheck(loginText, passwordText)) {
+                viewModel.login(LoginData(loginText, passwordText))
             } else {
                 Toast.makeText(requireActivity(), "Incorrect password or login", Toast.LENGTH_SHORT).show()
             }
         }
 
+        lifecycleScope.launch {
+            viewModel.state.onEach {
+                if (it is LoginState.Success) {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MainFragment())
+                        .commit()
+                } else if (it is LoginState.Error) {
+                    Toast.makeText(requireActivity(), it.error.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }.stateIn(this)
+        }
     }
 
     private fun correctCheck(login: String, password: String): Boolean {
@@ -55,10 +74,5 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private fun passwordIsCorrect(password: String): Boolean {
         return password.length > 6 && password.lowercase() != password
                 && password.uppercase() != password
-    }
-
-    private fun loginIn(login: String, password: String): Boolean {
-        // обращение к серверу
-        return login == "test@mial.com" && password == "1234567Aa"
     }
 }
