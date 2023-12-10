@@ -64,10 +64,8 @@ class FragmentPage : Fragment(R.layout.fragment_page) {
             view.findViewById<TextView>(R.id.random_number_value).text =
                 randomNumberFromArg.toString()
         } else {
-            val businessLogic: BusinessLogic by viewModels (
-                ownerProducer = { this }
-            )
-            businessLogic.randomNumber.observe(requireActivity()) { randomNumberFromBusinessLogic ->
+            val businessLogic: BusinessLogic by viewModels(ownerProducer = { this })
+            businessLogic.randomNumber.observe(viewLifecycleOwner) { randomNumberFromBusinessLogic ->
                 arguments.putInt(TAGS.RANDOM_NUMBER, randomNumberFromBusinessLogic)
                 view.findViewById<TextView>(R.id.random_number_value).text =
                     randomNumberFromBusinessLogic.toString()
