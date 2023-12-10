@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import ru.ok.itmo.example.login.LoginData
+import ru.ok.itmo.example.data.LoginData
 import ru.ok.itmo.example.login.LoginState
 import ru.ok.itmo.example.login.LoginViewModel
 
@@ -65,10 +65,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     }
 
     private fun loginIsCorrect(login: String): Boolean {
-        val indexPoint = login.indexOf('.')
-        val indexDog = login.indexOf('@')
-        return login != "" && indexDog != -1 && indexPoint != 1
-                && indexDog > 1 && indexPoint > indexDog + 1
+        return login.length >= 3
     }
 
     private fun passwordIsCorrect(password: String): Boolean {

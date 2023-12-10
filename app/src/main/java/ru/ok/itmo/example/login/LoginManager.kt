@@ -1,5 +1,7 @@
 package ru.ok.itmo.example.login
 
+import ru.ok.itmo.example.data.AuthTokenData
+import ru.ok.itmo.example.data.LoginData
 import ru.ok.itmo.example.repository.LoginRepository
 import ru.ok.itmo.example.retrofit.Retrofit
 
@@ -9,7 +11,8 @@ class LoginManager {
 
     suspend fun login(loginData: LoginData): Result<AuthTokenData> {
         return try {
-            Result.success(loginRepository.login(loginData).toString())
+            val token: String = loginRepository.login(loginData).string()
+            Result.success(token)
         } catch(e: Throwable) {
             Result.failure(e)
         }

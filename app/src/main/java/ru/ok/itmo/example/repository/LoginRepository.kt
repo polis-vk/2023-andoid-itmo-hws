@@ -4,7 +4,7 @@ import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
-import ru.ok.itmo.example.login.LoginData
+import ru.ok.itmo.example.data.LoginData
 
 interface LoginRepository {
     @POST("/login")

@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ru.ok.itmo.example.AppManager
+import ru.ok.itmo.example.data.LoginData
 
 
 class LoginViewModel: ViewModel() {
     private val loginManager = LoginManager()
-    private var authTokenData: AuthTokenData? = null
+
 
     private val _state = MutableStateFlow<LoginState>(LoginState.Started)
     val state = _state.asStateFlow()
@@ -19,7 +21,8 @@ class LoginViewModel: ViewModel() {
         viewModelScope.launch {
             _state.emit(LoginState.Started)
             loginManager.login(loginData).onSuccess {
-                authTokenData = it
+                AppManager.authTokenData = it
+                AppManager.username = loginData.name
                 _state.emit(LoginState.Success(it))
             }.onFailure {
                 _state.emit(LoginState.Error(it))
@@ -30,7 +33,7 @@ class LoginViewModel: ViewModel() {
     fun logout() {
         viewModelScope.launch {
             try {
-                loginManager.logout(authTokenData!!)
+                loginManager.logout(AppManager.authTokenData!!)
             } catch (e: Throwable) {
                 _state.emit(LoginState.Error(e))
             }
