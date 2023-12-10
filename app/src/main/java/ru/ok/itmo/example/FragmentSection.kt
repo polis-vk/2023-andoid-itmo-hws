@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.fragment_section
+package ru.ok.itmo.example
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,6 @@ import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import ru.ok.itmo.example.FragmentPage
-import ru.ok.itmo.example.R
 
 class FragmentSection : Fragment(R.layout.fragment_section) {
     companion object {
@@ -48,8 +46,7 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
             .commit()
     }
 
-    private fun newPageTransaction(): FragmentTransaction
-    {
+    private fun newPageTransaction(): FragmentTransaction {
         val pageNumber = getAndIncPageCount()
 
         return childFragmentManager.beginTransaction().apply {

@@ -5,4 +5,13 @@
     <string name="sec_3">Sec: 3</string>
     <string name="sec_4">Sec: 4</string>
     <string name="sec_5">Sec: 5</string>
+    <string name="section_title">Section title:</string>
+    <string name="page">Page:</string>
+    <string name="random_number">Random Number:</string>
+    <string name="creation_time">Creation Time:</string>
+    <string name="current_time">Current Time:</string>
+    <string name="create_new_page">Create new Page</string>
+    <string name="count_fragments">Count Fragments:</string>
+    <string name="fragment_counter_preview">-</string>
+    <string name="start">Start</string>
 </resources>

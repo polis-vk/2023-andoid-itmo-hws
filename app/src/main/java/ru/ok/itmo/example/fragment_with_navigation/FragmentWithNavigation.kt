@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import ru.ok.itmo.example.fragment_section.FragmentSection
+import ru.ok.itmo.example.FragmentSection
 import ru.ok.itmo.example.R
 
 class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {

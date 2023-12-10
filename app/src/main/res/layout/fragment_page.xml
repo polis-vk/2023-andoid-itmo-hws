@@ -1,106 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/section_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Section title: "
-            android:textSize="30sp"
-            />
+        android:text="@string/section_title"
+        android:textSize="@dimen/large_text_size"
 
-        <TextView
-            android:id="@+id/section_title_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            />
-    </LinearLayout>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/section_title_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Page: "
-            android:textSize="30sp"
-            />
+        android:textSize="@dimen/large_text_size"
 
-        <TextView
-            android:id="@+id/page_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            />
+        app:layout_constraintLeft_toRightOf="@+id/section_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Random Number: "
-            android:textSize="30sp"
-            />
+        android:text="@string/page"
+        android:textSize="@dimen/large_text_size"
 
-        <TextView
-            android:id="@+id/random_number_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/section_title" />
 
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/page_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Creation Time: "
-            android:textSize="30sp"
-            />
+        android:textSize="@dimen/large_text_size"
 
-        <TextView
-            android:id="@+id/creation_time_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            />
+        app:layout_constraintLeft_toRightOf="@+id/page"
+        app:layout_constraintTop_toBottomOf="@+id/section_title_value" />
 
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/random_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Time: "
-            android:textSize="30sp"
-            />
+        android:text="@string/random_number"
+        android:textSize="@dimen/large_text_size"
 
-        <TextView
-            android:id="@+id/current_time_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/page" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/random_number_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/large_text_size"
 
-</LinearLayout>
+        app:layout_constraintLeft_toRightOf="@+id/random_number"
+        app:layout_constraintTop_toBottomOf="@+id/page_value" />
+
+    <TextView
+        android:id="@+id/creation_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/creation_time"
+        android:textSize="@dimen/large_text_size"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/random_number" />
+
+    <TextView
+        android:id="@+id/creation_time_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/large_text_size"
+
+        app:layout_constraintLeft_toRightOf="@+id/creation_time"
+        app:layout_constraintTop_toBottomOf="@+id/random_number_value" />
+
+    <TextView
+        android:id="@+id/current_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/current_time"
+        android:textSize="@dimen/large_text_size"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creation_time" />
+
+    <TextView
+        android:id="@+id/current_time_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/large_text_size"
+
+        app:layout_constraintLeft_toRightOf="@+id/current_time"
+        app:layout_constraintTop_toBottomOf="@+id/creation_time_value" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

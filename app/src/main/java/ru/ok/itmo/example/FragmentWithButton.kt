@@ -22,8 +22,12 @@ class FragmentWithButton : Fragment(R.layout.fragment_with_button) {
         )
         { _, bundle ->
             val result =
-                bundle.getInt(FragmentWithNavigation.Companion.ResultTags.COUNT_FRAGMENTS, Int.MIN_VALUE)
-                    .takeIf { it != Int.MIN_VALUE } ?: throw IllegalArgumentException("Incorrect result")
+                bundle.getInt(
+                    FragmentWithNavigation.Companion.ResultTags.COUNT_FRAGMENTS,
+                    Int.MIN_VALUE
+                )
+                    .takeIf { it != Int.MIN_VALUE }
+                    ?: throw IllegalArgumentException("Incorrect result")
 
             textView.text = result.toString()
         }
