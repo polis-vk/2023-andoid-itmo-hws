@@ -21,13 +21,13 @@ import java.net.SocketTimeoutException
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
 
-    private lateinit var login: TextInputEditText
-    private lateinit var password: TextInputEditText
-    private lateinit var passwordLayout: TextInputLayout
-    private lateinit var signIn: Button
-    private lateinit var toolbar: MaterialToolbar
-    private lateinit var loading: ProgressBar
-    private lateinit var errorInfo: TextView
+    private var login: TextInputEditText? = null
+    private var password: TextInputEditText? = null
+    private var passwordLayout: TextInputLayout? = null
+    private var signIn: Button? = null
+    private var toolbar: MaterialToolbar? = null
+    private var loading: ProgressBar? = null
+    private var errorInfo: TextView? = null
 
     private val loginViewModel: LoginViewModel by viewModels()
 
@@ -56,34 +56,34 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 resetUi()
             } else if (exception != null && exception !is CustomException) {
                 updateLoadingVisibility(false)
-                errorInfo.text = getString(
+                errorInfo!!.text = getString(
                     when (exception) {
                         is SocketTimeoutException -> R.string.no_internet
                         is retrofit2.HttpException -> R.string.invalid_input
                         else -> R.string.external_error
                     }
                 )
-                errorInfo.visibility = View.VISIBLE
+                errorInfo!!.visibility = View.VISIBLE
             }
         }
 
-        toolbar.setNavigationOnClickListener {
+        toolbar!!.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        signIn.setOnClickListener {
+        signIn!!.setOnClickListener {
             updateLoadingVisibility(true)
-            loginViewModel.login(User(login.text.toString(), password.text.toString()))
+            loginViewModel.login(User(login!!.text.toString(), password!!.text.toString()))
         }
 
-        passwordLayout.setEndIconOnClickListener {
+        passwordLayout!!.setEndIconOnClickListener {
             updatePasswordIcon()
         }
 
         val textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val isButtonEnabled = !login.text.isNullOrBlank() && !password.text.isNullOrBlank()
-                signIn.isEnabled = isButtonEnabled
+                val isButtonEnabled = !login!!.text.isNullOrBlank() && !password!!.text.isNullOrBlank()
+                signIn!!.isEnabled = isButtonEnabled
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
@@ -92,26 +92,39 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
         }
 
-        login.addTextChangedListener(textWatcher)
-        password.addTextChangedListener(textWatcher)
+        login!!.addTextChangedListener(textWatcher)
+        password!!.addTextChangedListener(textWatcher)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        login = null
+        password = null
+        passwordLayout = null
+        signIn = null
+        toolbar = null
+        loading = null
+        errorInfo = null
     }
 
     private fun updateLoadingVisibility(isVisible: Boolean) {
-        loading.visibility = if (isVisible) View.VISIBLE else View.GONE
-        signIn.isEnabled = !isVisible
+        loading!!.visibility = if (isVisible) View.VISIBLE else View.GONE
+        signIn!!.isEnabled = !isVisible
     }
 
     private fun updatePasswordIcon() {
-        val isPasswordVisible = password.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        password.inputType =
+        val isPasswordVisible = password!!.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        password!!.inputType =
             if (isPasswordVisible) InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             else InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         val iconResId = if (isPasswordVisible) R.drawable.ic_eye else R.drawable.ic_inv_eye
-        passwordLayout.setEndIconDrawable(iconResId)
+        passwordLayout!!.setEndIconDrawable(iconResId)
     }
 
     private fun resetUi() {
-        login.text = null; password.text = null; password.inputType =
+        login!!.text = null
+        password!!.text = null
+        password!!.inputType =
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
     }
 }

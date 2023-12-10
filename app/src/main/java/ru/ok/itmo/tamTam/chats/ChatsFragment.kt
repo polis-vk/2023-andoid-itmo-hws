@@ -9,14 +9,19 @@ import ru.ok.itmo.tamTam.R
 
 class ChatsFragment : Fragment(R.layout.chats_fragment) {
 
-    private lateinit var toolbar: MaterialToolbar
+    private var toolbar: MaterialToolbar? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         toolbar = view.findViewById(R.id.toolbar)
 
-        toolbar.setNavigationOnClickListener {
+        toolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        toolbar = null
     }
 }
