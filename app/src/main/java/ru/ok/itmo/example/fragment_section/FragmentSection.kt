@@ -1,13 +1,11 @@
 package ru.ok.itmo.example.fragment_section
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.fragment.app.FragmentTransaction
 import ru.ok.itmo.example.FragmentPage
 import ru.ok.itmo.example.R
 
@@ -26,7 +24,6 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
         }
     }
 
-    private lateinit var callback: OnBackPressedCallback
     private lateinit var sectionTitle: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,9 +33,7 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
             ?: throw IllegalArgumentException("I don't know section title")
 
         if (getPageCount() == 0) {
-            createNewPage()
-        } else {
-            viewCurrentPage()
+            newPageTransaction().commit()
         }
 
         val button = view.findViewById<Button>(R.id.button_new_page)
@@ -47,55 +42,23 @@ class FragmentSection : Fragment(R.layout.fragment_section) {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        callback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                childFragmentManager.run {
-                    popBackStack()
-                    if (backStackEntryCount <= 2) {
-                        disableCallback()
-                    }
-                }
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-    }
-
     private fun createNewPage() {
-        getAndIncPageCount()
-        viewCurrentPage()
+        newPageTransaction()
+            .addToBackStack(null)
+            .commit()
     }
 
-    private fun viewCurrentPage() {
-        val pageNumber = getPageCount()
+    private fun newPageTransaction(): FragmentTransaction
+    {
+        val pageNumber = getAndIncPageCount()
 
-        childFragmentManager.commit {
+        return childFragmentManager.beginTransaction().apply {
             setReorderingAllowed(true)
             replace(
                 R.id.fragment_section_container,
-                childFragmentManager.findFragmentByTag("$sectionTitle - $pageNumber")
-                    ?: FragmentPage.newInstance(sectionTitle, pageNumber),
-                "$sectionTitle - $pageNumber"
+                FragmentPage.newInstance(sectionTitle, pageNumber),
             )
-            addToBackStack(null)
         }
-
-        if (childFragmentManager.backStackEntryCount < 1) {
-            disableCallback()
-        } else {
-            enableCallback()
-        }
-    }
-
-    private fun disableCallback() {
-        callback.isEnabled = false
-    }
-
-    private fun enableCallback() {
-        callback.isEnabled = true
     }
 
     private fun getPageCount(): Int {

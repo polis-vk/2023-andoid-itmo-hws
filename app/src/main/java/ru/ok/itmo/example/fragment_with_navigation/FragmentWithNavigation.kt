@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import ru.ok.itmo.example.fragment_section.FragmentSection
 import ru.ok.itmo.example.R
@@ -62,9 +63,12 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
                 childFragmentManager.run {
                     if (backStackEntryCount <= 1 + navigationView.menu.size()) {
                         setResult()
-                        childFragmentManager.popBackStack(
+                        popBackStack(
                             TAGS.INIT_BACK_STACK_TAG, POP_BACK_STACK_INCLUSIVE
                         )
+                        childFragmentManager.commit {
+                            setPrimaryNavigationFragment(null)
+                        }
                         parentFragmentManager.popBackStack()
                     } else {
                         val lastFragmentBackStackTag =
@@ -110,20 +114,27 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
 
     private fun replaceSection(title: String) {
         childFragmentManager.popBackStack(title, POP_BACK_STACK_INCLUSIVE)
-        addSection(
+        addSectionWithDelegate(
             childFragmentManager.findFragmentByTag(title)
-                ?: throw IllegalArgumentException("I can't find fragment: \"$title\""), title, title
+                ?: throw IllegalArgumentException("I can't find fragment: \"$title\""), title
         )
     }
 
-    private fun addSection(fragment: Fragment, fragmentTag: String, backStackTag: String) {
-        childFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(
-                R.id.fragment_with_navigation_container, fragment, fragmentTag
-            )
-            addToBackStack(backStackTag)
-        }
+    private fun addSection(fragment: Fragment, fragmentTag: String) {
+        addSectionTransaction(fragment, fragmentTag, TAGS.INIT_BACK_STACK_TAG).commit()
+    }
+
+    private fun addSectionTransaction(fragment: Fragment, fragmentTag: String, backStackTag: String)
+            : FragmentTransaction = childFragmentManager.beginTransaction().apply {
+        setReorderingAllowed(true)
+        replace(R.id.fragment_with_navigation_container, fragment, fragmentTag)
+        addToBackStack(backStackTag)
+    }
+
+    private fun addSectionWithDelegate(fragment: Fragment, fragmentTag: String) {
+        addSectionTransaction(fragment, fragmentTag, fragmentTag)
+            .setPrimaryNavigationFragment(fragment)
+            .commit()
     }
 
     private fun trimMenu(numberOfSections: Int) {
@@ -135,18 +146,14 @@ class FragmentWithNavigation : Fragment(R.layout.fragment_with_navigation) {
     private fun initSections() {
         for (index in navigationView.menu.size() - 1 downTo 1) {
             val title = navigationView.menu.getItem(index).title.toString()
-            addSection(
-                FragmentSection.newInstance(title), title, backStackTag = TAGS.INIT_BACK_STACK_TAG
-            )
+            addSection(FragmentSection.newInstance(title), title)
         }
 
         val firstItem = navigationView.menu.getItem(0)
         firstItem.isChecked = true
         val title = firstItem.title.toString()
         val firstFragment = FragmentSection.newInstance(title)
-        addSection(
-            FragmentSection.newInstance(title), title, backStackTag = TAGS.INIT_BACK_STACK_TAG
-        )
-        addSection(firstFragment, title, title)
+        addSection(firstFragment, title)
+        addSectionWithDelegate(firstFragment, title)
     }
 }
