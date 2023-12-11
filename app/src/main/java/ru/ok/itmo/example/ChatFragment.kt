@@ -2,10 +2,10 @@ package ru.ok.itmo.example
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,35 +14,52 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import ru.ok.itmo.example.chat.ChatAdapter
+import ru.ok.itmo.example.data.Data
+import ru.ok.itmo.example.data.Message
+import ru.ok.itmo.example.data.Text
 import ru.ok.itmo.example.messages.MessagesState
 import ru.ok.itmo.example.messages.MessagesViewModel
-import ru.ok.itmo.example.messages.MessagesAdapter
-import ru.ok.itmo.example.data.Message
-import ru.ok.itmo.example.login.LoginViewModel
 
-class MainFragment : Fragment(R.layout.main_fragment) {
+class ChatFragment : Fragment(R.layout.chat_fragment) {
 
-    private val loginViewModel by viewModels<LoginViewModel>()
-    private val messageViewModel by viewModels<MessagesViewModel>()
+    private val chatViewModel by viewModels<MessagesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.chats)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.messages)
+        val textName = view.findViewById<TextView>(R.id.textName)
         val textInfo = view.findViewById<TextView>(R.id.textInfo)
+        val inputMessage = view.findViewById<TextView>(R.id.inputMessage)
+        val me: String = AppManager.username!!
+        val companion: String = AppManager.chatOpen!!
+
+        textName.text = AppManager.chatOpen
         progressBar.isVisible = true
 
-        view.findViewById<Button>(R.id.signOut).setOnClickListener {
-            loginViewModel.logout()
+        view.findViewById<AppCompatImageView>(R.id.sendMessage).setOnClickListener {
+            if (inputMessage.text != "") {
+                chatViewModel.postMessage(AppManager.authTokenData!!, Message(-1, me, companion, Data(
+                    Text(inputMessage.text.toString()),
+                    null
+                ), null))
+                inputMessage.text = ""
+
+            }
+        }
+
+        view.findViewById<AppCompatImageView>(R.id.imageBack).setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LoginFragment())
+                .replace(R.id.fragment_container, MainFragment())
                 .commit()
         }
 
-        messageViewModel.run(AppManager.username!!, AppManager.authTokenData!!)
+
+        chatViewModel.run(AppManager.username!!, AppManager.authTokenData!!)
         lifecycleScope.launch {
-            messageViewModel.state.onEach {
+            chatViewModel.state.onEach {
                 when (it) {
                     is MessagesState.Success -> {
                         if (it.messages.isEmpty()) {
@@ -55,23 +72,15 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                             recyclerView.isVisible = true
                             progressBar.isVisible = false
                             textInfo.isVisible = false
-                            val messageSet = mutableSetOf<String>()
+
                             val result = mutableListOf<Message>()
                             for (message in it.messages) {
-                                var first = message.from
-                                var second = message.to
-                                if (first < second) {
-                                    first = second
-                                    second = message.from
-                                }
-                                val res = first + second
-                                if (!messageSet.contains(res)) {
-                                    messageSet.add(res)
+                                if (message.to == companion || message.from == companion) {
                                     result.add(message)
                                 }
                             }
-                            recyclerView.adapter = MessagesAdapter(result,
-                                {x -> onMessageListener(x)})
+
+                            recyclerView.adapter = ChatAdapter(result, me)
                         }
                     }
                     is MessagesState.Error -> {
@@ -85,16 +94,5 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                 }
             }.stateIn(this)
         }
-    }
-
-    fun onMessageListener(message: Message) {
-        if (message.from == AppManager.username) {
-            AppManager.chatOpen = message.to
-        } else {
-            AppManager.chatOpen = message.from
-        }
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ChatFragment())
-            .commit()
     }
 }

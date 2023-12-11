@@ -1,4 +1,4 @@
-package ru.ok.itmo.example.chats
+package ru.ok.itmo.example.messages
 
 import ru.ok.itmo.example.data.AuthTokenData
 import ru.ok.itmo.example.data.Message
@@ -12,6 +12,14 @@ class UserManager {
     suspend fun getChats(username: String, authTokenData: AuthTokenData): Result<List<Message>> {
         return try {
             Result.success(userRepository.inbox(authTokenData, username))
+        } catch(e: Throwable) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun message(authTokenData: AuthTokenData, message: Message): Result<Int> {
+        return try {
+            Result.success(userRepository.message(authTokenData, message))
         } catch(e: Throwable) {
             Result.failure(e)
         }

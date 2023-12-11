@@ -5,7 +5,7 @@ data class Message(
     val from: String,
     val to: String,
     val data: Data,
-    val time: ULong
+    val time: Long?
 )
 
 data class Data(

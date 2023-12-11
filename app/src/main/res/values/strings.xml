@@ -12,4 +12,5 @@
     <string name="chats">Chats</string>
     <string name="no_message">Еще нет сообщений</string>
     <string name="chat_error">Что-то пошло не так, попробуйте снова</string>
+    <string name="input_message">Текст сообщения</string>
 </resources>
