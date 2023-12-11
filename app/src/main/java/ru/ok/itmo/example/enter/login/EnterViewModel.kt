@@ -52,14 +52,8 @@ class EnterViewModel : ViewModel() {
 
     fun getLogin(): String = login
     fun getPassword(): String = password
-    fun logIn(isOnline: Boolean, resultHandler: (LogInResult)-> Unit) {
+    fun logIn(resultHandler: (LogInResult)-> Unit) {
         if (isCorrectData.value == false) return
-        if (!isOnline) {
-            resultHandler.invoke(
-                LogInResult.failure(LogInResult.ErrorType.NO_INTERNET_CONNECTION)
-            )
-            return
-        }
         viewModelScope.launch(Dispatchers.IO) {
             val result = tamTamUseCase.logIn(login, password)
             withContext(Dispatchers.Main) {
