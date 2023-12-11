@@ -71,7 +71,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                                 }
                             }
                             recyclerView.adapter = MessagesAdapter(result,
-                                {x -> onMessageListener(x)})
+                                {x -> onMessageListener(x)}, AppManager.username!!)
                         }
                     }
                     is MessagesState.Error -> {

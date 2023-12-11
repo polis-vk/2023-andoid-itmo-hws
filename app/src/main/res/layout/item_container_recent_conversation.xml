@@ -6,8 +6,8 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/signOut"
+    <ru.ok.itmo.example.utils.CustomAvatarView
+            android:id="@+id/imageChat"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:scaleType="centerCrop"
@@ -20,9 +20,9 @@
             android:id="@+id/viewSup"
             android:layout_width="1dp"
             android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/signOut"
-            app:layout_constraintStart_toEndOf="@id/signOut"
-            app:layout_constraintTop_toTopOf="@id/signOut" />
+            app:layout_constraintBottom_toBottomOf="@id/imageChat"
+            app:layout_constraintStart_toEndOf="@id/imageChat"
+            app:layout_constraintTop_toTopOf="@id/imageChat" />
 
     <TextView
             android:id="@+id/textName"
@@ -36,7 +36,7 @@
             android:textSize="13sp"
             app:layout_constraintBottom_toTopOf="@id/viewSup"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/signOut" />
+            app:layout_constraintStart_toEndOf="@id/imageChat" />
 
     <TextView
             android:id="@+id/textMessage"
@@ -49,6 +49,6 @@
             android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/signOut"
+            app:layout_constraintStart_toEndOf="@id/imageChat"
             app:layout_constraintTop_toBottomOf="@id/viewSup" />
 </androidx.constraintlayout.widget.ConstraintLayout>

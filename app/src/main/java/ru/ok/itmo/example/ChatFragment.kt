@@ -20,6 +20,7 @@ import ru.ok.itmo.example.data.Message
 import ru.ok.itmo.example.data.Text
 import ru.ok.itmo.example.messages.MessagesState
 import ru.ok.itmo.example.messages.MessagesViewModel
+import ru.ok.itmo.example.utils.CustomAvatarView
 
 class ChatFragment : Fragment(R.layout.chat_fragment) {
 
@@ -33,8 +34,10 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
         val textName = view.findViewById<TextView>(R.id.textName)
         val textInfo = view.findViewById<TextView>(R.id.textInfo)
         val inputMessage = view.findViewById<TextView>(R.id.inputMessage)
+        val profileImage = view.findViewById<CustomAvatarView>(R.id.imageProfile)
         val me: String = AppManager.username!!
         val companion: String = AppManager.chatOpen!!
+        profileImage.setText(companion)
 
         textName.text = AppManager.chatOpen
         progressBar.isVisible = true
