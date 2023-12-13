@@ -14,13 +14,17 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,6 +45,7 @@ import ru.ok.itmo.compose_playground.ui.theme.colorDisabled
 val paddingModifier = Modifier.padding(horizontal = 16.dp)
 val avatarOffset = 20.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel,
@@ -48,8 +53,9 @@ fun ProfileScreen(
     onSectionClicked: (UserVO.Section) -> Unit,
 ) {
     val user by viewModel.userFlow.collectAsState() // State<User>
+    val scrollState = rememberScrollState()
 
-    Column {
+    Column(modifier = Modifier.verticalScroll(scrollState)) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -57,18 +63,20 @@ fun ProfileScreen(
                 .statusBarsPadding()
                 .offset(y = avatarOffset)
         ) {
-            IconButton(
-                onClick = { onBack() },
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(y = -avatarOffset)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "back",
-                    tint = Color.White
-                )
-            }
+            TopAppBar(title = { /*TODO*/ }, navigationIcon = {
+                IconButton(
+                    onClick = { onBack() },
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .offset(y = -avatarOffset)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "back",
+                        tint = Color.White
+                    )
+                }
+            }, colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Transparent))
             AsyncImage(
                 model = user.avatar,
                 contentDescription = "Avatar",
