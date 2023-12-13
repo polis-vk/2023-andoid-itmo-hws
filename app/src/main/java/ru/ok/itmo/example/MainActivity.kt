@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private var state = State.THREAD
+    private val timer = Timer(sleepTime)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +26,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val progress = findViewById<ProgressBar>(R.id.progress_bar)
         progress.max = sleepTime.toInt()
         resetButton.isEnabled = false
-
-        val timer = Timer(sleepTime)
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             sleepTime = when(checkedId) {
@@ -69,5 +68,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             progress.progress = 0
             timer.reset()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.end()
     }
 }

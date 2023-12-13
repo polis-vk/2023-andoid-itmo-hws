@@ -3,6 +3,7 @@ package ru.ok.itmo.example
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class Timer(var sleepTime: Long) {
@@ -14,18 +15,19 @@ class Timer(var sleepTime: Long) {
         set(value) = synchronized(this) { field = value }
 
     private var disposable: Disposable? = null
+    private var thread: Thread? = null
 
 
     fun threadRunner(completion: (Int) -> Unit) {
         isReset = false
-        val thread = Thread {
+        thread = Thread {
             while (!isReset && current < 100) {
                 Thread.sleep(sleepTime)
                 current++
                 completion(current)
             }
         }
-        thread.start()
+        thread?.start()
     }
 
     fun observableRunner(completion: (Int) -> Unit) {
@@ -41,8 +43,14 @@ class Timer(var sleepTime: Long) {
         disposable?.dispose()
     }
 
+    fun end() {
+        reset()
+        thread?.interrupt()
+    }
+
     private fun observeOnMain(completion: (Int) -> Unit){
         disposable = Observable.interval(sleepTime, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .takeWhile { !isReset && current < 100 }
             .subscribe {
