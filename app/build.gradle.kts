@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "ru.ok.itmo.compose_playground"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ru.ok.itmo.compose_playground"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.activity.ktx)
     debugImplementation(libs.ui.tooling.preview)
 
     implementation(libs.material3)

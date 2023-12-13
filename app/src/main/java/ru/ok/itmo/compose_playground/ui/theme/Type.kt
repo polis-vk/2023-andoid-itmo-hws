@@ -32,3 +32,19 @@ val Typography = Typography(
     )
     */
 )
+
+object AppTextStyle {
+    val title17Medium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 17.sp,
+        lineHeight = 20.sp,
+    )
+
+    val text15 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp,
+        lineHeight = 18.sp,
+    )
+}

@@ -1,8 +1,10 @@
 package ru.ok.itmo.compose_playground
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,11 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.ok.itmo.compose_playground.ui.theme.Compose_playgroundTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             Compose_playgroundTheme {
                 // A surface container using the 'background' color from the theme
@@ -22,7 +26,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    ProfileScreen(
+                        viewModel = viewModel(),
+                        onBack = {
+                            onBackPressedDispatcher.onBackPressed()
+                        },
+                        onSectionClicked = {
+                            Toast.makeText(peekAvailableContext(), it.text, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    )
                 }
             }
         }
@@ -39,7 +52,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+private fun GreetingPreview() {
     Compose_playgroundTheme {
         Greeting("Android")
     }
