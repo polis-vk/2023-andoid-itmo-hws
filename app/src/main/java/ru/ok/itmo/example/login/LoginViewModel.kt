@@ -3,6 +3,8 @@ package ru.ok.itmo.example.login
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,14 +12,18 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.ok.itmo.example.login.repository.LoginRepository
+import ru.ok.itmo.example.login.repository.UserDataRepository
 import ru.ok.itmo.example.login.retrofit.models.UserCredentials
 import ru.ok.itmo.example.login.repository.UserXAuthToken
 import java.lang.IllegalStateException
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val userDataRepository: UserDataRepository
+) : ViewModel() {
     private val repository = LoginRepository();
     private var xAuthToken: UserXAuthToken? = null
-    private var isLogin: Boolean = false
 
     private val _state = MutableStateFlow<LoginState>(LoginState.Started)
     val state = _state.asStateFlow()
@@ -30,10 +36,12 @@ class LoginViewModel : ViewModel() {
         Log.d(LoginFragment.TAG, "login: $login, password: $password")
         viewModelScope.launch(Dispatchers.IO) {
             _state.emit(LoginState.Loading)
-            repository.login(UserCredentials(login, password)).onSuccess {
-                isLogin = true
+            val credentials = UserCredentials(login, password)
+            repository.login(credentials).onSuccess {
                 xAuthToken = it
                 Log.i(LoginFragment.TAG, "AccessToken: $it")
+                userDataRepository.login(it, credentials)
+                Log.d(LoginFragment.TAG, userDataRepository.getLogin())
                 _state.emit(LoginState.Success(it))
                 _effect.emit(LoginEvents.Navigate)
             }.onFailure {
@@ -51,7 +59,7 @@ class LoginViewModel : ViewModel() {
             }
             repository.logout(xAuthToken!!).onSuccess {
                 Log.i(LoginFragment.TAG, "Logout with token: $xAuthToken")
-                isLogin = false
+                userDataRepository.logout()
             }.onFailure {
                 Log.d(LoginFragment.TAG, it.message.toString())
                 throw it
@@ -60,7 +68,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun isLogin(): Boolean {
-        return isLogin
+        return userDataRepository.isLoggedIn()
     }
 
     fun getAuthToken(): UserXAuthToken? {

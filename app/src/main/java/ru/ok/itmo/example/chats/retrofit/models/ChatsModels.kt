@@ -23,3 +23,5 @@ data class Text(
 data class Image(
     @SerializedName("link") var link: String
 )
+
+typealias ChannelId = String
