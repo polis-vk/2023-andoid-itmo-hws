@@ -53,4 +53,9 @@ class ChatsRepository @Inject constructor(
             .flowOn(Dispatchers.IO)
 
     }
+
+    @WorkerThread
+    fun sendMessage(userXAuthToken: UserXAuthToken, message: Message): Flow<Void> {
+        return remoteDataSource.sendMessage(userXAuthToken, message)
+    }
 }

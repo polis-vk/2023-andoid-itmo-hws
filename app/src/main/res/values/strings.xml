@@ -9,4 +9,8 @@
     <string name="login_failure_toast">Login failure</string>
     <string name="change_custom_view_button">Change custom view</string>
     <string name="change_custom_view_background_button">Change custom view background</string>
+    <string name="chats">Чаты</string>
+    <string name="error_loading_chats_message">Ошибка загрузки чатов</string>
+    <string name="empty_chats_list_message">Чаты отсутствуют</string>
+    <string name="image_message">Изображение</string>
 </resources>

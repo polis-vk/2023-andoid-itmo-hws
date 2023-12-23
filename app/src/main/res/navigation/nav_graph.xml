@@ -26,5 +26,13 @@
         android:id="@+id/chatsFragment"
         android:name="ru.ok.itmo.example.chats.ChatsFragment"
         android:label="chats_fragment"
-        tools:layout="@layout/chats_fragment" />
+        tools:layout="@layout/chats_fragment" >
+        <action
+            android:id="@+id/action_chatsFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="ru.ok.itmo.example.chats.chat.ChatFragment"
+        android:label="ChatFragment" />
 </navigation>

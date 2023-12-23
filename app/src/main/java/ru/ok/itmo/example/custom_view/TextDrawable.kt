@@ -11,7 +11,7 @@ class TextDrawable : Drawable() {
 
     companion object {
         private const val DEFAULT_BORDER_WIDTH_DP = 2f
-        private const val TEXT_SIZE = 150f
+        private const val TEXT_SIZE = 130f
         private const val TEXT_COLOR = Color.WHITE
         private const val BACKGROUND_COLOR = Color.BLACK
     }

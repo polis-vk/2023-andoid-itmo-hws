@@ -84,10 +84,16 @@ class AvatarCustomView @JvmOverloads constructor(
         this.text = text
 
         if (!text.isNullOrBlank()) {
-            textDrawable.text = text
+            textDrawable.text = getInitials(text)
             setImageDrawable(textDrawable)
         }
         invalidate()
+    }
+
+    private fun getInitials(text: String): String {
+        return text.split(" ".toRegex())
+            .take(2)
+            .joinToString("") { it[0].uppercase() }
     }
 
     fun setImage(bitmap: Bitmap) {

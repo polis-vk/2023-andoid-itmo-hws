@@ -27,4 +27,8 @@ class MessageRemoteDataSource @Inject constructor(
         emit(chatsAPI.getImage(url))
     }
 
+    fun sendMessage(userXAuthToken: UserXAuthToken, message: Message): Flow<Void> = flow {
+        emit(chatsAPI.sendMessage(userXAuthToken, message))
+    }
+
 }
