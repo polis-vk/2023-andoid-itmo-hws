@@ -25,19 +25,19 @@ import ru.ok.itmo.example.chats.retrofit.models.getChat
 class ChatsFragment : Fragment() {
     companion object {
         const val TAG = "CHATS_FRAGMENT"
+        val colors = arrayListOf(
+            R.color.teal_700,
+            R.color.active_field,
+            R.color.green,
+            R.color.black,
+            R.color.purple_500,
+            R.color.purple_200,
+            R.color.teal_200,
+        )
     }
 
     private val chatsViewModel by viewModels<ChatsViewModel>()
     private val chats = mutableSetOf<String>()
-    private val colors = arrayListOf(
-        R.color.teal_700,
-        R.color.active_field,
-        R.color.green,
-        R.color.black,
-        R.color.purple_500,
-        R.color.purple_200,
-        R.color.teal_200,
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +45,11 @@ class ChatsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.chats_fragment, container, false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        chats.clear()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
