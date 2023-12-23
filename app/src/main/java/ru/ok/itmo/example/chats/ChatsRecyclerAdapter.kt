@@ -15,10 +15,12 @@ import ru.ok.itmo.example.custom_view.AvatarCustomView
 class ChatsRecyclerAdapter(
     private val lastMessages: List<Message>,
     private val userLogin: String,
-    private val backgroundColor: Int,
+    private val backgroundColors: List<Int>,
     private val chatAvatar: Bitmap?,
     private val onClick: (message: Message) -> Unit
 ) : RecyclerView.Adapter<ChatsRecyclerAdapter.MessageHolder>() {
+
+    private var lastColor = 0
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MessageHolder {
         val holder = LayoutInflater.from(viewGroup.context)
@@ -28,7 +30,7 @@ class ChatsRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
-        holder.bind(lastMessages[position], userLogin, backgroundColor, chatAvatar, onClick)
+        holder.bind(lastMessages[position], userLogin, getNewColor(), chatAvatar, onClick)
     }
 
     override fun getItemCount(): Int {
@@ -62,5 +64,10 @@ class ChatsRecyclerAdapter(
 
             root.setOnClickListener { onClick(message) }
         }
+    }
+
+    private fun getNewColor(): Int {
+        if (lastColor == backgroundColors.size) lastColor = 0
+        return backgroundColors[lastColor++]
     }
 }

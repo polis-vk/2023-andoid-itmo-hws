@@ -13,4 +13,14 @@
     <string name="error_loading_chats_message">Ошибка загрузки чатов</string>
     <string name="empty_chats_list_message">Чаты отсутствуют</string>
     <string name="image_message">Изображение</string>
+    <string name="chat_already_exist_error">Чат уже создан</string>
+    <string name="common_login">kok</string>
+    <string name="input_message_hint">Текст сообщения</string>
+    <string name="default_time">00:57</string>
+    <string name="long_message">
+        Две столовые ложки мёда.  Или полторы.  Смотря как насыщенность хочешь.   Если горчица есть. То вообще хорошо.  Чайную ложку горчицы  соевый соус на вид. Залить, что все крылья  были им облиты
+    </string>
+    <string name="short_message">Соль</string>
+    <string name="message_loading_failure">Ошибка загрузки сообщений</string>
+    <string name="empty_message_list">Сообщений пока нет, но вы можете это исправить</string>
 </resources>

@@ -13,4 +13,6 @@
 
     <color name="white">#FFFFFFFF</color>
     <color name="field_wrapper">#FF84848E</color>
+    <color name="secondary">#D7D7DB</color>
+    <color name="white_time_color">#84848E</color>
 </resources>

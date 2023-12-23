@@ -2,7 +2,6 @@ package ru.ok.itmo.example.chats.repository
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -10,12 +9,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import ru.ok.itmo.example.chats.ChatsFragment
 import ru.ok.itmo.example.chats.retrofit.models.ChannelId
 import ru.ok.itmo.example.chats.retrofit.models.Message
 import ru.ok.itmo.example.login.repository.UserXAuthToken
 import javax.inject.Inject
-import kotlin.RuntimeException
 
 class ChatsRepository @Inject constructor(
     private val localDataSource: MessagesLocalDataSource,
@@ -37,7 +34,7 @@ class ChatsRepository @Inject constructor(
     @WorkerThread
     fun getImage(url: String): Flow<Bitmap> {
         return remoteDataSource.getImage(url)
-            .map { url -> BitmapFactory.decodeStream(url.byteStream()) }
+            .map { res -> BitmapFactory.decodeStream(res.byteStream()) }
     }
 
     @WorkerThread
@@ -55,7 +52,7 @@ class ChatsRepository @Inject constructor(
     }
 
     @WorkerThread
-    fun sendMessage(userXAuthToken: UserXAuthToken, message: Message): Flow<Void> {
-        return remoteDataSource.sendMessage(userXAuthToken, message)
+    fun sendMessage(userXAuthToken: UserXAuthToken, message: Message): Flow<Int> {
+        return remoteDataSource.sendMessage(userXAuthToken, message).flowOn(Dispatchers.IO)
     }
 }

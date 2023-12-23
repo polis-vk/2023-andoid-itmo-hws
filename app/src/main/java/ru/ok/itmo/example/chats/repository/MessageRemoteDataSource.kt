@@ -2,7 +2,6 @@ package ru.ok.itmo.example.chats.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import okhttp3.ResponseBody
 import retrofit2.http.Url
 import ru.ok.itmo.example.chats.retrofit.ChatsAPI
@@ -27,7 +26,7 @@ class MessageRemoteDataSource @Inject constructor(
         emit(chatsAPI.getImage(url))
     }
 
-    fun sendMessage(userXAuthToken: UserXAuthToken, message: Message): Flow<Void> = flow {
+    fun sendMessage(userXAuthToken: UserXAuthToken, message: Message): Flow<Int> = flow {
         emit(chatsAPI.sendMessage(userXAuthToken, message))
     }
 

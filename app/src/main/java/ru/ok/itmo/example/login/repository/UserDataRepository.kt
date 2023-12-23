@@ -1,13 +1,14 @@
 package ru.ok.itmo.example.login.repository
 
+import android.graphics.Bitmap
 import ru.ok.itmo.example.login.retrofit.models.UserCredentials
-import java.lang.IllegalStateException
 
 class UserDataRepository {
     companion object {
         private var userXAuthToken: UserXAuthToken = ""
         private var userCredentials: UserCredentials? = null
         private var currentChat: String = ""
+        private val chatAvatarImage: Bitmap? = null
     }
 
     fun login(userXAuthToken: UserXAuthToken, userCredentials: UserCredentials) {
@@ -29,22 +30,20 @@ class UserDataRepository {
         return userCredentials?.name ?: throw RuntimeException("User not found")
     }
 
-    fun openChat(chatName: String) {
-        if (currentChat.isNotBlank()) {
-            throw IllegalStateException("Can't open $chatName chat because chat $currentChat has already open")
-        }
+    fun openChat(chatName: String, avatar: Bitmap? = null) {
         currentChat = chatName
     }
 
     fun closeChat() {
-        if (currentChat.isBlank()) {
-            throw IllegalStateException("Can't found open chats")
-        }
         currentChat = ""
     }
 
     fun getCurrentChat(): String {
         return currentChat
+    }
+
+    fun getCurrentChatImage(): Bitmap? {
+        return chatAvatarImage
     }
 
     fun getPassword(): String {

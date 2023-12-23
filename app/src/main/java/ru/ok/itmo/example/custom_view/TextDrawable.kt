@@ -17,7 +17,7 @@ class TextDrawable : Drawable() {
     }
 
     var text: String = "kok"
-    var paint = Paint().apply {
+    private var paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         textSize = TEXT_SIZE
         textAlign = Paint.Align.CENTER

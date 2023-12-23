@@ -11,39 +11,34 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.ok.itmo.example.chats.repository.ChatsRepository
 import ru.ok.itmo.example.chats.repository.ImageState
 import ru.ok.itmo.example.chats.retrofit.models.ChannelId
-import ru.ok.itmo.example.chats.retrofit.models.Data
 import ru.ok.itmo.example.chats.retrofit.models.Message
-import ru.ok.itmo.example.chats.retrofit.models.Text
 import ru.ok.itmo.example.login.repository.UserDataRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatsViewModel @Inject constructor(
+class ChatViewModel @Inject constructor(
     private val chatsRepository: ChatsRepository,
     private val userDataRepository: UserDataRepository
 ) : ViewModel() {
     private val _messages = MutableStateFlow<MessagesState>(MessagesState.Loading)
     val messages = _messages.asStateFlow()
 
-    private val _images = MutableStateFlow<ImageState>(ImageState.Started)
+    private val _images = MutableStateFlow<ImageState>(ImageState.Loading)
     val images = _images.asStateFlow()
 
     private val _effects = MutableSharedFlow<ChatListEffect>()
     val effects = _effects.asSharedFlow()
 
-    fun getUserMessages() {
+    fun getMessages() {
         viewModelScope.launch(Dispatchers.IO) {
-            _messages.emit(MessagesState.Loading)
-            chatsRepository.getUserMessages(
-                userDataRepository.getToken(),
-                userDataRepository.getLogin()
-            )
+            chatsRepository.getMessages(getCurrentChat())
                 .onStart { _messages.emit(MessagesState.Loading) }
                 .catch {
                     withContext(Dispatchers.Main) {
@@ -55,11 +50,17 @@ class ChatsViewModel @Inject constructor(
                     }
                 }
                 .collect {
-                    Log.d(ChatsFragment.TAG, "Get messages " + it.toTypedArray().contentDeepToString())
-                    if (it.isNotEmpty()) {
-                        _messages.emit(MessagesState.Success(it))
-                    }
+                    _messages.emit(MessagesState.Success(it))
                 }
+        }
+    }
+
+    fun sendMessage(message: Message) {
+        viewModelScope.launch(Dispatchers.IO) {
+            chatsRepository.sendMessage(userDataRepository.getToken(), message).collect {
+                Log.d(ChatsFragment.TAG, "Send message $it")
+                _effects.emit(ChatEffect.ReloadChatList)
+            }
         }
     }
 
@@ -69,26 +70,6 @@ class ChatsViewModel @Inject constructor(
                 .onStart { _images.emit(ImageState.Loading) }
                 .collect { _images.emit(ImageState.Success(it)) }
         }
-    }
-
-    fun createNewChat(chatName: String) {
-        val greetingMessage =
-            Message(
-                "-1",
-                userDataRepository.getLogin(),
-                chatName,
-                Data(Text("Hello $chatName"), null),
-                null
-            )
-
-        viewModelScope.launch(Dispatchers.IO) {
-            chatsRepository.sendMessage(userDataRepository.getToken(), greetingMessage)
-                .collect { _effects.emit(ChatListEffect.ReloadChatList) }
-        }
-    }
-
-    fun openChat(chatName: String) {
-        userDataRepository.openChat(chatName)
     }
 
     fun closeChat() {
@@ -108,6 +89,6 @@ class ChatsViewModel @Inject constructor(
     }
 }
 
-sealed interface ChatListEffect {
+sealed interface ChatEffect {
     object ReloadChatList : ChatListEffect
 }

@@ -85,6 +85,9 @@ class AvatarCustomView @JvmOverloads constructor(
 
         if (!text.isNullOrBlank()) {
             textDrawable.text = getInitials(text)
+            if (textDrawable.text.length > 1) {
+                textDrawable.setTextSize(90f)
+            }
             setImageDrawable(textDrawable)
         }
         invalidate()

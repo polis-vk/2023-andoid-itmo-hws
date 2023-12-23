@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.fragment.app.Fragment
@@ -19,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.ok.itmo.example.R
-import ru.ok.itmo.example.chats.retrofit.models.ChannelId
 import ru.ok.itmo.example.chats.retrofit.models.Message
 import ru.ok.itmo.example.chats.retrofit.models.getChat
 
@@ -32,13 +30,13 @@ class ChatsFragment : Fragment() {
     private val chatsViewModel by viewModels<ChatsViewModel>()
     private val chats = mutableSetOf<String>()
     private val colors = arrayListOf(
+        R.color.teal_700,
+        R.color.active_field,
         R.color.green,
         R.color.black,
-        R.color.active_field,
-        R.color.purple_200,
         R.color.purple_500,
+        R.color.purple_200,
         R.color.teal_200,
-        R.color.teal_700,
     )
 
     override fun onCreateView(
@@ -82,7 +80,7 @@ class ChatsFragment : Fragment() {
                         recyclerView.adapter = ChatsRecyclerAdapter(
                             lastMessages,
                             chatsViewModel.getCurrentUser(),
-                            getNewColor(),
+                            colors,
                             null
                         ) { message ->
                             chatsViewModel.openChat(message.getChat(chatsViewModel.getCurrentUser()))
@@ -108,18 +106,30 @@ class ChatsFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         chatsViewModel.getUserMessages()
 
+        chatsViewModel.effects.onEach {
+            when (it) {
+                is ChatListEffect.ReloadChatList -> chatsViewModel.getUserMessages()
+                else -> {
+                    throw UnsupportedOperationException("Unsupported chats effect")
+                }
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    }
-
-    private fun getNewColor(): Int {
-        return colors.random()
+        view.findViewById<ImageView>(R.id.avatar).setOnClickListener {
+            val chatName = "Kok's chat"
+            if (chats.contains(chatName)) {
+                Toast.makeText(requireActivity(), R.string.chat_already_exist_error, Toast.LENGTH_SHORT)
+            } else {
+                chatsViewModel.createNewChat(chatName)
+            }
+        }
     }
 
     private fun getLastChatsMessages(messages: List<Message>): List<Message> {
         return messages
             .groupingBy { it.getChat(chatsViewModel.getCurrentUser()) }
             .reduce { _, acc, m ->
-                maxOf(acc, m, compareBy { it.time })
+                maxOf(acc, m, compareBy { it.id })
             }.values.toList()
     }
 

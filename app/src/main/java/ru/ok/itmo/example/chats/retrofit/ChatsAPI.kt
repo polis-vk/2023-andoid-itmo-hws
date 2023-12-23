@@ -1,11 +1,9 @@
 package ru.ok.itmo.example.chats.retrofit
 
-import android.view.View
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Url
@@ -27,7 +25,7 @@ interface ChatsAPI {
 
     @POST("/messages")
     suspend fun sendMessage(
-        @Header("X-Auth-Token") token: UserXAuthToken,
+        @Header("X-Auth-Token") userXAuthToken: UserXAuthToken,
         @Body message: Message
-    ): Void
+    ): Int
 }

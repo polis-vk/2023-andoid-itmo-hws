@@ -16,8 +16,6 @@ import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.login_fragment) {
@@ -30,7 +28,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             loginViewModel.logout()
         }
 
-        val loginField = view.findViewById<TextInputEditText>(R.id.loginInputEdit)
+        val loginField = view.findViewById<TextInputEditText>(R.id.messageInputEdit)
         val passwordField = view.findViewById<TextInputEditText>(R.id.passwordInputEdit)
         val loginButton = view.findViewById<Button>(R.id.login_button)
         loginButton.isEnabled = false
