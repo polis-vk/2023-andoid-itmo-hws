@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 
 class ComponentFragment : Fragment() {
     private lateinit var name: String
     private var backstack: Int = -1
+    private var rnd: Int? = null
     private lateinit var randomProvider: RandomProviderViewModel
     private val frameTitle: String
         get() = "$name:$backstack"
@@ -21,6 +24,7 @@ class ComponentFragment : Fragment() {
 
         name = requireArguments().getString("name") ?: "Frame"
         backstack = requireArguments().getInt("backstack")
+        rnd = savedInstanceState?.getInt("rnd")
     }
 
     override fun onCreateView(
@@ -38,9 +42,24 @@ class ComponentFragment : Fragment() {
         view.findViewById<TextView>(R.id.fragment_name).text = frameTitle
 
         randomProvider.currentValue.observe(requireActivity()) {
-            view.findViewById<TextView>(R.id.random_number).text = "$it"
+            rnd = rnd ?: it
+            view.findViewById<TextView>(R.id.random_number).text = "$rnd"
         }
 
-        view.findViewById<Button>(R.id.next).setOnClickListener { (requireActivity() as NavigationActivity).navigate(name) }
+        view.findViewById<Button>(R.id.next).setOnClickListener {
+            (requireActivity().supportFragmentManager.findFragmentByTag(NAVIGATION) as NavigationFragment).navigate(name)
+        }
+
+        setFragmentResult(FRAGMENTS_COUNT, bundleOf(FRAGMENTS_COUNT to true))
+    }
+
+    override fun onDestroyView() {
+        setFragmentResult(FRAGMENTS_COUNT, bundleOf(FRAGMENTS_COUNT to false))
+        super.onDestroyView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("rnd", rnd ?: 0)
     }
 }

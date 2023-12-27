@@ -42,4 +42,5 @@ dependencies {
     // duplicated class problem
     // https://stackoverflow.com/questions/75239367/android-studio-says-duplicate-class-found
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 }
