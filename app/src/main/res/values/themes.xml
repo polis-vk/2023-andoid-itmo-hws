@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light">
+    <style name="Theme.Itmoexample" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/active</item>
         <item name="colorPrimaryVariant">@color/disabled</item>
@@ -13,17 +13,17 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="title" parent="Theme.AppCompat.Light">
+    <style name="title" parent="Theme.Itmoexample">
         <item name="android:textSize">32sp</item>
     </style>
-    <style name="inputField" parent="Theme.AppCompat.Light">
+    <style name="inputField" parent="Theme.Itmoexample">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/large</item>
         <item name="android:padding">5dp</item>
     </style>
-    <style name="inputFieldWrapper" parent="Theme.AppCompat.Light">
+    <style name="inputFieldWrapper" parent="Theme.Itmoexample">
         <item name="android:layout_marginVertical">10dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -31,7 +31,7 @@
         <item name="android:textSize">@dimen/large</item>
         <item name="android:background">@drawable/input_field_active</item>
     </style>
-    <style name="button" parent="Theme.AppCompat.Light">
+    <style name="button" parent="Theme.Itmoexample">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>

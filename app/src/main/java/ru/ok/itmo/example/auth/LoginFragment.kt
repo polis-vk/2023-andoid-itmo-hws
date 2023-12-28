@@ -1,16 +1,15 @@
 package ru.ok.itmo.example.auth
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
-import ru.ok.itmo.example.MainActivity
 import ru.ok.itmo.example.R
 import ru.ok.itmo.example.main.HomeFragment
 import ru.ok.itmo.example.utils.disable
@@ -20,10 +19,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as MainActivity).supportActionBar?.run {
-            title = resources.getString(R.string.login_header)
-            setBackgroundDrawable(ColorDrawable(requireActivity().getColor(R.color.white)))
-        }
+        view.findViewById<ImageView>(R.id.backwards).setOnClickListener { requireActivity().onBackPressed() }
 
         val login = view.findViewById<TextInputEditText>(R.id.login)
         val password = view.findViewById<TextInputEditText>(R.id.password)
