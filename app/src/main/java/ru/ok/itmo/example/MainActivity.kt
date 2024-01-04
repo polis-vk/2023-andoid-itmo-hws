@@ -2,14 +2,15 @@ package ru.ok.itmo.example
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var buttonStart: Button
@@ -30,10 +31,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
-    fun getCount(): Int {
+    fun getCount(): Long {
         val selectedOption: Int = radioGroup.checkedRadioButtonId
         val radioButton = findViewById<RadioButton>(selectedOption)
-        return (radioButton.text as String).toInt()
+        return (radioButton.text as String).toLong()
     }
 
     fun withThread() {
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         Thread {
                 for (n in 1..countLoad) {
                     runOnUiThread {
-                        progressBar.progress = n * 100 / countLoad
+                        progressBar.progress = (n * 100 / countLoad).toInt()
                         textCount.text = "$n"
                     }
                     Thread.sleep(100)
@@ -55,16 +56,29 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @SuppressLint("CheckResult")
     fun withObserver() {
         val countLoad = getCount()
-        Observable.range(1, countLoad)
-            .concatMap { number: Int -> Observable.just(number).delay(100, TimeUnit.MILLISECONDS) }
+        Observable.interval(countLoad, TimeUnit.MILLISECONDS)
+            .takeWhile { progressBar.progress != 100 }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { value ->
-                    runOnUiThread {
-                        progressBar.progress = value * 100 / countLoad
-                        textCount.text = "$value"
+                object : Observer<Long> {
+                    override fun onNext(long: Long) {
+                        progressBar.incrementProgressBy(1)
+                        textCount.text = "${progressBar.progress}"
                     }
-                },
-                { error -> System.err.println("Error: " + error.stackTrace) }
-            ) { runOnUiThread { buttonStart.isEnabled = true } }
+
+                    override fun onSubscribe(d: Disposable) {
+                        progressBar.progress = 0
+                    }
+
+                    override fun onError(e: Throwable) {
+                        System.err.println("Error: " + e.stackTrace)
+                    }
+
+                    override fun onComplete() {
+                        buttonStart.isEnabled = true
+                    }
+                }
+            )
     }
 }
