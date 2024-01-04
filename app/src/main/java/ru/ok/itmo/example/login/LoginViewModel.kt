@@ -15,6 +15,16 @@ class LoginViewModel: ViewModel() {
     val state = _state.asStateFlow()
 
 
+    fun loginCheck(loginText: String, passwordText: String) {
+        if (correctCheck(loginText, passwordText)) {
+            login(LoginData(loginText, passwordText))
+        } else {
+            viewModelScope.launch {
+                _state.emit(LoginState.Incorrect)
+            }
+        }
+    }
+
     fun login(loginData: LoginData) {
         viewModelScope.launch {
             _state.emit(LoginState.Started)
@@ -35,6 +45,25 @@ class LoginViewModel: ViewModel() {
                 _state.emit(LoginState.Error(e))
             }
         }
+    }
+
+    private fun correctCheck(login: String, password: String): Boolean {
+        if (login.isEmpty()) {
+            return false
+        } else if (password.isEmpty()) {
+            return false
+        } else if (!loginIsCorrect(login)) {
+            return false
+        } else return passwordIsCorrect(password)
+    }
+
+    private fun loginIsCorrect(login: String): Boolean {
+        return login.length >= 3
+    }
+
+    private fun passwordIsCorrect(password: String): Boolean {
+        return password.length > 6 && password.lowercase() != password
+                && password.uppercase() != password
     }
 
 }
