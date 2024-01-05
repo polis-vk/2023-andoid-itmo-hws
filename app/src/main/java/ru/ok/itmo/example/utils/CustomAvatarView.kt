@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
+import ru.ok.itmo.example.R
 import kotlin.math.min
 import kotlin.random.Random
 
@@ -19,7 +20,8 @@ class CustomAvatarView @JvmOverloads constructor(
     private var textSizeW: Int = 0
     private var textSizeH: Int = 0
     private var text: String = ""
-
+    private val circle = RectF()
+    private val avatarViewUtils: AvatarViewUtils = AvatarViewUtils()
 
     init {
         backgroundColor =
@@ -31,10 +33,8 @@ class CustomAvatarView @JvmOverloads constructor(
         fillPaint.color = backgroundColor
 
         textPaint.color = Color.WHITE
-        textPaint.textSize = 40f
+        textPaint.textSize = resources.getDimension(R.dimen._40dp)
     }
-
-    private val circle = RectF()
 
 
     fun setBgColor(@ColorRes colorId: Int) {
@@ -45,10 +45,7 @@ class CustomAvatarView @JvmOverloads constructor(
 
     fun setText(text: String) {
         if (text.isNotBlank()) {
-            val title = text.split(" ".toRegex())
-                .take(2)
-                .joinToString("") { it[0].uppercase() }
-
+            val title = avatarViewUtils.getTitle(text)
             val bounds = Rect()
             textPaint.getTextBounds(title, 0, title.length, bounds)
 

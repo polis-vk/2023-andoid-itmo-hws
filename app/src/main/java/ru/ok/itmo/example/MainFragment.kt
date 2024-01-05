@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.onEach
@@ -22,7 +23,7 @@ import ru.ok.itmo.example.login.LoginViewModel
 
 class MainFragment : Fragment(R.layout.main_fragment) {
 
-    private val loginViewModel by viewModels<LoginViewModel>()
+    private lateinit var loginViewModel: LoginViewModel
     private val messageViewModel by viewModels<MessagesViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,10 +34,11 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         val textInfo = view.findViewById<TextView>(R.id.textInfo)
         progressBar.isVisible = true
 
+        loginViewModel = ViewModelProvider(requireActivity())[LoginViewModel::class.java]
         view.findViewById<Button>(R.id.signOut).setOnClickListener {
             loginViewModel.logout()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LoginFragment())
+                .replace(R.id.fragment_container, StartedFragment())
                 .commit()
         }
 

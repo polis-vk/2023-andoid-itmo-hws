@@ -9,4 +9,5 @@
     <color name="red">#FFFF3F3F</color>
     <color name="white">#FFFFFFFF</color>
     <color name="input_background">#ECECEC</color>
+    <color name="color_field_login">#F9F9F9</color>
 </resources>

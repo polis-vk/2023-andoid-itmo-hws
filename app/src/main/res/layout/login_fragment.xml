@@ -28,7 +28,7 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login"
                 style="@style/inputField"
-                android:background="@color/white"
+                android:background="@color/color_field_login"
                 android:hint="@string/login_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,7 +43,7 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
                 style="@style/inputField"
-                android:background="@color/white"
+                android:background="@color/color_field_login"
                 android:hint="@string/login_password"
                 android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
