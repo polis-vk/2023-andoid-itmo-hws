@@ -17,7 +17,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         view.findViewById<AppCompatImageButton>(R.id.signOut).setOnClickListener {
             viewModel.logout()
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LoginFragment())
+                .replace(R.id.fragment_container, StartedFragment())
                 .commit()
         }
     }

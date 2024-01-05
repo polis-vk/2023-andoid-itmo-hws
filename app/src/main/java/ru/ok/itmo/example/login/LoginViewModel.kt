@@ -41,6 +41,7 @@ class LoginViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 loginManager.logout(authTokenData!!)
+                _state.emit(LoginState.Started)
             } catch (e: Throwable) {
                 _state.emit(LoginState.Error(e))
             }

@@ -8,8 +8,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, StartedFragment())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, StartedFragment())
+                .commit()
+        }
     }
 }
