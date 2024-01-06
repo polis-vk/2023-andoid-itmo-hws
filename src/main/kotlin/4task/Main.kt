@@ -1,17 +1,12 @@
 package `4task`
 
-import java.util.concurrent.Executors
-import kotlin.math.pow
-import kotlin.random.Random
-import java.util.concurrent.Callable
-
 fun main(args: Array<String>) {
     val container = ValContainer()
     val sycRunnable = Runnable {
-        synchronized(container) {
-            // 1000 слишком мало, наверное, успевают обработаться за такт и разницы нет,
-            // а так разница ощутима
-            for (i in (1..2000)) {
+        // 1000 слишком мало, наверное, успевают обработаться за квант и разницы нет,
+        // а так разница ощутима
+        for (i in (1..2000)) {
+            synchronized(container) {
                 container.inc()
             }
         }

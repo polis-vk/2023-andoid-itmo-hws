@@ -3,11 +3,7 @@ package `1task`
 fun main(args: Array<String>) {
     val arr = Array<Int>(10) {i -> (0..1000).random()}
     val sumThread = Thread(SumArrRun(arr))
-    for (gg in arr) {
-        print(gg)
-        print(" ")
-    }
-    println()
+    println(arr.joinToString(separator = " "))
     sumThread.start()
 }
 

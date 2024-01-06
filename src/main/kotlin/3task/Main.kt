@@ -1,39 +1,29 @@
 package `3task`
 
-import java.util.concurrent.Executors
-import kotlin.math.pow
-import kotlin.random.Random
-import java.util.concurrent.Callable
+import java.util.concurrent.locks.ReentrantLock
+
 
 fun main(args: Array<String>) {
-    val threadA = Thread {
-        A.methodA()
-    }
-    val threadB = Thread {
-        B.methodB()
-    }
-    threadA.start()
-    threadB.start()
-}
+    // Это, наверное, единственное, что я придумал без sleep(), но у меня точно нет идей
+    val a = ReentrantLock()
+    val b = ReentrantLock()
 
-object A{
-    @Synchronized
-    fun methodA() {
-        print(Thread.currentThread())
-        println(" in methodA")
-        Thread.sleep(1000L)
-        B.methodB()
-        println("Success")
+    val thread1 = Thread {
+        a.lock()
+        b.lock()
+        println("Я тоже всё захватил")
+        a.unlock()
+        b.unlock()
     }
-}
+    val thread2 = Thread {
+        b.lock()
+        a.lock()
+        println("Я всё захватил")
+        thread1.start()
+        thread1.join()
+        b.unlock()
+        a.unlock()
+    }
 
-object B{
-    @Synchronized
-    fun methodB() {
-        print(Thread.currentThread())
-        println(" in methodB")
-        Thread.sleep(1000L)
-        A.methodA()
-        println("Success")
-    }
+    thread2.start()
 }
