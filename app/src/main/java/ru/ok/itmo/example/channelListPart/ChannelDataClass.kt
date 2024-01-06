@@ -6,5 +6,5 @@ data class ChannelDataClass(
     val title: String,
     val last_message: String,
     val time: Date,//Под вопросом
-    //val image: String
+    val image_link: String
 )

@@ -45,7 +45,7 @@ class ChannelListModel {
                         is GetOneChannelMessagesState.Failed -> return GetChannelListState.Failed("Не удалось получить список сообщений для чата: $name")
                         is GetOneChannelMessagesState.Success -> {
                             val lastMessage = getMessages.messages[0] //Проверить, 0 или size()-1
-                            result.add(ChannelDataClass(name, lastMessage.data.Text.text, Date(lastMessage.time.toLong() * 1000)))
+                            result.add(ChannelDataClass(name, lastMessage.data.Text.text, Date(lastMessage.time.toLong() * 1000), ""))
                         }
                         else -> {}
                     }
