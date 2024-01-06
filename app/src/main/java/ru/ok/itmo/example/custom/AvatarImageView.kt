@@ -102,6 +102,8 @@ open class AvatarImageView @JvmOverloads constructor(
         } else {
             textDrawable.text = ""
         }
+
+        invalidate()
     }
 
     fun setImage(bitmap: Bitmap) {
