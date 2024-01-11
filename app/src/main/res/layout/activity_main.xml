@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    tools:context=".MainActivity"
     android:background="?attr/back_primary"
-    >
+    android:focusableInTouchMode="true"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,9 +23,8 @@
             android:fontFamily="@font/stem_bold"
             android:text="@string/login_message1"
             android:textColor="?attr/label_primary"
-            android:textSize="32sp"
             android:textDirection="locale"
-            />
+            android:textSize="32sp" />
 
     </LinearLayout>
 
@@ -41,10 +39,9 @@
         android:gravity="center"
         android:text="@string/login_message2"
         android:textColor="?attr/label_tertiary"
-        android:textSize="10sp"
-        tools:ignore="SmallSp"
         android:textDirection="locale"
-        />
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,17 +64,17 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:autofillHints="mail"
                 android:drawableEnd="@drawable/ic_email_white_24dp"
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/stem_regular"
                 android:hint="@string/email_hint"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textColor="?attr/label_primary"
+                android:textDirection="locale"
                 android:textSize="20sp"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
-                android:inputType="textEmailAddress"
-                android:autofillHints="mail"
-                android:textDirection="locale"/>
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -94,13 +91,13 @@
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/stem_regular"
                 android:hint="@string/password_hint"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="?attr/label_primary"
+                android:textDirection="locale"
                 android:textSize="20sp"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize"
-                android:importantForAutofill="no"
-                android:textDirection="locale"/>
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -108,15 +105,15 @@
             android:layout_height="64dp"
             android:gravity="center"
             android:orientation="horizontal">
+
             <CheckBox
                 android:id="@+id/checkBoxShowPassword"
-                android:buttonTint="?attr/label_tertiary"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
+                android:buttonTint="?attr/label_tertiary"
                 android:text="@string/show_password"
                 android:textColor="?attr/label_tertiary"
-                android:textDirection="locale"
-                />
+                android:textDirection="locale" />
         </LinearLayout>
 
         <LinearLayout
@@ -137,9 +134,9 @@
                 android:text="@string/login_button"
                 android:textAllCaps="false"
                 android:textColor="?attr/label_tertiary"
+                android:textDirection="locale"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textDirection="locale"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/themeToggleButton"
@@ -148,13 +145,12 @@
                 android:layout_marginStart="16dp"
                 android:background="@drawable/button_shape"
                 android:fontFamily="@font/stem_regular"
-                android:text= "@string/change_theme"
+                android:text="@string/change_theme"
                 android:textAllCaps="false"
                 android:textColor="?attr/label_tertiary"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:textDirection="locale"
-                />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

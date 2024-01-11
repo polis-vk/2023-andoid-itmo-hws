@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var editTextEmail: EditText
@@ -38,8 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         editTextPassword.setOnEditorActionListener(TextView.OnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE ||
-                    (event != null && event.action == KeyEvent.ACTION_DOWN &&
-                            event.keyCode == KeyEvent.KEYCODE_ENTER)
+                (event != null && event.action == KeyEvent.ACTION_DOWN &&
+                        event.keyCode == KeyEvent.KEYCODE_ENTER)
             ) {
                 performLogin()
                 return@OnEditorActionListener true
@@ -51,7 +52,8 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 editTextPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             } else {
-                editTextPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                editTextPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
         }
     }
@@ -83,15 +85,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showToast(messageResId: Int) {
-        android.widget.Toast.makeText(this, getString(messageResId), android.widget.Toast.LENGTH_SHORT).show()
+        android.widget.Toast.makeText(
+            this,
+            getString(messageResId),
+            android.widget.Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun toggleTheme() {
-        val newNightMode = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_NO -> AppCompatDelegate.MODE_NIGHT_YES
-            Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.MODE_NIGHT_NO
-            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
+        val newNightMode =
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_NO -> AppCompatDelegate.MODE_NIGHT_YES
+                Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.MODE_NIGHT_NO
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
 
         AppCompatDelegate.setDefaultNightMode(newNightMode)
         delegate.applyDayNight()

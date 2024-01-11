@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    tools:context=".MainActivity"
     android:background="?attr/back_primary"
-    >
+    android:focusableInTouchMode="true"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,9 +23,8 @@
             android:fontFamily="@font/stem_bold"
             android:text="@string/login_message1"
             android:textColor="?attr/label_primary"
-            android:textSize="32sp"
             android:textDirection="locale"
-            />
+            android:textSize="32sp" />
 
     </LinearLayout>
 
