@@ -19,7 +19,7 @@
     <color name="support_dark_overlay">#52000000</color>
     <color name="label_dark_primary">#FFFFFF</color>
     <color name="label_dark_secondary">#99FFFFFF</color>
-    <color name="label_dark_tertiary">#66FFFFFF</color>
+    <color name="label_dark_tertiary">#78909C</color>
     <color name="label_dark_disable">#26FFFFFF</color>
     <color name="color_dark_red">#FF453A</color>
     <color name="color_dark_green">#32D74B</color>
