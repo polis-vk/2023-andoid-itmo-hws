@@ -4,7 +4,7 @@
     <color name="support_light_overlay">#0F000000</color>
     <color name="label_light_primary">#000000</color>
     <color name="label_light_secondary">#99000000</color>
-    <color name="label_light_tertiary">#4D000000</color>
+    <color name="label_light_tertiary">#546E7A</color>
     <color name="label_light_disable">#26000000</color>
     <color name="color_light_red">#FF3B30</color>
     <color name="color_light_green">#34C759</color>
