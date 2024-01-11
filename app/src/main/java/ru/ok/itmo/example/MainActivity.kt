@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
+    val MIN_PASSWORD_LENGTH = 6
 
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
@@ -72,7 +73,8 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        if (password.length < 6) {
+
+        if (password.length < MIN_PASSWORD_LENGTH) {
             showToast(R.string.error_short_password)
             return
         }
