@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/stem_bold"
-            android:text="@string/login_message1"
+            android:text="@string/auth_screen_title"
             android:textColor="?attr/label_primary"
             android:textDirection="locale"
             android:textSize="32sp" />
@@ -37,7 +37,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/stem_bold"
         android:gravity="center"
-        android:text="@string/login_message2"
+        android:text="@string/auth_screen_content"
         android:textColor="?attr/label_tertiary"
         android:textDirection="locale"
         android:textSize="10sp"

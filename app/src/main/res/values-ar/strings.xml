@@ -9,7 +9,7 @@
     <string name="error_invalid_email">الرجاء إدخال عنوان بريد إلكتروني صحيح</string>
     <string name="error_short_password">يجب أن تحتوي كلمة المرور على ما لا يقل عن 6 أحرف</string>
     <string name="success_authorization">حدث تسجيل دخول ناجح!</string>
-    <string name="login_message1">اليوم الأكثر بهجة!</string>
-    <string name="login_message2">حاولت أن أجعل هذا التطبيق جميلا ويعمل؛)</string>
+    <string name="auth_screen_title">اليوم الأكثر بهجة!</string>
+    <string name="auth_screen_content">حاولت أن أجعل هذا التطبيق جميلا ويعمل؛)</string>
     <string name="change_theme">الموضوع</string>
 </resources>
