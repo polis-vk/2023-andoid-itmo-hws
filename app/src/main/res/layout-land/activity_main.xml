@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_small"
         android:fontFamily="@font/stem_bold"
-        android:gravity="center"
         android:text="@string/auth_screen_content"
         android:textColor="?attr/label_tertiary"
         android:textSize="@dimen/text_size_small"
@@ -53,7 +52,6 @@
             android:layout_height="wrap_content"
             android:autofillHints="mail"
             android:drawableEnd="@drawable/ic_email_white_24dp"
-            android:drawablePadding="@dimen/dimen_normal"
             android:fontFamily="@font/stem_regular"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
@@ -78,7 +76,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_lock_white_24dp"
-            android:drawablePadding="@dimen/dimen_normal"
             android:fontFamily="@font/stem_regular"
             android:hint="@string/password_hint"
             android:importantForAutofill="no"
@@ -106,7 +103,6 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:textDirection="locale"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayoutPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textInputLayoutEmail">
@@ -125,9 +121,7 @@
             android:textAllCaps="false"
             android:textColor="?attr/label_tertiary"
             android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/themeToggleButton"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/themeToggleButton"
@@ -143,9 +137,7 @@
             android:textAllCaps="false"
             android:textColor="?attr/label_tertiary"
             android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/buttonLogin" />
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
