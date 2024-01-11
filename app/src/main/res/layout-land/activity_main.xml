@@ -43,8 +43,7 @@
         android:theme="@style/EditScreenTextInputLayoutStyle"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayoutPassword"
         app:layout_constraintEnd_toStartOf="@+id/linearLayoutLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewContent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/editTextEmail"
