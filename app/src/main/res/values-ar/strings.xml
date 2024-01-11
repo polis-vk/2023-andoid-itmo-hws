@@ -7,7 +7,7 @@
     <string name="app_name">التفويض</string>
     <string name="error_empty_fields">الرجاء ملء جميع الحقول</string>
     <string name="error_invalid_email">الرجاء إدخال عنوان بريد إلكتروني صحيح</string>
-    <string name="error_short_password">يجب أن تحتوي كلمة المرور على ما لا يقل عن 6 أحرف</string>
+    <string name="error_short_password">يجب أن تحتوي كلمة المرور على ما لا يقل عن %1$d أحرف</string>
     <string name="success_authorization">حدث تسجيل دخول ناجح!</string>
     <string name="auth_screen_title">اليوم الأكثر بهجة!</string>
     <string name="auth_screen_content">حاولت أن أجعل هذا التطبيق جميلا ويعمل؛)</string>

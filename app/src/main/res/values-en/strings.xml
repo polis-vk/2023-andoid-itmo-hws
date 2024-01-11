@@ -7,7 +7,7 @@
     <string name="app_name">Authorization</string>
     <string name="error_empty_fields">Please fill in all fields</string>
     <string name="error_invalid_email">Please enter a valid email address</string>
-    <string name="error_short_password">Password must be at least 6 characters long</string>
+    <string name="error_short_password">Password must be at least %1$d characters long</string>
     <string name="success_authorization">Successful authorization!</string>
     <string name="auth_screen_title">Have a nice day!</string>
     <string name="auth_screen_content">I tried to make this application beautiful and working ;)</string>

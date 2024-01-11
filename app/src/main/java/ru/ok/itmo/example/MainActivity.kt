@@ -9,11 +9,14 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
-    val MIN_PASSWORD_LENGTH = 6
+    companion object {
+        const val MIN_PASSWORD_LENGTH = 6
+    }
 
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
@@ -75,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if (password.length < MIN_PASSWORD_LENGTH) {
-            showToast(R.string.error_short_password)
+            showToast(R.string.error_short_password, MIN_PASSWORD_LENGTH)
             return
         }
 
@@ -86,11 +89,11 @@ class MainActivity : AppCompatActivity() {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun showToast(messageResId: Int) {
-        android.widget.Toast.makeText(
+    private fun showToast(messageResId: Int, vararg formatStr: Any) {
+        Toast.makeText(
             this,
-            getString(messageResId),
-            android.widget.Toast.LENGTH_SHORT
+            getString(messageResId, *formatStr),
+            Toast.LENGTH_SHORT
         ).show()
     }
 
