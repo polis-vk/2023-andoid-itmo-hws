@@ -10,13 +10,11 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface Api {
+
     companion object {
-        const val BASE_URL = "http://dummy.restapiexample.com"
+        const val BASE_URL = "http://somthing.com"
     }
 
     @GET("data_chat")
-    fun getReq(): Single<DataChat>
-
-    @POST("data_chat")
-    fun postReq(@Body dataChar: DataChat): Call<DataChat>
+    suspend fun getData(@Query("name") name: String, @Query("password")  password: String): Array<DataChat>
 }
