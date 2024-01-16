@@ -1,6 +1,34 @@
 package ru.ok.itmo.example
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity(R.layout.activity) {
+    val autorizationFragment = AutorizationFragment()
+    val mainFragment = MainFragment()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, autorizationFragment)
+                .add(R.id.fragment_container, mainFragment)
+                .hide(mainFragment)
+                .commit()
+            supportFragmentManager.setFragmentResultListener("enter", this) { key, bundle ->
+                mainFragment.setAccountData(bundle.get("password") as String, bundle.get("login") as String)
+                supportFragmentManager.beginTransaction()
+                    .hide(autorizationFragment)
+                    .show(mainFragment)
+                    .commit()
+            }
+            supportFragmentManager.setFragmentResultListener("back", this) { key, bundle ->
+                supportFragmentManager.beginTransaction()
+                    .hide(mainFragment)
+                    .show(autorizationFragment)
+                    .commit()
+            }
+        }
+    }
 }
